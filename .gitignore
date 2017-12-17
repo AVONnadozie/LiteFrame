@@ -1,0 +1,4 @@
+nbproject/
+components/composer/
+components/.env.php
+php-cs-fixer.phar

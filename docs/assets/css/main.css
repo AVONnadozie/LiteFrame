@@ -1,0 +1,273 @@
+body {
+    font-family: 'Lato', sans-serif;
+   min-width:425px; /* suppose you want minimun width of 1000px */
+   width: auto !important;  /* Firefox will set width as auto */
+}
+
+.metallic {
+    background-color: #74828e;
+}
+
+.metallic-text {
+    color: #74828e !important;
+}
+
+.container2 {
+  margin: 0 auto;
+  max-width: 1280px;
+  width: 90%;
+}
+
+.bg-gray {
+    background-color: #ededed;
+}
+
+.bg-metallic {
+    background-color: #e6eff7;
+}
+
+.bottompad {
+    padding-bottom: 50px
+}
+
+.descbox {
+    height: auto;
+    background-color: #fff;
+}
+
+.mb-200 {
+    margin-bottom: 650px
+}
+
+.descbdr {
+    padding: 80px 0;
+}
+
+.desctop {
+    padding: 30px 20px 10px 20px;
+    
+}
+
+.descitem {
+    height: 300px;
+}
+
+.descpad {
+    padding: 30px 0px 10px 0px;
+    margin: auto;
+}
+
+.deschead {
+    font-size: 30px
+}
+
+.desc-img {
+    height: 250px;
+    width: 350px;
+    border-radius: 7px;
+}
+
+.picpad {
+    padding: 25px 0px 0px 0px !important;
+}
+
+.textpad {
+    padding: 30px 20px 0 20px !important;
+}
+
+.mg30 {
+    margin: 30px 0;
+}
+
+.mg70 {
+    margin: 70px 0;
+}
+
+.tilt1 {
+    transform: rotate(3deg);
+}
+
+.bd-gray {
+    border: 1px solid #d1d1d1;
+    height: 100%;
+}
+
+.cleandesc {
+    height: 400px;
+    background-color: #fff;
+}
+
+.featbdr {
+    margin: 100px 0 0 0px;
+}
+
+.featpic {
+    height: 275px;
+    width: 400px;
+    background-image: url(../img/features/light1.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+    border-radius: 5px;
+    transform: rotate(3deg);
+}
+
+.sidenav {
+    height: 100% !important;
+    padding-top: 40px !important;
+    border-right: 1px solid #e0e0e0;
+}
+
+.sidetxt {
+    font-size: 18px;
+}
+
+
+.scode {
+    font-family: 'Source Code Pro', monospace;
+    color: #9c27b0;
+}
+
+.path {
+    background-color: #e6eff7;
+    padding: 0 3px;
+    border-radius: 5px;
+}
+
+.codeblock {
+    background-color: #e6eff7;
+    padding: 10px 20px;
+    border-radius: 7px
+}
+
+a {
+    color: inherit;
+    
+}
+
+.lv1 {
+    font-size: 50px;
+    color: #74828e !important;
+}
+
+.lv2 {
+    font-size: 40px;
+    color: #74828e !important;
+}
+
+.lv3 {
+    font-size: 30px;
+    color: #74828e !important;
+}
+
+.lv4 {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.lilv1 {
+    font-size: 20px;
+    color: #74828e;
+}
+
+.lilv2 {
+    font-size: 15px;
+    font-weight: bold;
+    color: black;
+    padding-left: 10px !important;
+}
+
+.lilv3 {
+    font-weight: 300;
+    padding-left: 10px !important;
+    color: #333;
+}
+
+.tab1 {
+    padding-left: 30px !important;
+}
+
+.tab2 {
+    padding-left: 60px !important;
+}
+
+.mt-30 {
+    margin-top: 50px;
+}
+
+.exo {
+    font-family: 'Exo', sans-serif;
+}
+
+.ubuntu {
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.lato {
+    font-family: 'Lato', sans-serif;
+}
+
+.myanimated0 {
+  animation-duration: 2s;
+  animation-fill-mode: both;
+}
+
+.myanimated {
+  animation-duration: 3s;
+  animation-fill-mode: both;
+}
+
+.myanimated2 {
+  animation-duration: 2s;
+  animation-fill-mode: both;
+  animation-delay: 1s
+}
+
+.myanimated3 {
+  animation-duration: 2s;
+  animation-fill-mode: both;
+  animation-delay: 2.5s
+}
+
+@keyframes myfadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 40%, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.myfadeInUp {
+  animation-name: myfadeInUp;
+}
+
+@keyframes myfadeIn0 {
+  from {
+    opacity: .8;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.myfadeIn0 {
+  animation-name: myfadeIn0;
+}
+
+@keyframes myfadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.myfadeIn {
+  animation-name: myfadeIn;
+}

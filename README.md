@@ -29,8 +29,8 @@ composer create-project avonnadozie/liteframe
 - [x] Easy to setup with no shell commands required
 - [x] Secure
 - [x] Light and Fast
-- [] Light and extensible admin support
-- [] Modular
+- [ ] Light and extensible admin support
+- [ ] Modular
 
 ## How to Contribute
 * Fork the project.

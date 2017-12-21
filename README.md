@@ -32,6 +32,9 @@ composer create-project avonnadozie/liteframe
 - [ ] Light and extensible admin support
 - [ ] Modular
 
+## Feedback
+For bugs, improvements or guide, simply create an [issue](https://github.com/AVONnadozie/LiteFrame/issues). Thanks 👍
+
 ## How to Contribute
 * Fork the project.
 * Make your bug fix or feature addition.

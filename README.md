@@ -15,15 +15,14 @@ Composer
 composer create-project avonnadozie/liteframe
 ```
  --->
+No releases yet but you can clone or download this repo to preview what we've been up to.
 
-<!-- Set `components/logs` to be write-able, preferably `777` --->
+Remember to set `components/logs` to be write-able, preferably `777`
 
 
 ## Documentation
-<!---
-* [Online documentation here](https://avonnadozie.github.io/LiteFrame/) (Recommended)
-* [Download as pdf here](#) (Not currently available and not always up to date)
---->
+* [Online documentation](https://avonnadozie.github.io/LiteFrame/) (Recommended)
+* [Download as pdf](#) (Not currently available and not always up to date)
 
 ## Target Features
 - [x] Easy to setup with no shell commands required

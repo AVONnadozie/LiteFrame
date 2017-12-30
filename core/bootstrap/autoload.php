@@ -24,16 +24,29 @@ foreach ($ch_files as $file) {
     }
 
     $path = $ch_dir.DS.$file;
-    require_once $path;
+    require $path;
 }
 
 /*
   |--------------------------------------------------------------------------
-  | Configure application autoloader
+  | Include Autoload Files
+  |--------------------------------------------------------------------------
+  | Autoload core files and user files
+ */
+require __DIR__ . '/config.php';
+$autoload_files = array_merge($autoload_config['files'], config('app.autoload.files', []));
+foreach ($autoload_files as $file) {
+    require_once $file;
+}
+
+
+/*
+  |--------------------------------------------------------------------------
+  | Include User Helper Functions
   |--------------------------------------------------------------------------
   |
  */
-spl_autoload_register('appAutoloader');
+requireAll(WD . '/components/helpers');
 
 /*
   |--------------------------------------------------------------------------
@@ -47,15 +60,15 @@ spl_autoload_register('appAutoloader');
   |
  */
 
-$composer_files = WD.'/components/composer/autoload.php';
+$composer_files = WD . '/components/composer/autoload.php';
 if (file_exists($composer_files)) {
-    require_once $composer_files;
+    require $composer_files;
 }
 
 /*
   |--------------------------------------------------------------------------
-  | Include User Helper Functions
+  | Configure application autoloader
   |--------------------------------------------------------------------------
   |
  */
-requireAll(WD.'/components/helpers');
+spl_autoload_register('appAutoloader');

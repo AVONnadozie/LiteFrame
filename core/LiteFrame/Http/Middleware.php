@@ -3,7 +3,7 @@
 namespace LiteFrame\Http;
 
 use Closure;
-use OnionFork\OnionLayerInterface;
+use LiteOnion\OnionLayerInterface;
 
 /**
  * @author Victor Anuebunwa

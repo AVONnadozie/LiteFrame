@@ -23,6 +23,6 @@ $autoload_config = [
         /**
          * RedBean file
          */
-    //        'core/toolkit/RedBeanPHP5_0_0/r.php'
+    //        'core/toolkit/RedBeanPHP5_0_0/rb.php'
     ]
 ];

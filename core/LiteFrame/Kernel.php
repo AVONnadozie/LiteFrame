@@ -3,12 +3,13 @@
 namespace LiteFrame;
 
 use Closure;
+use GO\Scheduler;
 use LiteFrame\Http\Middleware\CompressResponse;
 use LiteFrame\Http\Request;
 use LiteFrame\Http\Response;
 use LiteFrame\Http\Routing\Route;
 use LiteFrame\Http\Routing\Router;
-use OnionFork\Onion;
+use LiteOnion\Onion;
 
 /**
  * Description of Kernel.
@@ -17,7 +18,14 @@ use OnionFork\Onion;
  */
 final class Kernel
 {
+
     private static $kernelInstance;
+    private $controllerMiddlewares = [];
+
+    /**
+     * Controller Middleware
+     * @var array 
+     */
     private $middlewares = [
         CompressResponse::class,
     ];
@@ -41,13 +49,23 @@ final class Kernel
      */
     public function handleRequest()
     {
+        list($route, $target) = $this->bootForRequest();
+
+        $response = $this->runForRequest($route, $target);
+
+        $this->terminateRequest($response);
+    }
+
+    private function bootForRequest()
+    {
+
         //Set error configuration and logging options
         $this->setErrorConfigurations();
 
         //Match routes
         $request = Request::getInstance();
-        $defFile = base_path('components/routes/web.php');
-        $route = Router::getInstance()->matchRequest($request, $defFile);
+        $routeFile = base_path('components/routes/web.php');
+        $route = Router::getInstance()->matchRequest($request, $routeFile);
         abort_unless($route instanceof Route, 404);
 
         //Get target controller or closure
@@ -55,6 +73,12 @@ final class Kernel
         if (!$target instanceof Closure) {
             $target = $this->getControllerLogic($target);
         }
+
+        return [$route, $target];
+    }
+
+    private function runForRequest($route, $target)
+    {
 
         //Ensure target's output is a response object
         $logic = function ($request) use ($target) {
@@ -72,8 +96,12 @@ final class Kernel
             return $response->prependContent($output);
         };
 
-        //Run middleware(s) around controller logic and output response
-        $response = $this->runMiddlewaresInOnion($logic, $route);
+        //Run middleware(s) around controller logic and return response
+        return $this->runMiddlewaresInOnion($logic, $route);
+    }
+
+    private function terminateRequest(Response $response)
+    {
         die($response);
     }
 
@@ -83,11 +111,12 @@ final class Kernel
         $controllerClass = "\\Controllers\\{$split[0]}";
         $method = $split[1];
 
-        return function ($request) use ($controllerClass, $method) {
-            //Setup controller
+        //Todo: Dependency Injection
+        /* @var $controller Http\Controller */
+        $controller = new $controllerClass();
+        $this->controllerMiddlewares = $controller->getMiddlewares();
+        return function ($request) use ($controller, $method) {
             //Todo: Dependency Injection
-            $controller = new $controllerClass($request);
-
             return $controller->$method($request);
         };
     }
@@ -103,6 +132,14 @@ final class Kernel
             if ($middleware) {
                 $middlewares[] = $middleware;
             }
+        }
+        //Controller middlewares
+        foreach ($this->controllerMiddlewares as $middleware) {
+            if (array_search($middleware, $middlewares) !== FALSE) {
+                continue;
+            }
+
+            $middlewares[] = $middleware;
         }
 
         $onion = new Onion($middlewares);
@@ -129,11 +166,29 @@ final class Kernel
 
     public function handleJob()
     {
-        $this->setErrorConfigurations(true);
-        $defFile = base_path('components/routes/cli.php');
-        //log to file
-        //resolve command based on parameter
-        //Check job schedule
-        //Run if on schedule
+        $this->bootForJob();
+
+        $this->runForJob();
+
+        $this->terminateJob();
     }
+
+    private function bootForJob()
+    {
+        $this->setErrorConfigurations(true);
+    }
+
+    private function runForJob()
+    {
+        $routeFile = base_path('components/routes/cli.php');
+        $scheduler = new Scheduler();
+        require $routeFile;
+        $scheduler->run();
+    }
+
+    private function terminateJob()
+    {
+        exit;
+    }
+
 }

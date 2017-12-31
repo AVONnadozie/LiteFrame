@@ -12,12 +12,15 @@ use LiteFrame\Http\Request;
  */
 class MyNamedSampleMiddleware extends Middleware
 {
+
     public function run(Closure $next = null, Request $request = null)
     {
-        //Do something before controller
-        $response = $next($request);
-        //Do something after controller
-        return $response;
+        if ($next) {
+            //Do something before controller
+            $response = $next($request);
+            //Do something after controller
+            return $response;
+        }
     }
 
 }

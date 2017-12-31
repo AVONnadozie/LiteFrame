@@ -4,6 +4,12 @@ namespace Controllers;
 
 class AppController extends Controller
 {
+
+    function __construct()
+    {
+        $this->middleware('sample', ['index', 'docs']);
+    }
+
     public function index()
     {
         $data['time'] = \Carbon\Carbon::now();

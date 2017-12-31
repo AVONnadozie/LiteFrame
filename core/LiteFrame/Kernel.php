@@ -3,7 +3,7 @@
 namespace LiteFrame;
 
 use Closure;
-use GO\Scheduler;
+use LiteFrame\Http\Controller;
 use LiteFrame\Http\Middleware\CompressResponse;
 use LiteFrame\Http\Request;
 use LiteFrame\Http\Response;
@@ -112,7 +112,7 @@ final class Kernel
         $method = $split[1];
 
         //Todo: Dependency Injection
-        /* @var $controller Http\Controller */
+        /* @var $controller Controller */
         $controller = new $controllerClass();
         $this->controllerMiddlewares = $controller->getMiddlewares();
         return function ($request) use ($controller, $method) {
@@ -153,15 +153,17 @@ final class Kernel
     {
         set_error_handler('errorHandler');
         set_exception_handler('exceptionHandler');
-
-        $local = config('app.env') === 'local';
-        ini_set('display_errors', $local ? 1 : 0);
-        ini_set('display_startup_errors', $local ? 1 : 0);
-        ini_set('log_errors', 1);
-//        ini_set('error_log', '');
-        ini_set('log_errors_max_length', $local ? 1024 : 0);
         error_reporting(E_ALL);
         register_shutdown_function('shutdownHandler');
+
+        if (!$cli) {
+            $local = config('app.env') === 'local';
+            ini_set('display_errors', $local ? 1 : 0);
+            ini_set('display_startup_errors', $local ? 1 : 0);
+            ini_set('log_errors', 1);
+//        ini_set('error_log', '');
+            ini_set('log_errors_max_length', $local ? 1024 : 0);
+        }
     }
 
     public function handleJob()
@@ -180,8 +182,8 @@ final class Kernel
 
     private function runForJob()
     {
-        $routeFile = base_path('components/routes/cli.php');
         $scheduler = new Scheduler();
+        $routeFile = base_path('components/routes/cli.php');
         require $routeFile;
         $scheduler->run();
     }

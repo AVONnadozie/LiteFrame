@@ -22,8 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Theme Inheritance *
 - Good and robust ORM/Query Builder. should be light, support migration, relationships and also secure. 
     Checkout:
-  - https://github.com/AVONnadozie/pixie
-  - http://propelorm.org/documentation/
+  - https://redbeanphp.com
   - Default DB to SQLite maybe
 - Inbuilt support for mailing (other than php mail) *
 - Allow Dependency injection (Request, Response, Custom Services etc) *

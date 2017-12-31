@@ -16,7 +16,7 @@ $autoload_config = [
         /**
          * Cron Expression required by PHP Cron Scheduler
          */
-        "Cron\\" => "cron-expression/src"
+        "Cron\\" => "cron-expression/src/Cron"
     ],
     //Other files to autoload
     "files" => [

@@ -46,6 +46,28 @@ class Route
         return $this->target;
     }
 
+    public function getTargetController()
+    {
+        $target = $this->getTarget();
+        if ($target instanceof Closure ||
+                !preg_match('/^\w+@\w+$/', $target)) {
+            return null;
+        }
+        $parts = explode('@', $target);
+        return isset($parts[0]) ? $parts[0] : null;
+    }
+
+    public function getTargetMethod()
+    {
+        $target = $this->getTarget();
+        if ($target instanceof Closure ||
+                !preg_match('/^\w+@\w+$/', $target)) {
+            return null;
+        }
+        $parts = explode('@', $target);
+        return isset($parts[1]) ? $parts[1] : null;
+    }
+
     public function getMiddlewares()
     {
         return $this->middlewares;

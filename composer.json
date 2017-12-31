@@ -1,7 +1,8 @@
 {
     "name": "avonnadozie/liteframe",
     "description": "The LiteFrame Framework.",
-    "keywords": ["framework", "liteframe"],
+    "homepage": "https://github.com/avonnadozie/LiteFrame",
+    "keywords": ["framework", "liteframe", "lightweight"],
     "license": "MIT",
     "type": "project",
     "require-dev": {
@@ -12,6 +13,11 @@
     },
     "config": {
         "vendor-dir": "components/composer"
+    },
+    "scripts": {
+        "post-root-package-install": [
+            "@php -r \"file_exists('components/.env.php') || copy('components/.env.example.php', '.env');\""
+        ]
     }
 
 }

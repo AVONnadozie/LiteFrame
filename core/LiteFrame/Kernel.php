@@ -64,7 +64,7 @@ final class Kernel
 
         //Match routes
         $request = Request::getInstance();
-        $routeFile = base_path('components/routes/web.php');
+        $routeFile = base_path('app/Routes/web.php');
         $route = Router::getInstance()->matchRequest($request, $routeFile);
         abort_unless($route instanceof Route, 404);
 
@@ -183,7 +183,7 @@ final class Kernel
     private function runForJob()
     {
         $scheduler = new Scheduler();
-        $routeFile = base_path('components/routes/cli.php');
+        $routeFile = base_path('app/Routes/cli.php');
         require $routeFile;
         $scheduler->run();
     }

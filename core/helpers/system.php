@@ -384,3 +384,13 @@ function appAutoloader($class)
         }
     }
 }
+
+
+function getClassAndMethodFromString($string)
+{
+    if (!preg_match('/^\w+@\w+$/', $string)) {
+        throw new Exception("Invalid string format $string, string must be in the format Class@method");
+    }
+    $parts = explode('@', $string);
+    return $parts;
+}

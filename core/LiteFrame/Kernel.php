@@ -3,6 +3,7 @@
 namespace LiteFrame;
 
 use Closure;
+use LiteFrame\CLI\Scheduler;
 use LiteFrame\Http\Controller;
 use LiteFrame\Http\Middleware\CompressResponse;
 use LiteFrame\Http\Request;
@@ -107,9 +108,8 @@ final class Kernel
 
     private function getControllerLogic($action)
     {
-        $split = explode('@', $action);
-        $controllerClass = "\\Controllers\\{$split[0]}";
-        $method = $split[1];
+        list($class, $method) = getClassAndMethodFromString($action);
+        $controllerClass = "\\Controllers\\{$class}";
 
         //Todo: Dependency Injection
         /* @var $controller Controller */

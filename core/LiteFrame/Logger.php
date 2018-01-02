@@ -140,8 +140,9 @@ class Logger
                 $this->exception instanceof \Error) {
             $file = $this->exception->getFile();
             $line = $this->exception->getLine();
-            $content['title'] = $this->exception->getMessage()
-                    ." at $file line $line";
+            $title = $this->exception->getMessage();
+            $content['search'] = $title;
+            $content['title'] = "$title at $file line $line";
             $content['content'] = $content['title'];
             if ($this->outputMedium !== self::MEDIUM_FILE) {
                 $content['trace'] = $this->exception->getTraceAsString();

@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 - Migrations *
 - Optimise for API calls
-- Whoops
+- Whoops *
 - Route grouping
 - Handle uploaded files in Request object
 - Installer/Updater interfaces for
@@ -26,16 +26,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - Default DB to SQLite maybe
 - Inbuilt support for mailing (other than php mail) *
 - Allow Dependency injection (Request, Response, Custom Services etc) *
-- Cron 
-  - Auto sitemap generation
+- Auto sitemap generation *
 
 \* Not required for version 1.0. Bonus point if it's added. 
 
 
 ## [1.0.0] - 2017-06-20
 ### Added
-- Cron 
-  - Jobs
+- Job Scheduling
 
 ### Changed
 - 

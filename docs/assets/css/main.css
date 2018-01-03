@@ -18,6 +18,44 @@ body {
   width: 90%;
 }
 
+
+.nav-container {
+  margin: 0 auto;
+  max-width: 1280px;
+  width: 98%;
+}
+
+@media only screen and (min-width: 601px) {
+  .nav-container {
+    width: 95%;
+  }
+}
+
+@media only screen and (min-width: 993px) {
+  .nav-container {
+    width: 95%;
+  }
+}
+
+.nav-container .row {
+  margin-left: 0rem;
+  margin-right: 0rem;
+}
+
+#container {
+  padding-left: 300px;
+}
+
+#content {
+  padding: 20px;
+}
+
+@media only screen and (max-width : 992px) {
+  #container {
+    padding-left: 0px;
+  }
+}
+
 .bg-gray {
     background-color: #ededed;
 }
@@ -124,11 +162,11 @@ body {
 
 .scode {
     font-family: 'Source Code Pro', monospace;
-    color: #9c27b0;
+    color: #d14;
 }
 
 .path {
-    background-color: #e6eff7;
+    background-color: #f8f8f8;
     padding: 0 3px;
     border-radius: 5px;
 }
@@ -137,6 +175,10 @@ body {
     background-color: #e6eff7;
     padding: 10px 20px;
     border-radius: 7px
+}
+
+.logotext {
+    font-size: 50px;
 }
 
 a {
@@ -165,19 +207,19 @@ a {
 }
 
 .lilv1 {
-    font-size: 20px;
-    color: #74828e;
+    font-size: 20px !important;
+    color: #74828e !important;
 }
 
 .lilv2 {
-    font-size: 15px;
-    font-weight: bold;
+    font-size: 15px !important;
+    font-weight: bold !important;
     color: black;
     padding-left: 10px !important;
 }
 
 .lilv3 {
-    font-weight: 300;
+    font-weight: 300 !important;
     padding-left: 10px !important;
     color: #333;
 }
@@ -188,6 +230,10 @@ a {
 
 .tab2 {
     padding-left: 60px !important;
+}
+
+.mt-10 {
+    margin-top: 20px;
 }
 
 .mt-30 {

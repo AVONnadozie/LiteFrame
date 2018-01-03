@@ -37,31 +37,28 @@ function app_env($key, $default = null)
  */
 function config($key, $default = null)
 {
-    $brk = strpos($key, '.');
-    if ($brk !== false) {
-        $file = substr($key, 0, $brk);
+    $keys = explode('.', $key);
+    if (is_array($keys)) {
+        $file = $keys[0];
+        $keys = array_slice($keys, 1);
     } else {
         $file = $key;
     }
 
-    $path = WD . normalizePath("/components/config/$file.php");
-    if (file_exists($path)) {
-        try {
-            $config = require $path;
-            if ($brk !== false) {
-                $index = substr($key, $brk + 1);
-                if (isset($config[$index])) {
-                    return $config[$index];
-                }
-            } else {
-                return $config;
-            }
-        } catch (Exception $exc) {
-            
-        }
+    $path = base_path("components/config/$file.php");
+    if (!file_exists($path)) {
+        return $default;
     }
 
-    return $default;
+    $value = (array) require $path;
+    foreach ($keys as $key) {
+        if (isset($value[$key])) {
+            $value = $value[$key];
+        } else {
+            return $default;
+        }
+    }
+    return $value;
 }
 
 /**
@@ -353,13 +350,47 @@ function normalizePath($path)
 
 function appAutoloader($class)
 {
+    global $autoload_config;
+
     //Autoload paths (in order of importance)
-    $autoloadPaths = ['core', 'core/toolkit', 'app', 'components/lib'];
-    foreach ($autoloadPaths as $path) {
-        $location = WD . DS . normalizePath("$path/$class") . '.php';
-        if (is_file($location)) {
-            require_once $location;
+    $defaultAutoloadPaths = $autoload_config['classmap'];
+    $userAutoloadPaths = config('app.autoload.classmap');
+    $autoloadPaths = array_merge($defaultAutoloadPaths, $userAutoloadPaths);
+
+    //Check psr-4 configuration
+    $defaultPsr4 = $autoload_config['psr-4'];
+    $userPsr4 = config('app.autoload.psr-4', []);
+    $psr4 = array_merge($userPsr4, $defaultPsr4);
+    $psr4Path = null;
+    foreach ($psr4 as $namespace => $folder) {
+        $pos = strpos($class, $namespace);
+        if ($pos !== FALSE) {
+            $folder = trim($folder, '/');
+            $chunk = trim(substr($class, strlen($namespace)), '\\');
+            $psr4Path = "$folder/$chunk";
             break;
         }
     }
+
+    foreach ($autoloadPaths as $path) {
+        if ($psr4Path) {
+            $location = base_path("$path/$psr4Path.php");
+        } else {
+            $location = base_path("$path/$class.php");
+        }
+        if (is_file($location)) {
+            require_once $location;
+            return;
+        }
+    }
+}
+
+
+function getClassAndMethodFromString($string)
+{
+    if (!preg_match('/^\w+@\w+$/', $string)) {
+        throw new Exception("Invalid string format $string, string must be in the format Class@method");
+    }
+    $parts = explode('@', $string);
+    return $parts;
 }

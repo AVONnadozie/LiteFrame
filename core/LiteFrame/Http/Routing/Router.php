@@ -203,16 +203,16 @@ class Router
      *
      * @return Route|bool Array with route information on success, false on failure (no match)
      */
-    public function matchRequest(Request $request, $defFile = null)
+    public function matchRequest(Request $request, $routeFile = null)
     {
         $requestUrl = $request->getRouteURL();
         $requestMethod = $request->getMethod();
 
-        if ($defFile) {
-            if (file_exists($defFile)) {
-                require_once $defFile;
+        if ($routeFile) {
+            if (file_exists($routeFile)) {
+                require_once $routeFile;
             } else {
-                throw new Exception("Route definition file $defFile does not exist");
+                throw new Exception("Route definition file $routeFile does not exist");
             }
         }
 

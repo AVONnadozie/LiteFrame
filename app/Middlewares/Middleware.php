@@ -6,5 +6,5 @@ use LiteFrame\Http\Middleware as CoreMiddleware;
 
 abstract class Middleware extends CoreMiddleware
 {
-    //put your code here
+    
 }

@@ -6,9 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
-- Migrations
+- Migrations *
 - Optimise for API calls
-- Whoops
+- Whoops *
 - Route grouping
 - Handle uploaded files in Request object
 - Installer/Updater interfaces for
@@ -22,21 +22,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Theme Inheritance *
 - Good and robust ORM/Query Builder. should be light, support migration, relationships and also secure. 
     Checkout:
-  - https://github.com/AVONnadozie/pixie
-  - http://propelorm.org/documentation/
+  - https://redbeanphp.com
   - Default DB to SQLite maybe
 - Inbuilt support for mailing (other than php mail) *
 - Allow Dependency injection (Request, Response, Custom Services etc) *
-- Cron *
-  - Jobs
-  - Auto sitemap generation
+- Auto sitemap generation *
 
 \* Not required for version 1.0. Bonus point if it's added. 
 
 
 ## [1.0.0] - 2017-06-20
 ### Added
-- 
+- Job Scheduling
 
 ### Changed
 - 
@@ -54,7 +51,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - 
 
 
-[Unreleased]: https://github.com/olivierlacan/keep-a-changelog/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/olivierlacan/keep-a-changelog/compare/v0.3.0...v1.0.0
-[0.3.0]: https://github.com/olivierlacan/keep-a-changelog/compare/v0.2.0...v0.3.0
-[0.2.0]: https://github.com/olivierlacan/keep-a-changelog/compare/v0.1.0...v0.2.0
+[Unreleased]: https://github.com/avonnadozie/LiteFrame/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/avonnadozie/LiteFrame/compare/v0.3.0...v1.0.0

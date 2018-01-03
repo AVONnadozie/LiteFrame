@@ -9,29 +9,41 @@ namespace LiteFrame\Http;
  */
 class Controller
 {
+
+    private $middlewares = [];
+
     /**
-     * List of named middlewares.
-     *
+     * Run middleware for this controller
      * @param type $name
      *
      * @return type
      */
-    protected function middleware($name)
+    protected function middleware($name, $except = [])
     {
-        $args = func_get_args();
+        $args = (array) $name;
         if (empty($args)) {
             return;
         }
 
-        if (count($args) == 1 && !is_array($args[0])) {
-            $args = [$args[0]];
+        if (!empty($except)) {
+            $route = request()->getRoute();
+            $targetMethod = $route->getTargetMethod();
+
+            foreach ($except as $method) {
+                if ($targetMethod === $method) {
+                    return;
+                }
+            }
         }
 
         foreach ($args as $name) {
-            $middleware = config("middlewares.$name");
-            if ($middleware instanceof Middleware) {
-                $middleware::run();
-            }
+            $this->middlewares[] = config("middlewares.$name");
         }
     }
+
+    public function getMiddlewares()
+    {
+        return $this->middlewares;
+    }
+
 }

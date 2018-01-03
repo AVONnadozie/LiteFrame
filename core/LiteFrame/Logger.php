@@ -119,11 +119,18 @@ class Logger
      */
     public function log()
     {
-        if ($this->outputMedium !== self::MEDIUM_STDOUT) {
-            $this->writeToLogFile($this->getContentForFile());
-        }
 
-        abort(500, $this->getContentForView());
+        if (php_sapi_name() == 'cli') {
+            $message = $this->getContentForFile();
+            echo $message;
+            $this->writeToLogFile($message);
+        } else {
+            if ($this->outputMedium !== self::MEDIUM_STDOUT) {
+                $this->writeToLogFile($this->getContentForFile());
+            }
+
+            abort(500, $this->getContentForView());
+        }
     }
 
     private function getContentForView()
@@ -133,8 +140,9 @@ class Logger
                 $this->exception instanceof \Error) {
             $file = $this->exception->getFile();
             $line = $this->exception->getLine();
-            $content['title'] = $this->exception->getMessage()
-                    ." at $file line $line";
+            $title = $this->exception->getMessage();
+            $content['search'] = $title;
+            $content['title'] = "$title at $file line $line";
             $content['content'] = $content['title'];
             if ($this->outputMedium !== self::MEDIUM_FILE) {
                 $content['trace'] = $this->exception->getTraceAsString();
@@ -168,7 +176,7 @@ class Logger
                 $content .= $this->exception->getTraceAsString().PHP_EOL;
             }
         } else {
-            $content = $this->exception;
+            $content = $this->exception . PHP_EOL;
         }
 
         return $content;

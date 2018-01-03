@@ -1,6 +1,6 @@
 <?php
 
-namespace OnionFork;
+namespace LiteOnion;
 
 use Closure;
 use InvalidArgumentException;

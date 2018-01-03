@@ -13,6 +13,6 @@ require_once './core/bootstrap/autoload.php';
   | Take off
   |--------------------------------------------------------------------------
  */
-$kernel = \LiteFrame\Core\Kernel::getInstance();
+$kernel = \LiteFrame\Kernel::getInstance();
 $kernel->handleJob();
 

@@ -45,6 +45,7 @@
                     <li>
                         <a href="#ArchitectureConcept">Architecture Concept</a>
                         <ul class="lilv2">
+                            <li><a href="#Directory">Directory Structure</a></li>
                             <li>---------------</li>
                         </ul>
                     </li>
@@ -163,7 +164,18 @@
 <!--                        <p><span class="red-text">*</span>Leave this to me<span class="red-text">*</span></p>-->
 
                         <p>Request Lifecycle (inspired by <span class="scode path">https://laravel.com/docs/5.5/lifecycle</span>)</p>
-                        <p>Directory Structure</p>
+                        <h5 id="Directory" class="lv4">Directory Structure:</h5>
+                        
+                        <p>All routes are defined in your route files, which are located in the 
+                            <span class="scode path">app/Routes</span> directory. 
+                            These files are automatically loaded by the framework. 
+                            The <span class="scode path">app/Routes/web.php</span> file defines 
+                            routes that are for your web interface.
+                            The routes in <span class="scode path">app/Routes/api.php</span> 
+                            are stateless and are suited for API calls, while 
+                            <span class="scode path">app/Routes/cli.php</span> are for commands.
+                        </p>
+                    </div>
 
                         <div class="divider"></div>
                         <h4 id="TheBasics" class="lv2">The Basics</h4>
@@ -425,7 +437,6 @@ class AppController extends Controller
                     </div>
                 </div>
             </div>
-        </div>
 
         <section id="bottom">
             <div class="divider"></div>

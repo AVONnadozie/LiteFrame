@@ -16,7 +16,7 @@
 
     # For existing folders, rewrite only access to the app, components, and core folders
     RewriteCond %{REQUEST_FILENAME} -d
-    RewriteRule !^(app|components|core)($|/) - [L]
+    RewriteRule !^(app|components|core|tests)($|/) - [L]
 
     ## Rewrite the rest to index.php
     RewriteCond %{REQUEST_FILENAME} !-f

@@ -120,7 +120,7 @@ class Logger
     public function log()
     {
 
-        if (php_sapi_name() == 'cli') {
+        if (isCLI()) {
             $message = $this->getContentForFile();
             echo $message;
             $this->writeToLogFile($message);
@@ -141,7 +141,8 @@ class Logger
             $file = $this->exception->getFile();
             $line = $this->exception->getLine();
             $title = $this->exception->getMessage();
-            $content['search'] = $title;
+            $searchkeywords = $title;
+            $content['search'] = "LiteFrame $searchkeywords";
             $content['title'] = "$title at $file line $line";
             $content['content'] = $content['title'];
             if ($this->outputMedium !== self::MEDIUM_FILE) {
@@ -152,6 +153,8 @@ class Logger
                 $content['content'] .= $content['trace'].PHP_EOL;
             }
         } else {
+            $searchkeywords = $this->exception;
+            $content['search'] = "LiteFrame $searchkeywords";
             $content['title'] = $this->exception;
             $content['content'] = $this->exception;
         }

@@ -394,3 +394,9 @@ function getClassAndMethodFromString($string)
     $parts = explode('@', $string);
     return $parts;
 }
+
+
+function isCLI()
+{
+    return php_sapi_name() == 'cli';
+}

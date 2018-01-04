@@ -24,7 +24,7 @@
         <link rel="shortcut icon" type="image/x-icon" href='assets/' />
         <!--Highlight.js css-->
         <link href="assets/highlightjs/styles/github.css" rel="stylesheet" type="text/css"/>
-        
+
         <title>Lite Frame</title>
     </head>
 
@@ -32,9 +32,8 @@
         <div id="container" class="">
             <div id="menu">
                 <ul id="slide-out" class="sidetxt side-nav fixed lilv1">
-
-                    <li class="logotext center mt-10"><a href="../">Lite Frame</a></li>
-                    <li class="mt-30">
+                    <li class="logotext mt-10"><a href="../">Lite Frame</a></li>
+                    <li class="mt-10">
                         <a href="#GettingStarted">Getting Started</a>
                         <ul class="lilv2">
                             <li><a href="#Requirements">Requirements</a></li>
@@ -46,7 +45,7 @@
                         <a href="#ArchitectureConcept">Architecture Concept</a>
                         <ul class="lilv2">
                             <li><a href="#Directory">Directory Structure</a></li>
-                            <li>---------------</li>
+                            <li><a href="#">---------------</a></li>
                         </ul>
                     </li>
 
@@ -98,19 +97,19 @@
                     <li>
                         <a href="#Security">Security</a>
                         <ul class="lilv2">
-                            <li>---------------</li>
+                            <li><a href="#">---------------</a></li>
                         </ul>
                     </li>
                     <li>
                         <a href="#Testing">Testing</a>
                         <ul class="lilv2">
-                            <li>---------------</li>
+                            <li><a href="#">---------------</a></li>
                         </ul>
                     </li>
                     <li>
                         <a href="#Contributing">Contributing</a>
                         <ul class="lilv2">
-                            <li>---------------</li>
+                            <li><a href="#">---------------</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -132,7 +131,7 @@
                                     </a>
                                 </li>
                             </ul>
-                            
+
                             <a href="#" data-activates="slide-out" class="button-collapse hide-on-large-only">
                                 <i class="fa fa-bars"></i>
                             </a>
@@ -146,7 +145,7 @@
             <div id="content" class="container2">
                 <div class="col s12 m9 l7">
 
-                    <div class="mt-30">
+                    <div class="">
                         <h4 id="GettingStarted" class="lv2">Getting Started</h4>
                         <div><h5 id="Requirements" class="lv4">Requirements:</h5>
                             <p>PHP 5.5 and above</p></div>
@@ -161,11 +160,11 @@
 
                         <div class="divider"></div>
                         <h4 id="ArchitectureConcept" class="lv2">Architecture Concept</h4>
-<!--                        <p><span class="red-text">*</span>Leave this to me<span class="red-text">*</span></p>-->
+                        <!--                        <p><span class="red-text">*</span>Leave this to me<span class="red-text">*</span></p>-->
 
                         <p>Request Lifecycle (inspired by <span class="scode path">https://laravel.com/docs/5.5/lifecycle</span>)</p>
                         <h5 id="Directory" class="lv4">Directory Structure:</h5>
-                        
+
                         <p>All routes are defined in your route files, which are located in the 
                             <span class="scode path">app/Routes</span> directory. 
                             These files are automatically loaded by the framework. 
@@ -177,103 +176,103 @@
                         </p>
                     </div>
 
-                        <div class="divider"></div>
-                        <h4 id="TheBasics" class="lv2">The Basics</h4>
-                        <h5 id="Routing" class="lv3">Routing</h5>
-                        <h5 id="BasicsRouting" class="lv4">Basics:</h5>
-                        <p>The simpler method accepts just a URI and a Closure when defining routes:</p>
+                    <div class="divider"></div>
+                    <h4 id="TheBasics" class="lv2">The Basics</h4>
+                    <h5 id="Routing" class="lv3">Routing</h5>
+                    <h5 id="BasicsRouting" class="lv4">Basics:</h5>
+                    <p>The simpler method accepts just a URI and a Closure when defining routes:</p>
 
-<pre class="z-depth-1"><code>
+                    <pre class="z-depth-1"><code>
 Router::get('foo', function () {
     return 'Hello World';
 });
 </code></pre>
 
 
-                        <div><p>Alternatively, you can specify a controller action in place of the closure.</p>
+                    <div><p>Alternatively, you can specify a controller action in place of the closure.</p>
 
-                            <p>All routes are defined in your route files, which are located in the 
-                                <span class="scode path">components/routes</span> directory. 
-                                These files are automatically loaded by the framework. 
-                                The <span class="scode path">components/routes/web.php</span> file defines 
-                                routes that are for your web interface.
-                                The routes in <span class="scode path">components/routes/api.php</span> 
-                                are stateless and are suited for API calls, while 
-                                <span class="scode path">components/routes/cli.php</span> are for commands.
-                            </p></div>
+                        <p>All routes are defined in your route files, which are located in the 
+                            <span class="scode path">app/Routes</span> directory. 
+                            These files are automatically loaded by the framework. 
+                            The <span class="scode path">app/Routes/web.php</span> file defines 
+                            routes that are for your web interface.
+                            The routes in <span class="scode path">app/Routes/api.php</span> 
+                            are stateless and are suited for API calls, while 
+                            <span class="scode path">app/Routes/cli.php</span> are for commands.
+                        </p></div>
 
-                        <br />
-                        <h5 id="AvailableRouterMethods" class="lv4">Available Router Methods:</h5>
+                    <br />
+                    <h5 id="AvailableRouterMethods" class="lv4">Available Router Methods:</h5>
 
-                        <p>The router allows you to register routes that respond to the common HTTP verb:</p>
+                    <p>The router allows you to register routes that respond to the common HTTP verb:</p>
 
-<pre class="z-depth-1"><code class="php">
+                    <pre class="z-depth-1"><code class="php">
 Router::get($uri, $callback);
 
 Router::post($uri, $callback);
 </code></pre>                      
 
-                        <p>Sometimes you may need to register a route that responds to multiple HTTP verbs. 
-                            You may do so using the <span class="scode path">all</span> method. </p>
-                        <p>Or, you may even register a route that responds to all HTTP verbs using the  <span class="scode path">anyOf</span> method:
-                        </p>
-                        
-<pre class="z-depth-1"><code>
+                    <p>Sometimes you may need to register a route that responds to multiple HTTP verbs. 
+                        You may do so using the <span class="scode path">all</span> method. </p>
+                    <p>Or, you may even register a route that responds to all HTTP verbs using the  <span class="scode path">anyOf</span> method:
+                    </p>
+
+                    <pre class="z-depth-1"><code>
 Router::anyOf ($method, $uri, $callback);
 
 Router::all ($uri, $callback);
 </code></pre>
 
-                        <br />
-                        <h5 id="Mapping" class="lv4">Mapping:</h5>
-                        <div><p><i>*Underneath, the framework uses <a href="http://altorouter.com/">AltoRouter </a>. 
-                                    Although most methods were modified or renamed, the mapping is still the same. 
-                                    So you may want to look at 
-                                    <a href="http://altorouter.com/usage/mapping-routes.html"> Alto router mapping </a> 
-                                    for instructions on how to match routes*
-                                </i>
-                            </p></div>
+                    <br />
+                    <h5 id="Mapping" class="lv4">Mapping:</h5>
+                    <div><p><i>*Underneath, the framework uses <a href="http://altorouter.com/">AltoRouter </a>. 
+                                Although most methods were modified or renamed, the mapping is still the same. 
+                                So you may want to look at 
+                                <a href="http://altorouter.com/usage/mapping-routes.html"> Alto router mapping </a> 
+                                for instructions on how to match routes*
+                            </i>
+                        </p></div>
 
-                        <br />
-                        <h5 id="NamedRoutes" class="lv4">Named Routes:</h5>
-                        <p>Named routes allow the convenient generation of URLs or redirects for specific routes. 
-                            You may specify a name for a route by chaining the <span class="scode path">setName</span> method onto the route definition:
-                        </p>
+                    <br />
+                    <h5 id="NamedRoutes" class="lv4">Named Routes:</h5>
+                    <p>Named routes allow the convenient generation of URLs or redirects for specific routes. 
+                        You may specify a name for a route by chaining the <span class="scode path">setName</span> method onto the route definition:
+                    </p>
 
-<pre class="z-depth-1"><code>
+                    <pre class="z-depth-1"><code>
 Router::get('user/profile', function () {
-    //
+    //To do
 })->setName('profile');
 </code></pre>
 
-                        <p>You may also specify route names for controller actions:</p>
+                    <p>You may also specify route names for controller actions:</p>
 
-<pre class="z-depth-1"><code>
+                    <pre class="z-depth-1"><code>
 Router::get('user/profile', 'AppController@showProfile')->setName('profile');
 </code></pre>
 
-                        <br />
-                        <h5 id="RedirectRoute" class="lv4"><span class="red-text">*</span>Redirect Route:</h5>
-                        <h5 id="ViewRoute" class="lv4"><span class="red-text">*</span>View Route:</h5>
-<!--                        <h5 id="SubdomainRoute" class="lv4"><span class="red-text">*</span>Subdomain Route:</h5>-->
+                    <br />
+                    <h5 id="RedirectRoute" class="lv4"><span class="red-text">*</span>Redirect Route:</h5>
+                    <h5 id="ViewRoute" class="lv4"><span class="red-text">*</span>View Route:</h5>
+                    <!--                        <h5 id="SubdomainRoute" class="lv4"><span class="red-text">*</span>Subdomain Route:</h5>-->
 
-                        <h5 id="Requests" class="lv3">Requests</h5>
+                    <h5 id="Requests" class="lv3">Requests</h5>
 
-                        <h5 id="Middleware" class="lv3">Middleware</h5>
+                    <h5 id="Middleware" class="lv3">Middleware</h5>
 
-                        <h5 id="TheBasicsMiddleware" class="lv4">The Basics:</h5>
+                    <h5 id="TheBasicsMiddleware" class="lv4">The Basics:</h5>
 
-                        <p>
-                            Middleware provide a convenient mechanism for filtering HTTP requests 
-                            entering your application and responses sent by the application.
-                        </p>
+                    <p>
+                        Middleware provide a convenient mechanism for filtering HTTP requests 
+                        entering your application and responses sent by the application.
+                    </p>
 
-                        <p>
-                            All of these middleware are located in the <span class="scode path">app/Middlewares</span> 
-                            directory and should extend <span class="scode path">Middlewares/Middleware</span> class in the same directory.
-                        </p>
+                    <p>
+                        All of these middleware are located in the <span class="scode path">app/Middlewares</span> 
+                        directory and should extend <span class="scode path">Middlewares/Middleware</span> class in the same directory.
+                    </p>
 
-<pre class="z-depth-1"><code>
+                    <pre class="z-depth-1"><code>
 &lt;?php
 
 namespace Middlewares;
@@ -297,14 +296,14 @@ class MySampleMiddleware extends Middleware
 }
 </code></pre>
 
-                        <p>
-                            For the framework to run your middleware, you have to register it in the 
-                            <span class="scode path">components/config/middleware.php</span> file.
-                            Simply add your middleware class to the <span class="scode path">before_core</span> or 
-                            <span class="scode path">after_core</span> key of the array.
-                        </p>
+                    <p>
+                        For the framework to run your middleware, you have to register it in the 
+                        <span class="scode path">components/config/middleware.php</span> file.
+                        Simply add your middleware class to the <span class="scode path">before_core</span> or 
+                        <span class="scode path">after_core</span> key of the array.
+                    </p>
 
-<pre class="z-depth-1"><code>
+                    <pre class="z-depth-1"><code>
 return [
      /*
      * Array of middleware classes that should be executed before core middleware
@@ -323,15 +322,15 @@ return [
 ];
 
 </code></pre>
-                        <br />
-                        <h5 id="NamedRouteMiddleware" class="lv4">Named/Route Middleware:</h5>
+                    <br />
+                    <h5 id="NamedRouteMiddleware" class="lv4">Named/Route Middleware:</h5>
 
-                        <p>
-                            You may also specify middleware to run only for specific routes.
-                            To do this, you have to register your middleware with a name
-                        </p>
+                    <p>
+                        You may also specify middleware to run only for specific routes.
+                        To do this, you have to register your middleware with a name
+                    </p>
 
-<pre class="z-depth-1"><code>
+                    <pre class="z-depth-1"><code>
 return [
     /*
      * Example of a route/named middleware
@@ -340,116 +339,116 @@ return [
 ];
 </code></pre>
 
-                        <p>Then set it for the required routes like this</p>
+                    <p>Then set it for the required routes like this</p>
 
-<pre class="z-depth-1"><code>
-Router::get('user/profile', 'AppController@showProfile')->setMiddlewares(“sample”);
+                    <pre class="z-depth-1"><code>
+Router::get('user/profile', 'AppController@showProfile')->setMiddlewares("sample");
 </code></pre>
 
-                        <p>To juice things up, the <span class="scode path">setMiddlewares</span> method can accept multiple middleware names:</p>
+                    <p>To juice things up, the <span class="scode path">setMiddlewares</span> method can accept multiple middleware names:</p>
 
-<pre class="z-depth-1"><code>
-Router::get('user/profile', 'AppController@showProfile')->setMiddlewares(“sample1”, “sample2”);
+                    <pre class="z-depth-1"><code>
+Router::get('user/profile', 'AppController@showProfile')->setMiddlewares("sample1", "sample2");
 </code></pre>
 
-                        <p>Or</p>
+                    <p>Or</p>
 
-<pre class="z-depth-1"><code>
-Router::get('user/profile', 'AppController@showProfile')->setMiddlewares([“sample1”, “sample2”]);
+                    <pre class="z-depth-1"><code>
+Router::get('user/profile', 'AppController@showProfile')->setMiddlewares(["sample1", "sample2"]);
 </code></pre>
 
-                        <br />
-                        <h5 id="Controllers" class="lv3">Controllers</h5>
-                        <p>Instead of defining all of your request handling logic as Closures in route files, 
-                            you may wish to organize this behavior using Controller classes. 
-                            Controllers can group related request handling logic into a single class. 
-                            Controllers are stored in the <span class="scode path">app/Controllers</span> directory and extends the 
-                            <span class="scode path">Controllers/Controller</span> class.
-                        </p>
+                    <br />
+                    <h5 id="Controllers" class="lv3">Controllers</h5>
+                    <p>Instead of defining all of your request handling logic as Closures in route files, 
+                        you may wish to organize this behavior using Controller classes. 
+                        Controllers can group related request handling logic into a single class. 
+                        Controllers are stored in the <span class="scode path">app/Controllers</span> directory and extends the 
+                        <span class="scode path">Controllers/Controller</span> class.
+                    </p>
 
-                        <h5 id="RoutingToController" class="lv4">Routing to a controller action/method:</h5>
+                    <h5 id="RoutingToController" class="lv4">Routing to a controller action/method:</h5>
 
-<pre class="z-depth-1"><code>
+                    <pre class="z-depth-1"><code>
 Router::get('user/profile', 'AppController@showHelloWorld');
 </code></pre>
 
-                        <br />
-                        <h5 id="ControllerMiddleware" class="lv4">Controller Middleware:</h5>
-                        <p>Middleware may be assigned to the controller's routes in your route files:</p>
+                    <br />
+                    <h5 id="ControllerMiddleware" class="lv4">Controller Middleware:</h5>
+                    <p>Middleware may be assigned to the controller's routes in your route files:</p>
 
-<pre class="z-depth-1"><code>
-Route::get('profile', 'UserController@show')->setMiddleware(sample);
+                    <pre class="z-depth-1"><code>
+Route::get('profile', 'UserController@show')->setMiddleware('sample');
 </code></pre>
 
-                        <p>
-                            However, it is more convenient to specify middleware within your controller's constructor. 
-                            Using the middleware method from your controller's constructor:
-                        </p>
+                    <p>
+                        However, it is more convenient to specify middleware within your controller's constructor. 
+                        Using the middleware method from your controller's constructor:
+                    </p>
 
-<pre class="z-depth-1"><code>
+                    <pre class="z-depth-1"><code>
 class AppController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware(‘sample’);
+        $this->middleware('sample');
     }
 }
 </code></pre>
 
-                        <h5 id="Models" class="lv3">Models</h5>
-                        <h5 id="Views" class="lv3">Views</h5>
-                        <h5 id="Response" class="lv3">Response</h5>
-                        <h5 id="ErrorsAndLogging" class="lv3">Errors & Logging</h5>
+                    <h5 id="Models" class="lv3">Models</h5>
+                    <h5 id="Views" class="lv3">Views</h5>
+                    <h5 id="Response" class="lv3">Response</h5>
+                    <h5 id="ErrorsAndLogging" class="lv3">Errors & Logging</h5>
 
-                        <h5 id="Composer" class="lv3">Composer</h5>
-                        <p>In as much as we “really” avoided the necessity of commands, we couldn’t help supporting composer.
-                            Composer files are autoloaded by the application if available but we changed the vendor directory to 
-                            <span class="scode path">components/composer</span> for security reasons.
-                        </p>
+                    <h5 id="Composer" class="lv3">Composer</h5>
+                    <p>In as much as we "really" avoided the necessity of commands, we couldn't help supporting composer.
+                        Composer files are autoloaded by the application if available but we changed the vendor directory to 
+                        <span class="scode path">components/composer</span> for security reasons.
+                    </p>
 
-                        <div class="divider"></div>
-<!--                        <h5 id="Database" class="lv2"><span class="red-text">*</span>Database</h5>
-                        <h5 id="GettingStartedDbase" class="lv3">Getting Started</h5>
-                        <h5 id="QueryBuilder" class="lv3">Query Builder</h5>
-                        <h5 id="Migration" class="lv3">Migration</h5>-->
+                    <div class="divider"></div>
+                    <!--                        <h5 id="Database" class="lv2"><span class="red-text">*</span>Database</h5>
+                                            <h5 id="GettingStartedDbase" class="lv3">Getting Started</h5>
+                                            <h5 id="QueryBuilder" class="lv3">Query Builder</h5>
+                                            <h5 id="Migration" class="lv3">Migration</h5>-->
 
-                        <div class="divider"></div>
-<!--                        <h5 id="Security" class="lv2">Security</h5>
-                        <p>Explain role of Directory Structure and .htaccess</p>-->
+                    <div class="divider"></div>
+                    <!--                        <h5 id="Security" class="lv2">Security</h5>
+                                            <p>Explain role of Directory Structure and .htaccess</p>-->
 
-                        <div class="divider"></div>
-                        <h5 id="Testing" class="lv2">Testing</h5>
+                    <div class="divider"></div>
+                    <h5 id="Testing" class="lv2">Testing</h5>
 
-                        <div class="divider"></div>
-                        <h5 id="Contributing" class="lv2">Contributing</h5>
-                        <p>To contribute,</p>
-                        <ol>
-                            <li>Fork the project on <a href="https://github.com/AVONnadozie/LiteFrame"> Github </a></li>
-                            <li>Make your bug fix or feature addition.</li>
-                            <li>Add tests for it. This is important so we don't break it in a future version unintentionally.</li>
-                            <li>Send a pull request.</li>
-                        </ol>
+                    <div class="divider"></div>
+                    <h5 id="Contributing" class="lv2">Contributing</h5>
+                    <p>To contribute,</p>
+                    <ol>
+                        <li>Fork the project on <a href="https://github.com/AVONnadozie/LiteFrame"> Github </a></li>
+                        <li>Make your bug fix or feature addition.</li>
+                        <li>Add tests for it. This is important so we don't break it in a future version unintentionally.</li>
+                        <li>Send a pull request.</li>
+                    </ol>
 
 
-<!--                        <span class="red-text">*</span> Topics with asterisks(<span class="red-text">*</span>) are not available at the moment, skip them.-->
+                    <!--                        <span class="red-text">*</span> Topics with asterisks(<span class="red-text">*</span>) are not available at the moment, skip them.-->
 
-                    </div>
                 </div>
             </div>
+        </div>
 
         <section id="bottom">
             <div class="divider"></div>
             <div class="container">
                 <div class="row center mg30">
                     <div class="col s12">
-                        <a class="social" href="<?= config('social.twit', '#') ?>" target="_blank"><i class="fa fa-twitter metallic-text fa-2x"></i></a>
-                        <a class="social" href="<?= config('social.gplus', '#') ?>" target="_blank"><i class="fa fa-github metallic-text fa-2x"></i></a>
-                        <a class="social" href="<?= config('social.lin', '#') ?>" target="_blank"><i class="fa fa-linkedin metallic-text fa-2x"></i></a>
+                        <a class="social" href="#" target="_blank"><i class="fa fa-twitter metallic-text fa-2x"></i></a>
+                        <a class="social" href="#" target="_blank"><i class="fa fa-github metallic-text fa-2x"></i></a>
+                        <a class="social" href="#" target="_blank"><i class="fa fa-linkedin metallic-text fa-2x"></i></a>
                     </div>
 
                     <div class="co s12" style="padding-top: 10px">
-                        <p>Copyright &copy; 2017 Lite Frame</p>
+                        <p>Copyright &copy; 2017 - 2018 Lite Frame</p>
                     </div>
                 </div>
             </div>
@@ -468,7 +467,7 @@ class AppController extends Controller
             }
             );
         </script>
-        
+
         <!--Highlight.js-->
         <script src="assets/highlightjs/highlight.pack.js" type="text/javascript"></script>
         <script>hljs.initHighlightingOnLoad();</script>

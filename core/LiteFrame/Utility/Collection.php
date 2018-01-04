@@ -1,6 +1,6 @@
 <?php
 
-namespace LiteFrame;
+namespace LiteFrame\Utility;
 
 class Collection implements \Iterator, \ArrayAccess, \Countable
 {

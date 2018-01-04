@@ -22,7 +22,7 @@
                 <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
                 <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
               <![endif]-->
-        <title><?= $code.' : '.getHttpResponseMessage($code).' - '.config('app.name') ?></title>
+        <title><?= $bag->getDefaultTitle() . ' - ' . config('app.name') ?></title>
 
     </head>
 
@@ -61,9 +61,9 @@
                     <div class="row">
                         <div class="col-md-12">
                             <h2 class="subtitle-big wow fadeInDown"><?= config('app.name') ?></h2>
-                            <h1 class="title-big wow fadeInDown" data-wow-delay=".7s"><?= $code.' - '.getHttpResponseMessage($code) ?></h1>
+                            <h1 class="title-big wow fadeInDown" data-wow-delay=".7s"><?= $bag->getDefaultTitle() ?></h1>
                             <h2 class="subtitle-big wow fadeInDown" data-wow-delay=".14s">
-                                <?= $message['content'] ?>
+                                <?= $bag->getTitle() ?>
                             </h2>
                         </div>
                     </div>

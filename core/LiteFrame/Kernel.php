@@ -177,6 +177,10 @@ final class Kernel
 
     private function bootForJob()
     {
+        if (!isCLI()) {
+            abort(500, "Somehow, you are not running this from a command line interface.");
+        }
+
         $this->setErrorConfigurations(true);
     }
 

@@ -398,5 +398,5 @@ function getClassAndMethodFromString($string)
 
 function isCLI()
 {
-    return php_sapi_name() == 'cli';
+    return php_sapi_name() == 'cli' || !http_response_code();
 }

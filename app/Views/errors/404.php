@@ -18,9 +18,9 @@
                     <div class="row">
                         <div class="col-md-12">
                             <h2 class="subtitle-big wow fadeInDown"><?= config('app.name') ?></h2>
-                            <h1 class="title-big wow fadeInDown" data-wow-delay=".7s"><?= $code ?></h1>
+                            <h1 class="title-big wow fadeInDown" data-wow-delay=".7s"><?= $bag->getCode() ?></h1>
                             <h2 class="subtitle-big wow fadeInDown" data-wow-delay=".14s">
-                                <?= $message ?>
+                                <?= $bag->getTitle() ?>
                             </h2>
                         </div>
                     </div>

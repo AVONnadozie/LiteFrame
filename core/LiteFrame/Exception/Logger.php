@@ -1,7 +1,8 @@
 <?php
 
-namespace LiteFrame;
+namespace LiteFrame\Exception;
 
+use Error;
 use Exception;
 
 /**
@@ -122,8 +123,8 @@ class Logger
 
         if (isCLI()) {
             $message = $this->getContentForFile();
-            echo $message;
             $this->writeToLogFile($message);
+            echo $message;
         } else {
             if ($this->outputMedium !== self::MEDIUM_STDOUT) {
                 $this->writeToLogFile($this->getContentForFile());
@@ -137,12 +138,11 @@ class Logger
     {
         $content = ['trace' => ''];
         if ($this->exception instanceof \Exception ||
-                $this->exception instanceof \Error) {
+                $this->exception instanceof Error) {
             $file = $this->exception->getFile();
             $line = $this->exception->getLine();
             $title = $this->exception->getMessage();
-            $searchkeywords = $title;
-            $content['search'] = "LiteFrame $searchkeywords";
+            $content['code'] = $this->exception->getCode();
             $content['title'] = "$title at $file line $line";
             $content['content'] = $content['title'];
             if ($this->outputMedium !== self::MEDIUM_FILE) {
@@ -153,8 +153,6 @@ class Logger
                 $content['content'] .= $content['trace'].PHP_EOL;
             }
         } else {
-            $searchkeywords = $this->exception;
-            $content['search'] = "LiteFrame $searchkeywords";
             $content['title'] = $this->exception;
             $content['content'] = $this->exception;
         }

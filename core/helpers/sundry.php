@@ -81,7 +81,7 @@ function iExec($cmd, $input = '')
 function setting($key, $default = null, $cast = null)
 {
     try {
-        $value = app_env($key);
+        $value = appEnv($key);
 
         return $value ?: Setting::get($key, $default, $cast);
     } catch (Exception $e) {

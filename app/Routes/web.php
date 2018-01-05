@@ -26,6 +26,6 @@ Router::redirect('redirect', 'home-view');
 //Redirect route to a URL permanently
 Router::redirect('example', 'https://example.com');
 
-if (app_env('APP_ENV', 'production') === 'local') {
+if (appIsLocal()) {
     Router::get('/test', 'AppController@test');
 }

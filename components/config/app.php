@@ -14,7 +14,7 @@ return [
      * | This specifies the application URL. The application will try to detect the
      * | the URL automatically and will only use this as a fallback.
      */
-    'url' => app_env('APP_URL', 'http://localhost'),
+    'url' => appEnv('APP_URL', 'http://localhost'),
     /*
      * ----------------------------
      *  Logger
@@ -22,14 +22,14 @@ return [
      * | This specifies how log files will be created.
      * | Accepted values are single, daily and weekly
      */
-    'log' => app_env('APP_LOG', 'daily'),
+    'log' => appEnv('APP_LOG', 'daily'),
     /*
      * ----------------------------
      *  Application Environment
      * ----------------------------
      * | Set to local or production
      */
-    'env' => app_env('APP_ENV', 'local'),
+    'env' => appEnv('APP_ENV', 'local'),
     /*
      * ----------------------------
      *  Output Compression
@@ -45,14 +45,14 @@ return [
      * ----------------------------
      * | Name of assets folder.
      */
-    'assets' => app_env('APP_ASSETS', 'assets'),
+    'assets' => appEnv('APP_ASSETS', 'assets'),
     /*
      * ----------------------------
      *  Storage Folder Name
      * ----------------------------
      * | Name of storage folder.
      */
-    'storage' => app_env('APP_STORAGE', 'storage'),
+    'storage' => appEnv('APP_STORAGE', 'storage'),
     /*
      * ----------------------------
      *  Autoload settings

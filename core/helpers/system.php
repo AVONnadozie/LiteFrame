@@ -13,7 +13,7 @@ use LiteFrame\View\View;
  *
  * @return string
  */
-function app_env($key, $default = null)
+function appEnv($key, $default = null)
 {
     if (!isset($GLOBALS['env'])) {
         $path = WD . normalizePath('/components/.env.php');
@@ -399,4 +399,9 @@ function getClassAndMethodFromString($string)
 function isCLI()
 {
     return php_sapi_name() == 'cli' || !http_response_code();
+}
+
+function appIsLocal()
+{
+    return appEnv('APP_ENV', 'production') === 'local';
 }

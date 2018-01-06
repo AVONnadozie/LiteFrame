@@ -1,7 +1,7 @@
 # LiteFrame
-A lightweight PHP framework built for small and medium scale applications.
+So many amazing PHP frameworks out there but somehow we still wanted **something light**, fast, easy to setup with no requirement for shell/commands and still has the functionalities of a modern MVC framework; something shared hosting users will clap for.
 
-Easy to setup, has functionalities of modern MVC frameworks and no requirement for shell/commands.
+LiteFrame is a lightweight PHP framework designed to earn the claps.
 
 ## Requirements
 PHP 5.5 and above
@@ -9,27 +9,34 @@ PHP 5.5 and above
 ## Installation
 <!-- Download the latest release [here](#) or use the downloader file [here](#) --->
 
-<!-- 
-Composer
+No releases yet.
+
+
+To preview what we've been up to, you can clone this repo or download and unzip it. that's all!
+
+Still want it the Composer way?
 ```bash
 composer create-project avonnadozie/liteframe
 ```
- --->
-No releases yet but you can clone or download this repo to preview what we've been up to.
 
-Remember to set `components/logs` to be write-able, preferably `777`
+Remember to set `components/logs` to be write-able, preferably `755`
 
+## Target Features
+- [x] Fast
+- [x] Easy setup (no shell commands required)
+- [x] Routing
+- [x] Middleware
+- [ ] Filtering and Validation
+- [ ] Security
+- [x] Job Scheduling
+- [x] Error Logging
+- [x] Testing
+- [ ] Dependency Injection
+- [ ] Modular
 
 ## Documentation
 * [Online documentation](https://avonnadozie.github.io/LiteFrame/) (Recommended)
 * [Download as pdf](#) (Not currently available and not always up to date)
-
-## Target Features
-- [x] Easy to setup with no shell commands required
-- [x] Secure
-- [x] Light and Fast
-- [ ] Light and extensible admin support
-- [ ] Modular
 
 ## Feedback
 For bugs, improvements or guide, simply create an [issue](https://github.com/AVONnadozie/LiteFrame/issues). Thanks 👍

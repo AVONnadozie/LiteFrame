@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title><?= $code . ' - ' . getHttpResponseMessage($code) ?></title>
+        <title><?= $bag->getDefaultTitle() ?></title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <style>
@@ -23,7 +23,7 @@
                 height: 100%;
             }
             .error-title h1{
-                font-size: 1.2em;
+                font-size: 1.2rem;
             }
             .error-title{
                 padding: 10px;
@@ -41,6 +41,10 @@
                 border-radius: 10px;
                 min-height: 70%;
             }
+            .error-body .trace{
+                line-height: 26px;
+                font-size: 1rem;
+            }
             .search{
                 margin-bottom: 20px;
                 text-align: right;
@@ -55,6 +59,8 @@
                 text-decoration: none;
                 border-radius: 5px;
             }
+            .search a:link {color: inherit;}
+            .search a:visited {color: inherit;}
             .search a.google:hover{
                 background-color: #d34836;
                 color: #fff;
@@ -77,21 +83,20 @@
     <body>
         <div class="content">
             <div class="error-title">
-                <h1><?= $message['title'] ?></h1>
+                <h1><?= $bag->getTitle() ?></h1>
             </div>
-            <?php if (!empty($message['search'])): ?>
+            <?php if (!empty($bag->getSearchTerm())): ?>
             <div class="search">
-                    <?php $q = http_build_query(['q' => $message['search']]) ?>
                     <span>Search</span>
-                    <a href="https://www.google.com/search?<?= $q ?>" target="_blank" class="google">Google</a>
-                    <a href="https://stackoverflow.com/search?<?= $q ?>" target="_blank" class="so">Stack Overflow</a>
-                    <a href="https://duckduckgo.com/?<?= $q ?>" target="_blank" class="duckduckgo">DuckDuckGo</a>
-                    <a href="https://www.bing.com/search?<?= $q ?>" target="_blank" class="bing">Bing</a>
+                    <a href="https://www.google.com/search?<?= http_build_query(['q' => $bag->getSearchTerm('google')]) ?>" target="_blank" class="google">Google</a>
+                    <a href="https://stackoverflow.com/search?<?= http_build_query(['q' => $bag->getSearchTerm('so')]) ?>" target="_blank" class="so">Stack Overflow</a>
+                    <a href="https://duckduckgo.com/?<?= http_build_query(['q' => $bag->getSearchTerm('duckduckgo')]) ?>" target="_blank" class="duckduckgo">DuckDuckGo</a>
+                    <a href="https://www.bing.com/search?<?= http_build_query(['q' => $bag->getSearchTerm('bing')]) ?>" target="_blank" class="bing">Bing</a>
                 </div>
             <?php endif; ?>
-            <?php if (!empty($message['trace'])): ?>
+            <?php if (!empty($bag->getTrace())): ?>
             <div class="error-body">
-                    <p class="trace"><?= nl2br($message['trace']) ?></p>
+                    <p class="trace"><?= nl2br($bag->getTrace()) ?></p>
                 </div>
             <?php endif; ?>
         </div>

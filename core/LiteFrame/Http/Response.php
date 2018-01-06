@@ -2,6 +2,7 @@
 
 namespace LiteFrame\Http;
 
+use LiteFrame\Exception\ErrorBag;
 use LiteFrame\View\View;
 
 /**
@@ -163,9 +164,20 @@ class Response
             ob_clean();
         }
         $this->headers = [];
-        $this->status = $code;
+
         $view = new View();
-        $this->content = $view->getErrorPage($code, $message);
+        if (is_array($message)) {
+            if (empty($message['code'])) {
+                $message['code'] = $code;
+            }
+            $this->status = $message['code'];
+            $bag = new ErrorBag($message);
+        } else {
+            $this->status = $code;
+            $bag = new ErrorBag($code);
+            $bag->setTitle($message);
+        }
+        $this->content = $view->getErrorPage($bag);
 
         die($this->output());
     }

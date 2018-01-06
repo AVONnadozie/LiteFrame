@@ -62,7 +62,7 @@ requireAll(WD . '/components/helpers');
 
 $composer_files = WD . '/components/composer/autoload.php';
 if (file_exists($composer_files)) {
-    require $composer_files;
+    require_once $composer_files;
 }
 
 /*

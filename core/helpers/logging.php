@@ -1,6 +1,6 @@
 <?php
 
-use LiteFrame\Logger;
+use LiteFrame\Exception\Logger;
 
 /**
  * Log error to file.

@@ -13,12 +13,8 @@
         <link rel="stylesheet" type="text/css" href="assets/extras/animate.css">
         <!--Exo font -->
         <link href="https://fonts.googleapis.com/css?family=Exo:100,200,300,400" rel="stylesheet">
-        <!-- Ubuntu font -->
-        <link href="https://fonts.googleapis.com/css?family=Ubuntu:300" rel="stylesheet">
         <!-- Lato -->
-        <link href="https://fonts.googleapis.com/css?family=Lato:100,300" rel="stylesheet">
-        <!--  Monospace -->
-        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:300,400" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet">
         <!-- Favico -->
         <link rel="icon" href="assets/" type="image/x-icon" />
         <link rel="shortcut icon" type="image/x-icon" href='assets/' />
@@ -45,7 +41,7 @@
                         <a href="#ArchitectureConcept">Architecture Concept</a>
                         <ul class="lilv2">
                             <li><a href="#Directory">Directory Structure</a></li>
-                            <li><a href="#">---------------</a></li>
+                            <li class="divider"></li>
                         </ul>
                     </li>
 
@@ -61,7 +57,7 @@
                                     <li><a href="#NamedRoutes">Named Routes</a></li>
                                     <li><a href="#RedirectRoute">Redirect Route</a></li>
                                     <li><a href="#ViewRoute">View Route</a></li>
-                                    <li><a href="#SubdomainRoute">Subdomain Route</a></li>
+                                <!--<li><a href="#SubdomainRoute">Subdomain Route</a></li>-->
                                 </ul>
                             </li>
                             <li><a href="#Requests">Requests</a></li>
@@ -97,19 +93,19 @@
                     <li>
                         <a href="#Security">Security</a>
                         <ul class="lilv2">
-                            <li><a href="#">---------------</a></li>
+                            <li class="divider"></li>
                         </ul>
                     </li>
                     <li>
                         <a href="#Testing">Testing</a>
                         <ul class="lilv2">
-                            <li><a href="#">---------------</a></li>
+                            <li class="divider"></li>
                         </ul>
                     </li>
                     <li>
                         <a href="#Contributing">Contributing</a>
                         <ul class="lilv2">
-                            <li><a href="#">---------------</a></li>
+                            <li class="divider"></li>
                         </ul>
                     </li>
                 </ul>
@@ -251,12 +247,36 @@ Router::get('user/profile', function () {
 Router::get('user/profile', 'AppController@showProfile')->setName('profile');
 </code></pre>
 
-                    <br />
-                    <h5 id="RedirectRoute" class="lv4"><span class="red-text">*</span>Redirect Route:</h5>
-                    <h5 id="ViewRoute" class="lv4"><span class="red-text">*</span>View Route:</h5>
-                    <!--                        <h5 id="SubdomainRoute" class="lv4"><span class="red-text">*</span>Subdomain Route:</h5>-->
+                        <br />
+                        <h5 id="RedirectRoute" class="lv4">Redirect Route:</h5>
+                        <p>You can redirect permanently to a route or a url. </p>
+                        <p>Redirecting to a route:</p>
+                       
+<pre class="z-depth-1"><code>
+Router::redirect('redirect', 'home-view');
+</code></pre>
+                        <p>The url <span class="scode path">mysite/redirect</span> loads the view named <span class="scode path">home-view</span></p>
+                        
+                        <p>Redirecting to a url:</p>
+                       
+<pre class="z-depth-1"><code>
+Router::redirect('example', 'https://example.com');
+</code></pre>
+                        <p>The url <span class="scode path">mysite/example</span> loads <span class="scode path">http://example.com</span></p>
+                        
+                        <br />
+                        <h5 id="ViewRoute" class="lv4">View Route:</h5>
+                        <p>You can load a view directly thus: </p>
+                        
+<pre class="z-depth-1"><code>
+Router::view('redirect-view', 'home', [])->setName('home-view');
+</code></pre>
+                        <p>The url <span class="scode path">mysite/redirect-view</span> loads the named home view.
+                        
+<!--                        <h5 id="SubdomainRoute" class="lv4"><span class="red-text">*</span>Subdomain Route:</h5>-->
 
-                    <h5 id="Requests" class="lv3">Requests</h5>
+                        <br />
+                        <h5 id="Requests" class="lv3">Requests</h5>
 
                     <h5 id="Middleware" class="lv3">Middleware</h5>
 
@@ -407,15 +427,15 @@ class AppController extends Controller
                         <span class="scode path">components/composer</span> for security reasons.
                     </p>
 
-                    <div class="divider"></div>
-                    <!--                        <h5 id="Database" class="lv2"><span class="red-text">*</span>Database</h5>
-                                            <h5 id="GettingStartedDbase" class="lv3">Getting Started</h5>
-                                            <h5 id="QueryBuilder" class="lv3">Query Builder</h5>
-                                            <h5 id="Migration" class="lv3">Migration</h5>-->
+<!--                        <div class="divider"></div>
+                        <h5 id="Database" class="lv2"><span class="red-text">*</span>Database</h5>
+                        <h5 id="GettingStartedDbase" class="lv3">Getting Started</h5>
+                        <h5 id="QueryBuilder" class="lv3">Query Builder</h5>
+                        <h5 id="Migration" class="lv3">Migration</h5>-->
 
-                    <div class="divider"></div>
-                    <!--                        <h5 id="Security" class="lv2">Security</h5>
-                                            <p>Explain role of Directory Structure and .htaccess</p>-->
+<!--                         <div class="divider"></div>
+                       <h5 id="Security" class="lv2">Security</h5>
+                        <p>Explain role of Directory Structure and .htaccess</p>-->
 
                     <div class="divider"></div>
                     <h5 id="Testing" class="lv2">Testing</h5>

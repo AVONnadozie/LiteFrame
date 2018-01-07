@@ -183,6 +183,7 @@ body {
 
 .logotext {
     font-size: 50px;
+    font-weight: 500;
 }
 
 a {
@@ -223,7 +224,7 @@ a {
 }
 
 .lilv3 {
-    font-weight: 300 !important;
+    font-weight: 400 !important;
     padding-left: 10px !important;
     color: #333;
 }

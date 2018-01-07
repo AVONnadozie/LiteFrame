@@ -8,6 +8,19 @@ So many amazing PHP frameworks out there but somehow we still wanted **something
 
 LiteFrame is a lightweight PHP framework designed to earn the claps.
 
+## Target Features
+- [x] Fast
+- [x] Easy setup (no shell commands required)
+- [x] Routing
+- [x] Middleware
+- [ ] Filtering and Validation
+- [ ] Security
+- [x] Job Scheduling
+- [x] Error Logging
+- [x] Testing
+- [ ] Dependency Injection
+- [ ] Modular
+
 ## Requirements
 PHP 5.5 and above
 
@@ -25,19 +38,6 @@ composer create-project avonnadozie/liteframe
 ```
 
 Remember to set `components/logs` to be write-able, preferably `755`
-
-## Target Features
-- [x] Fast
-- [x] Easy setup (no shell commands required)
-- [x] Routing
-- [x] Middleware
-- [ ] Filtering and Validation
-- [ ] Security
-- [x] Job Scheduling
-- [x] Error Logging
-- [x] Testing
-- [ ] Dependency Injection
-- [ ] Modular
 
 ## Documentation
 * [Online documentation](https://avonnadozie.github.io/LiteFrame/) (Recommended)

@@ -1,10 +1,27 @@
 {
     "name": "avonnadozie/liteframe",
-    "description": "The LiteFrame Framework.",
+    "description": "LiteFrame is a lightweight PHP framework designed to be fast, easy to setup with no requirement for shell/commands and still has the functionalities of a modern MVC framework.",
     "homepage": "https://github.com/avonnadozie/LiteFrame",
-    "keywords": ["framework", "liteframe", "lightweight"],
+    "keywords": [
+        "framework",
+        "liteframe",
+        "lightweight", 
+        "microframework"
+    ],
     "license": "MIT",
     "type": "project",
+    "authors": [
+        {
+            "name": "Victor Anuebunwa",
+            "email": "hello@victoranuebunwa.com",
+            "homepage": "https://victoranuebunwa.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Ugwuanyi Chijioke",
+            "email": "christaindrew@gmail.com"
+        }
+    ],
     "require-dev": {
         "symfony/var-dumper": "^3.3",
         "fzaninotto/faker": "~1.7",
@@ -17,7 +34,7 @@
     "scripts": {
         "post-root-package-install": [
             "@php -r \"file_exists('components/.env.php') || copy('components/.env.example.php', '.env');\""
-        ]
+        ],
+        "test": "\"components/composer/bin/phpunit\""
     }
-
 }

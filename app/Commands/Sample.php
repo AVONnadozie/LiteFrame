@@ -9,5 +9,4 @@ class Sample extends Command
     {
         echo 'Hello World';
     }
-
 }

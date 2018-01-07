@@ -283,7 +283,8 @@ class CronExpressionTest extends PHPUnit_Framework_TestCase
      * @covers Cron\CronExpression::getMultipleRunDates
      * @covers Cron\CronExpression::setMaxIterationCount
      */
-    public function testProvidesMultipleRunDatesForTheFarFuture() {
+    public function testProvidesMultipleRunDatesForTheFarFuture()
+    {
         // Fails with the default 1000 iteration limit
         $cron = CronExpression::factory('0 0 12 1 * */2');
         $cron->setMaxIterationCount(2000);
@@ -368,7 +369,8 @@ class CronExpressionTest extends PHPUnit_Framework_TestCase
     /**
      * @see https://github.com/mtdowling/cron-expression/issues/20
      */
-    public function testIssue20() {
+    public function testIssue20()
+    {
         $e = CronExpression::factory('* * * * MON#1');
         $this->assertTrue($e->isDue(new DateTime('2014-04-07 00:00:00')));
         $this->assertFalse($e->isDue(new DateTime('2014-04-14 00:00:00')));

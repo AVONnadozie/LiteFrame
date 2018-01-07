@@ -19,13 +19,12 @@ use LiteOnion\Onion;
  */
 final class Kernel
 {
-
     private static $kernelInstance;
     private $controllerMiddlewares = [];
 
     /**
      * Controller Middleware
-     * @var array 
+     * @var array
      */
     private $middlewares = [
         CompressResponse::class,
@@ -135,7 +134,7 @@ final class Kernel
         }
         //Controller middlewares
         foreach ($this->controllerMiddlewares as $middleware) {
-            if (array_search($middleware, $middlewares) !== FALSE) {
+            if (array_search($middleware, $middlewares) !== false) {
                 continue;
             }
 
@@ -196,5 +195,4 @@ final class Kernel
     {
         exit;
     }
-
 }

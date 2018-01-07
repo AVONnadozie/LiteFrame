@@ -72,7 +72,8 @@ function toTitleCase($title)
                 mb_substr($m, 2, mb_strlen($m, 'UTF-8') - 2, 'UTF-8')
 
                 //else:	do not uppercase these cases
-                : (preg_match('/[\])}]/', mb_substr($title, max(0, $i - 1), 3, 'UTF-8')) ||
+                : (
+                    preg_match('/[\])}]/', mb_substr($title, max(0, $i - 1), 3, 'UTF-8')) ||
                 preg_match('/[A-Z]+|&|\w+[._]\w+/u', mb_substr($m, 1, mb_strlen($m, 'UTF-8') - 1, 'UTF-8')) ? $m
                 //if all else fails, then no more fringe-cases; uppercase the word
                 : mb_strtoupper(mb_substr($m, 0, 1, 'UTF-8'), 'UTF-8').

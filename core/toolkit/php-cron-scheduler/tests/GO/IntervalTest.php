@@ -86,12 +86,16 @@ class IntervalTest extends TestCase
         $job = new Job('ls');
 
         // Default run is every Sunday at 00:00
-        $this->assertTrue($job->weekly()->isDue(
-            new \DateTime('Sunday'))
+        $this->assertTrue(
+            $job->weekly()->isDue(
+            new \DateTime('Sunday')
+        )
         );
 
-        $this->assertFalse($job->weekly()->isDue(
-            new \DateTime('Tuesday'))
+        $this->assertFalse(
+            $job->weekly()->isDue(
+            new \DateTime('Tuesday')
+        )
         );
     }
 
@@ -99,35 +103,53 @@ class IntervalTest extends TestCase
     {
         $job = new Job('ls');
 
-        $this->assertTrue($job->weekly(6)->isDue(
-            new \DateTime('Saturday'))
+        $this->assertTrue(
+            $job->weekly(6)->isDue(
+            new \DateTime('Saturday')
+        )
         );
 
         // Testing also the helpers to run weekly on custom day
-        $this->assertTrue($job->monday()->isDue(
-            new \DateTime('Monday'))
+        $this->assertTrue(
+            $job->monday()->isDue(
+            new \DateTime('Monday')
+        )
         );
-        $this->assertFalse($job->monday()->isDue(
-            new \DateTime('Saturday'))
+        $this->assertFalse(
+            $job->monday()->isDue(
+            new \DateTime('Saturday')
+        )
         );
 
-        $this->assertTrue($job->tuesday()->isDue(
-            new \DateTime('Tuesday'))
+        $this->assertTrue(
+            $job->tuesday()->isDue(
+            new \DateTime('Tuesday')
+        )
         );
-        $this->assertTrue($job->wednesday()->isDue(
-            new \DateTime('Wednesday'))
+        $this->assertTrue(
+            $job->wednesday()->isDue(
+            new \DateTime('Wednesday')
+        )
         );
-        $this->assertTrue($job->thursday()->isDue(
-            new \DateTime('Thursday'))
+        $this->assertTrue(
+            $job->thursday()->isDue(
+            new \DateTime('Thursday')
+        )
         );
-        $this->assertTrue($job->friday()->isDue(
-            new \DateTime('Friday'))
+        $this->assertTrue(
+            $job->friday()->isDue(
+            new \DateTime('Friday')
+        )
         );
-        $this->assertTrue($job->saturday()->isDue(
-            new \DateTime('Saturday'))
+        $this->assertTrue(
+            $job->saturday()->isDue(
+            new \DateTime('Saturday')
+        )
         );
-        $this->assertTrue($job->sunday()->isDue(
-            new \DateTime('Sunday'))
+        $this->assertTrue(
+            $job->sunday()->isDue(
+            new \DateTime('Sunday')
+        )
         );
     }
 
@@ -148,15 +170,21 @@ class IntervalTest extends TestCase
         $job = new Job('ls');
 
         // Default run is every 1st of the month at 00:00
-        $this->assertTrue($job->monthly()->isDue(
-            new \DateTime('01 January'))
+        $this->assertTrue(
+            $job->monthly()->isDue(
+            new \DateTime('01 January')
+        )
         );
-        $this->assertTrue($job->monthly()->isDue(
-            new \DateTime('01 December'))
+        $this->assertTrue(
+            $job->monthly()->isDue(
+            new \DateTime('01 December')
+        )
         );
 
-        $this->assertFalse($job->monthly()->isDue(
-            new \DateTime('02 January'))
+        $this->assertFalse(
+            $job->monthly()->isDue(
+            new \DateTime('02 January')
+        )
         );
     }
 
@@ -164,51 +192,79 @@ class IntervalTest extends TestCase
     {
         $job = new Job('ls');
 
-        $this->assertTrue($job->monthly()->isDue(
-            new \DateTime('01 January'))
+        $this->assertTrue(
+            $job->monthly()->isDue(
+            new \DateTime('01 January')
+        )
         );
 
         // Testing also the helpers to run weekly on custom day
-        $this->assertTrue($job->january()->isDue(
-            new \DateTime('01 January'))
+        $this->assertTrue(
+            $job->january()->isDue(
+            new \DateTime('01 January')
+        )
         );
-        $this->assertFalse($job->january()->isDue(
-            new \DateTime('01 February'))
+        $this->assertFalse(
+            $job->january()->isDue(
+            new \DateTime('01 February')
+        )
         );
 
-        $this->assertTrue($job->february()->isDue(
-            new \DateTime('01 February'))
+        $this->assertTrue(
+            $job->february()->isDue(
+            new \DateTime('01 February')
+        )
         );
 
-        $this->assertTrue($job->march()->isDue(
-            new \DateTime('01 March'))
+        $this->assertTrue(
+            $job->march()->isDue(
+            new \DateTime('01 March')
+        )
         );
-        $this->assertTrue($job->april()->isDue(
-            new \DateTime('01 April'))
+        $this->assertTrue(
+            $job->april()->isDue(
+            new \DateTime('01 April')
+        )
         );
-        $this->assertTrue($job->may()->isDue(
-            new \DateTime('01 May'))
+        $this->assertTrue(
+            $job->may()->isDue(
+            new \DateTime('01 May')
+        )
         );
-        $this->assertTrue($job->june()->isDue(
-            new \DateTime('01 June'))
+        $this->assertTrue(
+            $job->june()->isDue(
+            new \DateTime('01 June')
+        )
         );
-        $this->assertTrue($job->july()->isDue(
-            new \DateTime('01 July'))
+        $this->assertTrue(
+            $job->july()->isDue(
+            new \DateTime('01 July')
+        )
         );
-        $this->assertTrue($job->august()->isDue(
-            new \DateTime('01 August'))
+        $this->assertTrue(
+            $job->august()->isDue(
+            new \DateTime('01 August')
+        )
         );
-        $this->assertTrue($job->september()->isDue(
-            new \DateTime('01 September'))
+        $this->assertTrue(
+            $job->september()->isDue(
+            new \DateTime('01 September')
+        )
         );
-        $this->assertTrue($job->october()->isDue(
-            new \DateTime('01 October'))
+        $this->assertTrue(
+            $job->october()->isDue(
+            new \DateTime('01 October')
+        )
         );
-        $this->assertTrue($job->november()->isDue(
-            new \DateTime('01 November'))
+        $this->assertTrue(
+            $job->november()->isDue(
+            new \DateTime('01 November')
+        )
         );
-        $this->assertTrue($job->december()->isDue(
-            new \DateTime('01 December'))
+        $this->assertTrue(
+            $job->december()->isDue(
+            new \DateTime('01 December')
+        )
         );
     }
 

@@ -364,7 +364,7 @@ function appAutoloader($class)
     $psr4Path = null;
     foreach ($psr4 as $namespace => $folder) {
         $pos = strpos($class, $namespace);
-        if ($pos !== FALSE) {
+        if ($pos !== false) {
             $folder = trim($folder, '/');
             $chunk = trim(substr($class, strlen($namespace)), '\\');
             $psr4Path = "$folder/$chunk";

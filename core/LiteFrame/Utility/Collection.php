@@ -4,12 +4,11 @@ namespace LiteFrame\Utility;
 
 class Collection implements \Iterator, \ArrayAccess, \Countable
 {
-
     protected $current = 0;
     protected $items = [];
     protected $keys = [];
 
-    function __construct(array $items)
+    public function __construct(array $items)
     {
         $this->current = 0;
         $this->items = $items;
@@ -17,7 +16,7 @@ class Collection implements \Iterator, \ArrayAccess, \Countable
     }
 
     /**
-     * 
+     *
      * @param type $key
      * @return \Models\Project
      */
@@ -100,7 +99,7 @@ class Collection implements \Iterator, \ArrayAccess, \Countable
             $page = request('page');
         }
 
-//        $new_items = 
+//        $new_items =
 
         return new Collection($new_items);
     }
@@ -113,5 +112,4 @@ class Collection implements \Iterator, \ArrayAccess, \Countable
     {
         return isset($this->keys[0]) ? $this->items[$this->keys[0]] : null;
     }
-
 }

@@ -4,8 +4,7 @@ namespace Controllers;
 
 class AppController extends Controller
 {
-
-    function __construct()
+    public function __construct()
     {
         $this->middleware('sample', ['index']);
     }

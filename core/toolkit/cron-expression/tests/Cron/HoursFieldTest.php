@@ -20,7 +20,7 @@ class HoursFieldTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($f->validate('1'));
         $this->assertTrue($f->validate('*'));
         $this->assertTrue($f->validate('*/3,1,1-12'));
-     }
+    }
 
     /**
      * @covers Cron\HoursField::increment

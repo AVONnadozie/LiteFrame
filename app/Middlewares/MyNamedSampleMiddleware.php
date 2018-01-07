@@ -12,7 +12,6 @@ use LiteFrame\Http\Request;
  */
 class MyNamedSampleMiddleware extends Middleware
 {
-
     public function run(Closure $next = null, Request $request = null)
     {
         if ($next) {
@@ -22,5 +21,4 @@ class MyNamedSampleMiddleware extends Middleware
             return $response;
         }
     }
-
 }

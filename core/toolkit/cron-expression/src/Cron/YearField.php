@@ -4,7 +4,6 @@ namespace Cron;
 
 use DateTime;
 
-
 /**
  * Year field.  Allows: * , / -
  */

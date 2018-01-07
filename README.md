@@ -1,4 +1,9 @@
-# LiteFrame
+# LiteFrame: A PHP Micro Framework
+[![Latest Stable Version](https://poser.pugx.org/avonnadozie/liteframe/v/stable)](https://packagist.org/packages/avonnadozie/liteframe)
+[![Latest Unstable Version](https://poser.pugx.org/avonnadozie/liteframe/v/unstable)](https://packagist.org/packages/avonnadozie/liteframe)
+[![Build Status](https://travis-ci.org/AVONnadozie/LiteFrame.svg?branch=master)](https://travis-ci.org/AVONnadozie/LiteFrame)
+[![License](https://poser.pugx.org/avonnadozie/liteframe/license)](https://packagist.org/packages/avonnadozie/liteframe)
+
 So many amazing PHP frameworks out there but somehow we still wanted **something light**, fast, easy to setup with no requirement for shell/commands and still has the functionalities of a modern MVC framework; something shared hosting users will clap for.
 
 LiteFrame is a lightweight PHP framework designed to earn the claps.
@@ -11,10 +16,10 @@ PHP 5.5 and above
 
 No releases yet.
 
-
 To preview what we've been up to, you can clone this repo or download and unzip it. that's all!
 
-Still want it the Composer way?
+Still need it the Composer way?
+
 ```bash
 composer create-project avonnadozie/liteframe
 ```

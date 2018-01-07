@@ -2,3 +2,9 @@ language: php
 
 php:
   - 5.5
+  
+before_script:
+  - composer update
+  
+script:
+  - components/composer/bin/phpunit  --coverage-text --coverage-clover=coverage.clover

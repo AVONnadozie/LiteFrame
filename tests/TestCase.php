@@ -2,19 +2,23 @@
 
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
-/**
- * Base PHPUnit test class
- *
+/*
+ * Allow for PHPUnit 4.* while XML_Util is still usable on PHP 5.4
  */
-class TestCase extends PHPUnitTestCase
-{
+if (!class_exists('PHPUnit_Framework_TestCase')) {
 
-    /**
-     * @provider
-     */
-    public function mockRequest()
+    class PHPUnit_Framework_TestCase extends PHPUnitTestCase
     {
         
     }
 
+}
+
+/*
+ * Base PHPUnit test class
+ *
+ */
+class TestCase extends PHPUnit_Framework_TestCase
+{
+    
 }

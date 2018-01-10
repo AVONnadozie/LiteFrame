@@ -120,7 +120,6 @@ class Logger
      */
     public function log()
     {
-
         if (isCLI()) {
             $message = $this->getContentForFile();
             $this->writeToLogFile($message);

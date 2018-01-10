@@ -5,7 +5,8 @@ $autoload_config = [
     "classmap" => [
         'core',
         'core/toolkit',
-        'app'
+        'app',
+        'tests'
     ],
     //Namespace - Directory mapping
     "psr-4" => [
@@ -16,7 +17,11 @@ $autoload_config = [
         /**
          * Cron Expression required by PHP Cron Scheduler
          */
-        "Cron\\" => "cron-expression/src/Cron"
+        "Cron\\" => "cron-expression/src/Cron",
+        /**
+         * Validator
+         */
+        "AVONnadozie\\Validator\\" => "Validator",
     ],
     //Other files to autoload
     "files" => [

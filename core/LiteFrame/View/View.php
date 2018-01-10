@@ -7,7 +7,6 @@ use LiteFrame\Exception\ErrorBag;
 
 class View
 {
-
     public function fetch($path, $data = [])
     {
         $file = base_path('app/Views/' . trim($path, '/') . '.php');
@@ -53,5 +52,4 @@ class View
 
         return $content;
     }
-
 }

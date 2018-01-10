@@ -5,5 +5,4 @@ namespace LiteFrame\CLI;
 
 abstract class Command
 {
-
 }

@@ -57,7 +57,7 @@ return [
      * ----------------------------
      *  Autoload settings
      * ----------------------------
-     * | 
+     * |
      */
     "autoload" => [
         //Folders where autloader will look for files

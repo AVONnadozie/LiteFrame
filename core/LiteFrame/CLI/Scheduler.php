@@ -22,7 +22,7 @@ class Scheduler extends GoScheduler
     public function command($command, $args = [], $id = null)
     {
         list($class, $method) = getClassAndMethodFromString($command);
-        $fn = function() use ($class, $method) {
+        $fn = function () use ($class, $method) {
             $commmandClass = "\\Commands\\$class";
             $class = new $commmandClass;
             return $class->$method();
@@ -33,8 +33,6 @@ class Scheduler extends GoScheduler
 
     public function run(DateTime $runTime = null)
     {
-
         return parent::run($runTime);
     }
-
 }

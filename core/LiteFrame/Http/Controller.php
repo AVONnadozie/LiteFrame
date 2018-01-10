@@ -9,7 +9,6 @@ namespace LiteFrame\Http;
  */
 class Controller
 {
-
     private $middlewares = [];
 
     /**
@@ -45,5 +44,4 @@ class Controller
     {
         return $this->middlewares;
     }
-
 }

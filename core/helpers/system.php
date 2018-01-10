@@ -215,19 +215,25 @@ function response($content = null, $code = 200)
  */
 function d()
 {
-    echo <<<'EOF'
-<html><head><style>
-pre{border: lightgrey thin solid;border-radius: 5px;padding: 10px;background-color: #eee}
-</style></head><body>
+    if (isCLI()) {
+        $args = func_get_args();
+        foreach ($args as $value) {
+            var_dump($value);
+        }
+        exit;
+    } else {
+        echo <<<'EOF'
+<html><head><style>pre{border: lightgrey thin solid;border-radius: 5px;padding: 10px;background-color: #eee}</style></head><body>
 EOF;
-    $args = func_get_args();
-    echo '<body>';
-    foreach ($args as $value) {
-        echo '<pre>' . PHP_EOL;
-        var_dump($value) . '<br/><br/>';
-        echo '</pre>';
+        $args = func_get_args();
+        echo '<body>';
+        foreach ($args as $value) {
+            echo '<pre>' . PHP_EOL;
+            var_dump($value) . '<br/><br/>';
+            echo '</pre>';
+        }
+        die('</body></html>');
     }
-    die('</body></html>');
 }
 
 /**
@@ -364,7 +370,7 @@ function appAutoloader($class)
     $psr4Path = null;
     foreach ($psr4 as $namespace => $folder) {
         $pos = strpos($class, $namespace);
-        if ($pos !== FALSE) {
+        if ($pos !== false) {
             $folder = trim($folder, '/');
             $chunk = trim(substr($class, strlen($namespace)), '\\');
             $psr4Path = "$folder/$chunk";
@@ -385,7 +391,6 @@ function appAutoloader($class)
     }
 }
 
-
 function getClassAndMethodFromString($string)
 {
     if (!preg_match('/^\w+@\w+$/', $string)) {
@@ -394,7 +399,6 @@ function getClassAndMethodFromString($string)
     $parts = explode('@', $string);
     return $parts;
 }
-
 
 function isCLI()
 {

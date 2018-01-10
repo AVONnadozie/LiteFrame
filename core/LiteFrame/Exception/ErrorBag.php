@@ -9,7 +9,6 @@ use Exception;
  */
 class ErrorBag
 {
-
     protected $code;
     protected $title;
     protected $content;
@@ -20,7 +19,7 @@ class ErrorBag
 
     /**
      * Represent and exception
-     * 
+     *
      * @param Exception|array|int $code
      * @param string $title
      * @param string $content
@@ -28,11 +27,11 @@ class ErrorBag
      * @param string $file
      * @param int $line
      */
-    function __construct($code, $title = null, $content = null, $trace = null, $file = null, $line = null)
+    public function __construct($code, $title = null, $content = null, $trace = null, $file = null, $line = null)
     {
         if ($code instanceof Exception) {
             $this->setException($code);
-        } else if (is_array($code)) {
+        } elseif (is_array($code)) {
             $this->setFromArray($code);
         } else {
             $this->code = $code;
@@ -45,7 +44,7 @@ class ErrorBag
         $this->searchTerm = [];
     }
 
-    function getTitle()
+    public function getTitle()
     {
         if (empty($this->title)) {
             $this->title = $this->getDefaultTitle();
@@ -54,27 +53,27 @@ class ErrorBag
         return $this->title;
     }
 
-    function getContent()
+    public function getContent()
     {
         return $this->content;
     }
 
-    function getTrace()
+    public function getTrace()
     {
         return $this->trace;
     }
 
-    function getCode()
+    public function getCode()
     {
         return $this->code;
     }
 
-    function getFile()
+    public function getFile()
     {
         return $this->file;
     }
 
-    function getLine()
+    public function getLine()
     {
         return $this->line;
     }
@@ -99,36 +98,36 @@ class ErrorBag
         $this->line = isset($error['line']) ? $error['line'] : null;
     }
 
-    function setTitle($title)
+    public function setTitle($title)
     {
         $this->title = $title;
         return $this;
     }
 
-    function setContent($content)
+    public function setContent($content)
     {
         $this->content = $content;
         return $this;
     }
 
-    function setTrace($trace)
+    public function setTrace($trace)
     {
         $this->trace = $trace;
         return $this;
     }
 
-    function setCode($code)
+    public function setCode($code)
     {
         $this->code = $code;
         return $this;
     }
 
-    function getDefaultTitle()
+    public function getDefaultTitle()
     {
         return $this->code . ' - ' . getHttpResponseMessage($this->code);
     }
 
-    function getSearchTerm($engine = null)
+    public function getSearchTerm($engine = null)
     {
         if (!isset($this->searchTerm[$engine])) {
             $this->searchTerm[$engine] = $this->findSearchTerm($this->getTitle(), $engine);
@@ -172,5 +171,4 @@ class ErrorBag
         //Remove "Error (no) "
         return preg_replace('/Error \(\d+\):\s*/', '', $string);
     }
-
 }

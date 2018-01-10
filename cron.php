@@ -15,4 +15,3 @@ require_once './core/bootstrap/autoload.php';
  */
 $kernel = \LiteFrame\Kernel::getInstance();
 $kernel->handleJob();
-

@@ -95,7 +95,7 @@ abstract class AbstractField implements FieldInterface
         }
 
         if ($dateValue > $offset && 0 === $stepSize) {
-          return false;
+            return false;
         }
 
         for ($i = $offset; $i <= $to; $i+= $stepSize) {
@@ -121,10 +121,9 @@ abstract class AbstractField implements FieldInterface
 
         if ($this->isRange($expression) || $this->isIncrementsOfRanges($expression)) {
             if (!$this->isIncrementsOfRanges($expression)) {
-                list ($offset, $to) = explode('-', $expression);
+                list($offset, $to) = explode('-', $expression);
                 $stepSize = 1;
-            }
-            else {
+            } else {
                 $range = array_map('trim', explode('/', $expression, 2));
                 $stepSize = isset($range[1]) ? $range[1] : 0;
                 $range = $range[0];
@@ -137,12 +136,10 @@ abstract class AbstractField implements FieldInterface
                 $values[] = $i;
             }
             sort($values);
-        }
-        else {
+        } else {
             $values = array($expression);
         }
 
         return $values;
     }
-
 }

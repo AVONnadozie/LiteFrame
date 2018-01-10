@@ -3,7 +3,7 @@
     <div class = "" style="margin-bottom:">
         <nav role = "navigation" class="">
             <div class = "nav-wrapper container">
-                <a href = "#" class = "brand-logo white-text"><h4 class="logo">Lf</h4></a>
+                <a href = "#" class = "brand-logo white-text"><h4 class="logo">Lite frame</h4></a>
                 <ul id = "nav-mobile" class = "right hide-on-med-and-down lato">
                     <li class=" <?= isRoute('home') ? 'active' : '' ?> ">
                         <a href = "<?= url('/') ?>">

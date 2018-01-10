@@ -41,8 +41,8 @@
                         <a href="#ArchitectureConcept">Architecture Concept</a>
                         <ul class="lilv2">
                             <li><a href="#Directory">Directory Structure</a></li>
-                            <li class="divider"></li>
                         </ul>
+                        <li class="divider"></li>
                     </li>
 
                     <li>
@@ -78,7 +78,13 @@
                             <li><a href="#Models">Models</a></li>
                             <li><a href="#Views">Views</a></li>
                             <li><a href="#Response">Response</a></li>
-                            <li><a href="#ErrorsAndLogging">Errors and Logging</a></li>
+                            <li>
+                                <a href="#ErrorsAndLogging">Errors and Logging</a>
+                                <ul class="lilv3">
+                                    <li><a href="#EnvironmentVariables">Environment Variables</a></li>
+                                    <li><a href="#ErrorPages">Error Pages</a></li>
+                                </ul>
+                            </li>
                             <li><a href="#Composer">Composer</a></li>
                         </ul>
                     </li>
@@ -91,20 +97,36 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#Security">Security</a>
-                        <ul class="lilv2">
+                        <a href="#Libraries">Working with Libraries</a>
+                        <ul class='lilv2'>
+                            <li><a href="#AutoloadingFiles">Autoloading Files</a></li>
+                            <li><a href="#3rdPartyLibraries">3rd Party Libraries</a></li>
+                            <li><a href="#LibComposer">Composer</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#Helpers">Helpers</a>
+                        <ul class="">
                             <li class="divider"></li>
                         </ul>
                     </li>
                     <li>
-                        <a href="#Testing">Testing</a>
+                        <a href="#Security">Security</a>
                         <ul class="lilv2">
+                            <li><a href="#URISecurity">URI Security</a></li>
+                            <li><a href="#htaccess">Use of .htaccess</a></li>
+                            <li><a href="#RequestValidation">Request Validation</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#Testing">Testing</a>
+                        <ul class="">
                             <li class="divider"></li>
                         </ul>
                     </li>
                     <li>
                         <a href="#Contributing">Contributing</a>
-                        <ul class="lilv2">
+                        <ul class="">
                             <li class="divider"></li>
                         </ul>
                     </li>
@@ -419,7 +441,11 @@ class AppController extends Controller
                     <h5 id="Models" class="lv3">Models</h5>
                     <h5 id="Views" class="lv3">Views</h5>
                     <h5 id="Response" class="lv3">Response</h5>
+                    
                     <h5 id="ErrorsAndLogging" class="lv3">Errors & Logging</h5>
+                    
+                        <h5 id="EnvironmentVariables" class="lv4">Environment Variables:</h5>
+                        <h5 id="ErrorPages" class="lv4">Error Pages::</h5>
 
                     <h5 id="Composer" class="lv3">Composer</h5>
                     <p>In as much as we "really" avoided the necessity of commands, we couldn't help supporting composer.
@@ -433,9 +459,18 @@ class AppController extends Controller
                         <h5 id="QueryBuilder" class="lv3">Query Builder</h5>
                         <h5 id="Migration" class="lv3">Migration</h5>-->
 
-<!--                         <div class="divider"></div>
-                       <h5 id="Security" class="lv2">Security</h5>
-                        <p>Explain role of Directory Structure and .htaccess</p>-->
+                        <div class="divider"></div>
+                        <h5 id="Libraries" class="lv2">Working with Libraries</h5>
+                            <h5 id="AutoloadingFiles" class="lv3">Autoloading Files</h5>
+                            <h5 id="3rdPartyLibraries" class="lv3">3rd-Party Libraries</h5>
+                            <h5 id="LibComposer" class="lv3">Composer</h5>
+
+                        <div class="divider"></div>
+                        <h5 id="Security" class="lv2">Security</h5>
+<!--                        <p>Explain role of Directory Structure and .htaccess</p>-->
+                            <h5 id="URISecurity" class="lv3">URI Security</h5>
+                            <h5 id="htaccess" class="lv3">Use of .htaccess</h5>
+                            <h5 id="RequestValidation" class="lv3">Request Validation</h5>
 
                     <div class="divider"></div>
                     <h5 id="Testing" class="lv2">Testing</h5>

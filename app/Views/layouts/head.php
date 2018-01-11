@@ -13,7 +13,7 @@
 <!-- Ubuntu font -->
 <link href="https://fonts.googleapis.com/css?family=Ubuntu:300" rel="stylesheet">
 <!-- Lato -->
-<link href="https://fonts.googleapis.com/css?family=Lato:100,300" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet">
 <!-- Favico -->
 <link rel="icon" href='<?= asset('img/logo.ico')?>' type="image/x-icon" />
 <link rel='shortcut icon' type='image/x-icon' href='<?= asset('img/logo.ico')?>' />

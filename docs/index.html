@@ -29,6 +29,11 @@
             <div id="menu">
                 <ul id="slide-out" class="sidetxt side-nav fixed lilv1">
                     <li class="logotext mt-10"><a href="../">Lite Frame</a></li>
+                    <li class="mt-10 hide-on-large-only">
+                        <a href = "https://github.com/AVONnadozie/LiteFrame" target="_blank">
+                            <i class="fa fa-github" aria-hidden = "true"></i> View on GitHub
+                        </a>
+                    </li>
                     <li class="mt-10">
                         <a href="#GettingStarted">Getting Started</a>
                         <ul class="lilv2">
@@ -139,13 +144,17 @@
                     <nav role = "navigation" class="">
                         <div class = "nav-wrapper container">
                             <a href = "../" class = "brand-logo white-text">
-                                <h4 class="hide-on-large-only">Lite frame</h4>
+                                <h4 class="hide-on-large-only">Lite Frame</h4>
                             </a>
-                            <ul id = "nav-mobile" class = "right lato">
+                            <ul id="nav-mobile" class="right lato hide-on-med-and-down">
                                 <li class="">
                                     <a href = "../">
-                                        <i style="display: inline" class="fa fa-home" aria-hidden = "true"></i>
-                                        Home
+                                        <i style="display: inline" class="fa fa-home" aria-hidden = "true"></i> Home
+                                    </a>
+                                </li>
+                                <li class="">
+                                    <a href = "https://github.com/AVONnadozie/LiteFrame" target="_blank">
+                                        <i style="display: inline" class="fa fa-github" aria-hidden = "true"></i> View on GitHub
                                     </a>
                                 </li>
                             </ul>
@@ -200,15 +209,13 @@
                     <h5 id="BasicsRouting" class="lv4">Basics:</h5>
                     <p>The simpler method accepts just a URI and a Closure when defining routes:</p>
 
-                    <pre class="z-depth-1"><code>
-Router::get('foo', function () {
+                    <pre class="z-depth-1"><code>Router::get('foo', function () {
     return 'Hello World';
 });
 </code></pre>
 
-
-                    <div><p>Alternatively, you can specify a controller action in place of the closure.</p>
-
+                    <div>
+                        <p>Alternatively, you can specify a controller action in place of the closure.</p>
                         <p>All routes are defined in your route files, which are located in the 
                             <span class="scode path">app/Routes</span> directory. 
                             These files are automatically loaded by the framework. 
@@ -224,8 +231,7 @@ Router::get('foo', function () {
 
                     <p>The router allows you to register routes that respond to the common HTTP verb:</p>
 
-                    <pre class="z-depth-1"><code class="php">
-Router::get($uri, $callback);
+                    <pre class="z-depth-1"><code class="php">Router::get($uri, $callback);
 
 Router::post($uri, $callback);
 </code></pre>                      
@@ -235,10 +241,9 @@ Router::post($uri, $callback);
                     <p>Or, you may even register a route that responds to all HTTP verbs using the  <span class="scode path">anyOf</span> method:
                     </p>
 
-                    <pre class="z-depth-1"><code>
-Router::anyOf ($method, $uri, $callback);
+                    <pre class="z-depth-1"><code>Router::anyOf($method, $uri, $callback);
 
-Router::all ($uri, $callback);
+Router::all($uri, $callback);
 </code></pre>
 
                     <br />
@@ -257,33 +262,25 @@ Router::all ($uri, $callback);
                         You may specify a name for a route by chaining the <span class="scode path">setName</span> method onto the route definition:
                     </p>
 
-                    <pre class="z-depth-1"><code>
-Router::get('user/profile', function () {
+                    <pre class="z-depth-1"><code>Router::get('user/profile', function () {
     //To do
-})->setName('profile');
-</code></pre>
+})->setName('profile');</code></pre>
 
                     <p>You may also specify route names for controller actions:</p>
 
-                    <pre class="z-depth-1"><code>
-Router::get('user/profile', 'AppController@showProfile')->setName('profile');
-</code></pre>
+                    <pre class="z-depth-1"><code>Router::get('user/profile', 'AppController@showProfile')->setName('profile');</code></pre>
 
                     <br />
                     <h5 id="RedirectRoute" class="lv4">Redirect Route:</h5>
                     <p>With Redirect Route you can redirect a route permanently to another route or a url. </p>
                     <p><b>Redirecting to a route:</b></p>
 
-                    <pre class="z-depth-1"><code>
-Router::redirect('redirect-this', 'home-view');
-</code></pre>
+                    <pre class="z-depth-1"><code>Router::redirect('redirect-this', 'home-view');</code></pre>
                     <p>The URL <span class="scode path">http://yoursite/redirect-this</span> will redirect to the route named <span class="scode path">home-view</span></p>
 
                     <p><b>Redirecting to a url:</b></p>
 
-                    <pre class="z-depth-1"><code>
-Router::redirect('redirect-this', 'https://example.com');
-</code></pre>
+                    <pre class="z-depth-1"><code>Router::redirect('redirect-this', 'https://example.com');</code></pre>
                     <p>The URL <span class="scode path">http://yoursite/redirect-this</span> will redirect to the URL <span class="scode path">http://example.com</span></p>
 
                     <br />
@@ -293,12 +290,10 @@ Router::redirect('redirect-this', 'https://example.com');
                     <pre class="z-depth-1"><code>
 Router::view('myview', 'viewname');
 </code></pre>
-                    <p>Where <span class="scode path">myview</span> is URL as in <span class="scode path">http://yoursite/myview</span> and <span class="scode path">viewname</span> is the name of the view.<br/>
-                        Additionally, you can pass data to the view just like you would when accessing it through a controller.  
-                    <pre class="z-depth-1"><code>
-$data = array('name'=>'John Doe');
-Router::view('myview', 'home', $data);
-</code></pre>
+                    <p>Where <span class="scode path">myview</span> is the URI as in <span class="scode path">http://yoursite/myview</span> and <span class="scode path">viewname</span> is the name of the view.<br/>
+                        Additionally, you can pass data to the view just like you would in a closure or controller.  
+                    <pre class="z-depth-1"><code>$data = array('name'=>'John Doe');
+Router::view('myview', 'home', $data);</code></pre>
 
                     <!--                        <h5 id="SubdomainRoute" class="lv4"><span class="red-text">*</span>Subdomain Route:</h5>-->
 
@@ -319,8 +314,7 @@ Router::view('myview', 'home', $data);
                         directory and should extend <span class="scode path">Middlewares/Middleware</span> class in the same directory.
                     </p>
 
-                    <pre class="z-depth-1"><code>
-&lt;?php
+                    <pre class="z-depth-1"><code>&lt;?php
 
 namespace Middlewares;
 
@@ -340,8 +334,7 @@ class MySampleMiddleware extends Middleware
 
         return $response;
     }
-}
-</code></pre>
+}</code></pre>
 
                     <p>
                         For the framework to run your middleware, you have to register it in the 
@@ -350,8 +343,7 @@ class MySampleMiddleware extends Middleware
                         <span class="scode path">after_core</span> key of the array.
                     </p>
 
-                    <pre class="z-depth-1"><code>
-return [
+                    <pre class="z-depth-1"><code>return [
      /*
      * Array of middleware classes that should be executed before core middleware
      * classes are executed on every request.
@@ -366,9 +358,7 @@ return [
     'after_core' => [
         Middlewares\MySampleMiddleware ::class
     ],
-];
-
-</code></pre>
+];</code></pre>
                     <br />
                     <h5 id="NamedRouteMiddleware" class="lv4">Named/Route Middleware:</h5>
 
@@ -377,32 +367,24 @@ return [
                         To do this, you have to register your middleware with a name
                     </p>
 
-                    <pre class="z-depth-1"><code>
-return [
+                    <pre class="z-depth-1"><code>return [
     /*
      * Example of a route/named middleware
      */
     'sample' => Middlewares\MySampleMiddleware::class
-];
-</code></pre>
+];</code></pre>
 
                     <p>Then set it for the required routes like this</p>
 
-                    <pre class="z-depth-1"><code>
-Router::get('user/profile', 'AppController@showProfile')->setMiddlewares("sample");
-</code></pre>
+                    <pre class="z-depth-1"><code>Router::get('user/profile', 'AppController@showProfile')->setMiddlewares("sample");</code></pre>
 
                     <p>To juice things up, the <span class="scode path">setMiddlewares</span> method can accept multiple middleware names:</p>
 
-                    <pre class="z-depth-1"><code>
-Router::get('user/profile', 'AppController@showProfile')->setMiddlewares("sample1", "sample2");
-</code></pre>
+                    <pre class="z-depth-1"><code>Router::get('user/profile', 'AppController@showProfile')->setMiddlewares("sample1", "sample2");</code></pre>
 
                     <p>Or</p>
 
-                    <pre class="z-depth-1"><code>
-Router::get('user/profile', 'AppController@showProfile')->setMiddlewares(["sample1", "sample2"]);
-</code></pre>
+                    <pre class="z-depth-1"><code>Router::get('user/profile', 'AppController@showProfile')->setMiddlewares(["sample1", "sample2"]);</code></pre>
 
                     <br />
                     <h5 id="Controllers" class="lv3">Controllers</h5>
@@ -415,33 +397,27 @@ Router::get('user/profile', 'AppController@showProfile')->setMiddlewares(["sampl
 
                     <h5 id="RoutingToController" class="lv4">Routing to a controller action/method:</h5>
 
-                    <pre class="z-depth-1"><code>
-Router::get('user/profile', 'AppController@showHelloWorld');
-</code></pre>
+                    <pre class="z-depth-1"><code>Router::get('user/profile', 'AppController@showHelloWorld');</code></pre>
 
                     <br />
                     <h5 id="ControllerMiddleware" class="lv4">Controller Middleware:</h5>
                     <p>Middleware may be assigned to the controller's routes in your route files:</p>
 
-                    <pre class="z-depth-1"><code>
-Route::get('profile', 'UserController@show')->setMiddleware('sample');
-</code></pre>
+                    <pre class="z-depth-1"><code>Route::get('profile', 'UserController@show')->setMiddleware('sample');</code></pre>
 
                     <p>
                         However, it is more convenient to specify middleware within your controller's constructor. 
                         Using the middleware method from your controller's constructor:
                     </p>
 
-                    <pre class="z-depth-1"><code>
-class AppController extends Controller
+                    <pre class="z-depth-1"><code>class AppController extends Controller
 {
 
     public function __construct()
     {
         $this->middleware('sample');
     }
-}
-</code></pre>
+}</code></pre>
 
                     <h5 id="Models" class="lv3">Models</h5>
                     <h5 id="Views" class="lv3">Views</h5>
@@ -496,19 +472,16 @@ class AppController extends Controller
 
         <section id="bottom">
             <div class="divider"></div>
-            <div class="container">
-                <div class="row center mg30">
-                    <div class="col s12">
-                        <a class="social" href="#" target="_blank"><i class="fa fa-twitter metallic-text fa-2x"></i></a>
-                        <a class="social" href="#" target="_blank"><i class="fa fa-github metallic-text fa-2x"></i></a>
-                        <a class="social" href="#" target="_blank"><i class="fa fa-linkedin metallic-text fa-2x"></i></a>
-                    </div>
+            <div class="row center mg30">
+                <div class="col s12">
+                    <a class="social" href="https://github.com/AVONnadozie/LiteFrame" target="_blank"><i class="fa fa-github metallic-text fa-2x"></i></a>
+                </div>
 
-                    <div class="co s12" style="padding-top: 10px">
-                        <p>Copyright &copy; 2017 - 2018 Lite Frame</p>
-                    </div>
+                <div class="co s12" style="padding-top: 10px">
+                    <p>Copyright &copy; 2018 Lite Frame</p>
                 </div>
             </div>
+
         </section>
 
         <!-- jQuery Load -->

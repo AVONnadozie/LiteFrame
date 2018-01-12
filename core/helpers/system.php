@@ -409,3 +409,13 @@ function appIsLocal()
 {
     return appEnv('APP_ENV', 'production') === 'local';
 }
+
+/**
+ * Escape and display value.
+ *
+ * @param type $string
+ */
+function e($string)
+{
+    echo htmlspecialchars($string, ENT_QUOTES, 'UTF-8', false);
+}

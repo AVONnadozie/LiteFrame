@@ -45,6 +45,9 @@
                     <li>
                         <a href="#ArchitectureConcept">Architecture Concept</a>
                         <ul class="lilv2">
+                            <li><a href="#Directory">Request Lifecycle</a></li>
+                        </ul>
+                        <ul class="lilv2">
                             <li><a href="#Directory">Directory Structure</a></li>
                         </ul>
                     <li class="divider"></li>
@@ -90,15 +93,13 @@
                                     <li><a href="#ErrorPages">Error Pages</a></li>
                                 </ul>
                             </li>
-                            <li><a href="#Composer">Composer</a></li>
                         </ul>
                     </li>
                     <li>
                         <a href="#Database">Database</a>
                         <ul class="lilv2">
                             <li><a href="#GettingStartedDbase">Getting Started</a></li>
-                            <li><a href="#QueryBuilder">Query Builder</a></li>
-                            <li><a href="#Migration">Migration</a></li>
+                            <li><a href="#RedBeanPHP">RedBeanPHP</a></li>
                         </ul>
                     </li>
                     <li>
@@ -106,7 +107,7 @@
                         <ul class='lilv2'>
                             <li><a href="#AutoloadingFiles">Autoloading Files</a></li>
                             <li><a href="#3rdPartyLibraries">3rd Party Libraries</a></li>
-                            <li><a href="#LibComposer">Composer</a></li>
+                            <li><a href="#Composer">Composer</a></li>
                         </ul>
                     </li>
                     <li>
@@ -121,6 +122,7 @@
                             <li><a href="#URISecurity">URI Security</a></li>
                             <li><a href="#htaccess">Use of .htaccess</a></li>
                             <li><a href="#RequestValidation">Request Validation</a></li>
+                            <li><a href="#FilteringOutput">Filtering Output</a></li>
                         </ul>
                     </li>
                     <li>
@@ -174,6 +176,9 @@
 
                     <div class="">
                         <h4 id="GettingStarted" class="lv2">Getting Started</h4>
+
+                        <i><span class="red-text">*</span> Lines with asterisks(<span class="red-text">*</span>) are comments for developers.</i>
+
                         <div><h5 id="Requirements" class="lv4">Requirements:</h5>
                             <p>PHP 5.5 and above</p></div>
 
@@ -188,19 +193,11 @@
                         <div class="divider"></div>
                         <h4 id="ArchitectureConcept" class="lv2">Architecture Concept</h4>
                         <!--                        <p><span class="red-text">*</span>Leave this to me<span class="red-text">*</span></p>-->
+                        <h5 id="RequestLifecycle" class="lv4">Request Lifecycle:</h5>
+                        <p><i><span class="red-text">*</span> Request Lifecycle (inspired by <span class="scode path">https://laravel.com/docs/5.5/lifecycle</span>)</i></p>
 
-                        <p>Request Lifecycle (inspired by <span class="scode path">https://laravel.com/docs/5.5/lifecycle</span>)</p>
                         <h5 id="Directory" class="lv4">Directory Structure:</h5>
-
-                        <p>All routes are defined in your route files, which are located in the 
-                            <span class="scode path">app/Routes</span> directory. 
-                            These files are automatically loaded by the framework. 
-                            The <span class="scode path">app/Routes/web.php</span> file defines 
-                            routes that are for your web interface.
-                            The routes in <span class="scode path">app/Routes/api.php</span> 
-                            are stateless and are suited for API calls, while 
-                            <span class="scode path">app/Routes/cli.php</span> are for commands.
-                        </p>
+                        <p><i><span class="red-text">*</span> Explain directory structure</i></p>
                     </div>
 
                     <div class="divider"></div>
@@ -248,11 +245,12 @@ Router::all($uri, $callback);
 
                     <br />
                     <h5 id="Mapping" class="lv4">Mapping:</h5>
-                    <div><p><i>*Underneath, the framework uses <a href="http://altorouter.com/">AltoRouter </a>. 
+                    <div><p><i>
+                                <span class="red-text">*</span> Underneath, the framework uses <a href="http://altorouter.com/">AltoRouter </a>. 
                                 Although most methods were modified or renamed, the mapping is still the same. 
                                 So you may want to look at 
                                 <a href="http://altorouter.com/usage/mapping-routes.html"> Alto router mapping </a> 
-                                for instructions on how to match routes*
+                                for instructions on how to match routes
                             </i>
                         </p></div>
 
@@ -299,6 +297,7 @@ Router::view('myview', 'home', $data);</code></pre>
 
                     <br />
                     <h5 id="Requests" class="lv3">Requests</h5>
+                    <i><span class="red-text">*</span> Explain the <span class="scode path">LiteFrame\Http\Request</span> object.</i>
 
                     <h5 id="Middleware" class="lv3">Middleware</h5>
 
@@ -420,44 +419,53 @@ class MySampleMiddleware extends Middleware
 }</code></pre>
 
                     <h5 id="Models" class="lv3">Models</h5>
+                    <i><span class="red-text">*</span> Explain how to create and use models.</i>
                     <h5 id="Views" class="lv3">Views</h5>
+                    <i><span class="red-text">*</span> Explain how to create views.</i>
                     <h5 id="Response" class="lv3">Response</h5>
-
+                    <i><span class="red-text">*</span> Explain the <span class="scode path">LiteFrame\Http\Response</span> object.</i>
                     <h5 id="ErrorsAndLogging" class="lv3">Errors & Logging</h5>
 
                     <h5 id="EnvironmentVariables" class="lv4">Environment Variables:</h5>
-                    <h5 id="ErrorPages" class="lv4">Error Pages::</h5>
+                    <i><span class="red-text">*</span> Explain how to configure app environment variables.</i>
+                    <h5 id="ErrorPages" class="lv4">Error Pages:</h5>
+                    <i><span class="red-text">*</span> Explain how to create error pages to overide the default error page on production.</i>
 
-                    <h5 id="Composer" class="lv3">Composer</h5>
-                    <p>In as much as we "really" avoided the necessity of commands, we couldn't help supporting composer.
-                        Composer files are autoloaded by the application if available but we changed the vendor directory to 
-                        <span class="scode path">components/composer</span> for security reasons.
-                    </p>
-
-                    <!--                        <div class="divider"></div>
-                                            <h5 id="Database" class="lv2"><span class="red-text">*</span>Database</h5>
-                                            <h5 id="GettingStartedDbase" class="lv3">Getting Started</h5>
-                                            <h5 id="QueryBuilder" class="lv3">Query Builder</h5>
-                                            <h5 id="Migration" class="lv3">Migration</h5>-->
+                    <div class="divider"></div>
+                    <h5 id="Database" class="lv2">Database</h5>
+                    <h5 id="GettingStartedDbase" class="lv3">Getting Started</h5>
+                    <i><span class="red-text">*</span> Explain how to setup database.</i>
+                    <h5 id="RedBeanPHP" class="lv3">RedBeanPHP</h5>
+                    <i><span class="red-text">*</span> Explain the underneath RedBeanPHP.</i>
 
                     <div class="divider"></div>
                     <h5 id="Libraries" class="lv2">Working with Libraries</h5>
                     <h5 id="AutoloadingFiles" class="lv3">Autoloading Files</h5>
+                    <i><span class="red-text">*</span> Explain thow to autoload custom files.</i>
                     <h5 id="3rdPartyLibraries" class="lv3">3rd-Party Libraries</h5>
-                    <h5 id="LibComposer" class="lv3">Composer</h5>
+                    <i><span class="red-text">*</span> Explain how to autoload 3rd party libraries.</i>
+                    <h5 id="Composer" class="lv3">Composer</h5>
+                    <p>In as much as we "really" avoided the need for commands, we couldn't help supporting composer.
+                        Composer files are autoloaded by the application if available but we changed the vendor directory to <span class="scode path">components/composer</span> for security reasons.
+                    </p>
 
                     <div class="divider"></div>
                     <h5 id="Security" class="lv2">Security</h5>
-                    <!--                        <p>Explain role of Directory Structure and .htaccess</p>-->
                     <h5 id="URISecurity" class="lv3">URI Security</h5>
+                    <i><span class="red-text">*</span> Explain URI security using type hints</i>
                     <h5 id="htaccess" class="lv3">Use of .htaccess</h5>
+                    <i><span class="red-text">*</span> Explain strategic .htaccess files</i>
                     <h5 id="RequestValidation" class="lv3">Request Validation</h5>
+                    <i><span class="red-text">*</span> Explain <span class="scode path">Validator</span></i>
+                    <h5 id="FilteringOutput" class="lv3">Filtering Output</h5>
+                    <i><span class="red-text">*</span> Explain output filtering using <span class="scode path">e()</span></i>
 
-                    <div class="divider"></div>
                     <h5 id="Testing" class="lv2">Testing</h5>
-
                     <div class="divider"></div>
+                    <i><span class="red-text">*</span> Explain how to run tests</i>
+
                     <h5 id="Contributing" class="lv2">Contributing</h5>
+                    <div class="divider"></div>
                     <p>To contribute,</p>
                     <ol>
                         <li>Fork the project on <a href="https://github.com/AVONnadozie/LiteFrame"> Github </a></li>

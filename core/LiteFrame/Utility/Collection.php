@@ -15,6 +15,11 @@ class Collection implements \Iterator, \ArrayAccess, \Countable
         $this->keys = [];
     }
 
+    public function all()
+    {
+        return $this->items;
+    }
+
     /**
      *
      * @param type $key
@@ -95,13 +100,14 @@ class Collection implements \Iterator, \ArrayAccess, \Countable
      */
     public function paginate($perPage, $page = null)
     {
-        if (!$page) {
-            $page = request('page');
+        if (empty($page)) {
+            $page = request('page', 1);
         }
+        $offset = ($page * $perPage) - $perPage;
 
-//        $new_items =
-
-        return new Collection($new_items);
+        $collection = $this->all();
+        $newItems = array_slice($collection, $offset, $perPage, true);
+        return new Collection($newItems);
     }
 
     /**

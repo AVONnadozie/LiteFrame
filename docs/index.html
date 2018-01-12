@@ -42,8 +42,8 @@
                         <ul class="lilv2">
                             <li><a href="#Directory">Directory Structure</a></li>
                         </ul>
-                        <li class="divider"></li>
-                    </li>
+                    <li class="divider"></li>
+                </li>
 
                     <li>
                         <a href="#TheBasics">The Basics</a>
@@ -56,8 +56,8 @@
                                     <li><a href="#Mapping">Mapping</a></li>
                                     <li><a href="#NamedRoutes">Named Routes</a></li>
                                     <li><a href="#RedirectRoute">Redirect Route</a></li>
-                                    <li><a href="#ViewRoute">View Route</a></li>
-                                <!--<li><a href="#SubdomainRoute">Subdomain Route</a></li>-->
+                                    <li><a href="#view-route">View Route</a></li>
+                                    <!--<li><a href="#SubdomainRoute">Subdomain Route</a></li>-->
                                 </ul>
                             </li>
                             <li><a href="#Requests">Requests</a></li>
@@ -170,10 +170,10 @@
 
                         <br />
                         <h5 id="Installation" class="lv4">Installation:</h5>
-                        <p>Download the latest release as a zip file <a class="blue-text" href="#">here</a> 
-                            or use the <a class="blue-text" href="#">downloader file</a></p>
+                        <p>Download the latest release  <a class="blue-text" href="#">here</a> 
+                            <!--or use the <a class="blue-text" href="#">downloader file</a></p>-->
                         <p>
-                            Set the path <span class="scode path">components/logs</span> to be writeable, preferably <span class="scode path">777</span>
+                            Ensure the path <span class="scode path">components/logs</span> is writeable, preferably <span class="scode path">755</span>
                         </p>
 
                         <div class="divider"></div>
@@ -269,36 +269,41 @@ Router::get('user/profile', function () {
 Router::get('user/profile', 'AppController@showProfile')->setName('profile');
 </code></pre>
 
-                        <br />
-                        <h5 id="RedirectRoute" class="lv4">Redirect Route:</h5>
-                        <p>You can redirect permanently to a route or a url. </p>
-                        <p>Redirecting to a route:</p>
-                       
-<pre class="z-depth-1"><code>
-Router::redirect('redirect', 'home-view');
-</code></pre>
-                        <p>The url <span class="scode path">mysite/redirect</span> loads the view named <span class="scode path">home-view</span></p>
-                        
-                        <p>Redirecting to a url:</p>
-                       
-<pre class="z-depth-1"><code>
-Router::redirect('example', 'https://example.com');
-</code></pre>
-                        <p>The url <span class="scode path">mysite/example</span> loads <span class="scode path">http://example.com</span></p>
-                        
-                        <br />
-                        <h5 id="ViewRoute" class="lv4">View Route:</h5>
-                        <p>You can load a view directly thus: </p>
-                        
-<pre class="z-depth-1"><code>
-Router::view('redirect-view', 'home', [])->setName('home-view');
-</code></pre>
-                        <p>The url <span class="scode path">mysite/redirect-view</span> loads the named home view.
-                        
-<!--                        <h5 id="SubdomainRoute" class="lv4"><span class="red-text">*</span>Subdomain Route:</h5>-->
+                    <br />
+                    <h5 id="RedirectRoute" class="lv4">Redirect Route:</h5>
+                    <p>With Redirect Route you can redirect a route permanently to another route or a url. </p>
+                    <p><b>Redirecting to a route:</b></p>
 
-                        <br />
-                        <h5 id="Requests" class="lv3">Requests</h5>
+                    <pre class="z-depth-1"><code>
+Router::redirect('redirect-this', 'home-view');
+</code></pre>
+                    <p>The URL <span class="scode path">http://yoursite/redirect-this</span> will redirect to the route named <span class="scode path">home-view</span></p>
+
+                    <p><b>Redirecting to a url:</b></p>
+
+                    <pre class="z-depth-1"><code>
+Router::redirect('redirect-this', 'https://example.com');
+</code></pre>
+                    <p>The URL <span class="scode path">http://yoursite/redirect-this</span> will redirect to the URL <span class="scode path">http://example.com</span></p>
+
+                    <br />
+                    <h5 id="view-route" class="lv4">View Route:</h5>
+                    <p>This allows you to return a view as response directly without the need for closures or controllers.</p>
+
+                    <pre class="z-depth-1"><code>
+Router::view('myview', 'viewname');
+</code></pre>
+                    <p>Where <span class="scode path">myview</span> is URL as in <span class="scode path">http://yoursite/myview</span> and <span class="scode path">viewname</span> is the name of the view.<br/>
+                        Additionally, you can pass data to the view just like you would when accessing it through a controller.  
+                    <pre class="z-depth-1"><code>
+$data = array('name'=>'John Doe');
+Router::view('myview', 'home', $data);
+</code></pre>
+
+                    <!--                        <h5 id="SubdomainRoute" class="lv4"><span class="red-text">*</span>Subdomain Route:</h5>-->
+
+                    <br />
+                    <h5 id="Requests" class="lv3">Requests</h5>
 
                     <h5 id="Middleware" class="lv3">Middleware</h5>
 
@@ -441,11 +446,11 @@ class AppController extends Controller
                     <h5 id="Models" class="lv3">Models</h5>
                     <h5 id="Views" class="lv3">Views</h5>
                     <h5 id="Response" class="lv3">Response</h5>
-                    
+
                     <h5 id="ErrorsAndLogging" class="lv3">Errors & Logging</h5>
-                    
-                        <h5 id="EnvironmentVariables" class="lv4">Environment Variables:</h5>
-                        <h5 id="ErrorPages" class="lv4">Error Pages::</h5>
+
+                    <h5 id="EnvironmentVariables" class="lv4">Environment Variables:</h5>
+                    <h5 id="ErrorPages" class="lv4">Error Pages::</h5>
 
                     <h5 id="Composer" class="lv3">Composer</h5>
                     <p>In as much as we "really" avoided the necessity of commands, we couldn't help supporting composer.
@@ -453,24 +458,24 @@ class AppController extends Controller
                         <span class="scode path">components/composer</span> for security reasons.
                     </p>
 
-<!--                        <div class="divider"></div>
-                        <h5 id="Database" class="lv2"><span class="red-text">*</span>Database</h5>
-                        <h5 id="GettingStartedDbase" class="lv3">Getting Started</h5>
-                        <h5 id="QueryBuilder" class="lv3">Query Builder</h5>
-                        <h5 id="Migration" class="lv3">Migration</h5>-->
+                    <!--                        <div class="divider"></div>
+                                            <h5 id="Database" class="lv2"><span class="red-text">*</span>Database</h5>
+                                            <h5 id="GettingStartedDbase" class="lv3">Getting Started</h5>
+                                            <h5 id="QueryBuilder" class="lv3">Query Builder</h5>
+                                            <h5 id="Migration" class="lv3">Migration</h5>-->
 
-                        <div class="divider"></div>
-                        <h5 id="Libraries" class="lv2">Working with Libraries</h5>
-                            <h5 id="AutoloadingFiles" class="lv3">Autoloading Files</h5>
-                            <h5 id="3rdPartyLibraries" class="lv3">3rd-Party Libraries</h5>
-                            <h5 id="LibComposer" class="lv3">Composer</h5>
+                    <div class="divider"></div>
+                    <h5 id="Libraries" class="lv2">Working with Libraries</h5>
+                    <h5 id="AutoloadingFiles" class="lv3">Autoloading Files</h5>
+                    <h5 id="3rdPartyLibraries" class="lv3">3rd-Party Libraries</h5>
+                    <h5 id="LibComposer" class="lv3">Composer</h5>
 
-                        <div class="divider"></div>
-                        <h5 id="Security" class="lv2">Security</h5>
-<!--                        <p>Explain role of Directory Structure and .htaccess</p>-->
-                            <h5 id="URISecurity" class="lv3">URI Security</h5>
-                            <h5 id="htaccess" class="lv3">Use of .htaccess</h5>
-                            <h5 id="RequestValidation" class="lv3">Request Validation</h5>
+                    <div class="divider"></div>
+                    <h5 id="Security" class="lv2">Security</h5>
+                    <!--                        <p>Explain role of Directory Structure and .htaccess</p>-->
+                    <h5 id="URISecurity" class="lv3">URI Security</h5>
+                    <h5 id="htaccess" class="lv3">Use of .htaccess</h5>
+                    <h5 id="RequestValidation" class="lv3">Request Validation</h5>
 
                     <div class="divider"></div>
                     <h5 id="Testing" class="lv2">Testing</h5>
@@ -484,9 +489,6 @@ class AppController extends Controller
                         <li>Add tests for it. This is important so we don't break it in a future version unintentionally.</li>
                         <li>Send a pull request.</li>
                     </ol>
-
-
-                    <!--                        <span class="red-text">*</span> Topics with asterisks(<span class="red-text">*</span>) are not available at the moment, skip them.-->
 
                 </div>
             </div>

@@ -19,9 +19,9 @@ $autoload_config = [
          */
         "Cron\\" => "cron-expression/src/Cron",
         /**
-         * Validator
+         * Form Validator
          */
-        "AVONnadozie\\Validator\\" => "Validator",
+        "FormValidator\\" => "FormValidator/src",
     ],
     //Other files to autoload
     "files" => [

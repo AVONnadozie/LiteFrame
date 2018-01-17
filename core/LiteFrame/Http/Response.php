@@ -133,6 +133,17 @@ class Response
     }
 
     /**
+     * Force response to return as json
+     * @return $this
+     */
+    public function toJson()
+    {
+        $this->header('Content-Type', 'application/json');
+        $this->json = true;
+        return $this;
+    }
+
+    /**
      * Redirect to url.
      *
      * @param type $url

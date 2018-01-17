@@ -222,16 +222,3 @@ if (!function_exists('class_basename')) {
         return basename(str_replace('\\', '/', $class));
     }
 }
-
-if (!function_exists('e')) {
-
-    /**
-     * Escape and display value.
-     *
-     * @param type $string
-     */
-    function e($string)
-    {
-        return htmlspecialchars($string, ENT_QUOTES, 'UTF-8', false);
-    }
-}

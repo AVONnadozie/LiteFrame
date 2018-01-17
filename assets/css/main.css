@@ -1,12 +1,21 @@
 body {
     font-family: 'Lato', sans-serif;
-   min-width:425px; /* suppose you want minimun width of 1000px */
-   width: auto !important;  /* Firefox will set width as auto */
+    min-width:425px;
+    width: auto !important;  /* Firefox will set width as auto */
+    background-color:#141819;
+    background-image: url(../img/backgrounds/geo.png);
+    margin:0;
+    padding:0;
+    perspective: 1px;
+    transform-style: preserve-3d;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 #hero-area {
-    height: 700px;
-    background-image: url(../img/backgrounds/scale.jpg);
+    min-height: 1000px;
+    background-image: url(../img/backgrounds/ge.png);
     background-size: cover;
     background-attachment: scroll;
     background-position: bottom;
@@ -15,13 +24,13 @@ body {
 
 .hero-inner {
     position: relative;
-    color: #000;
+    color: #f2f2f2;
     height: 100%
 }
 
 .hero-inner:before {
     background: linear-gradient(-180deg,#ccc 0,#333);
-    opacity: .5;
+    opacity: 0;
     position: absolute;
     width: 100%;
     height: 100%;
@@ -42,7 +51,7 @@ body {
 .herotext2 {
     font-weight: 300; 
     font-size: 2em;
-    color: black;
+    color: #a6a6a6;
 }
 
 .metallic {
@@ -54,9 +63,9 @@ body {
 }
 
 .container2 {
-  margin: 0 auto;
-  max-width: 1280px;
-  width: 90%;
+    margin: 0 auto;
+    max-width: 1280px;
+    width: 90%;
 }
 
 .bg-gray {
@@ -86,7 +95,7 @@ body {
 
 .desctop {
     padding: 10px 20px 0px 20px;
-    
+
 }
 
 .descitem {
@@ -98,22 +107,54 @@ body {
     margin: auto;
 }
 
-.deschead {
-    font-size: 50px;
+.deschead-1 {
+    font-size: 40px;
     font-weight: 300;
+    color: #f1f1f1;
+}
+
+.deschead {
+    font-size: 30px;
+    font-weight: 300;
+    color: #f1f1f1;
 }
 
 .descsub {
     font-size: 17px;
     font-weight: 400;
+    color: #f1f1f1;
 }
 
 .desc-img {
-    height: 250px;
-    width: 350px;
+    height: 80px;
+    width: 250px;
     border-radius: 7px;
 }
 
+.desc-bg {
+    height: 100%;
+    border-radius: 10px;
+}
+
+.lightext {
+    color: #f1f1f1;
+}
+
+.demowrap {
+    height: 500px;
+}
+.demopad {
+    height: 100%;
+    margin: 100px auto 0;
+}
+
+.demo {
+    height: 100%;
+    background-image: url(../img/features/homecode2me.png);
+    background-position: center;
+    background-size: 708px 500px;
+    background-repeat: no-repeat;
+}
 .imgfast {
     background-image: url(../img/features/fast.jpg);
     background-position: center;
@@ -143,7 +184,7 @@ body {
 }
 
 .textpad {
-    padding: 20px 20px 0 20px !important;
+    padding: 0px 20px 0 20px !important;
 }
 
 .mg30 {
@@ -195,67 +236,67 @@ body {
 }
 
 .myanimated0 {
-  animation-duration: 2s;
-  animation-fill-mode: both;
+    animation-duration: 2s;
+    animation-fill-mode: both;
 }
 
 .myanimated {
-  animation-duration: 3s;
-  animation-fill-mode: both;
+    animation-duration: 3s;
+    animation-fill-mode: both;
 }
 
 .myanimated2 {
-  animation-duration: 2s;
-  animation-fill-mode: both;
-  animation-delay: 1s
+    animation-duration: 2s;
+    animation-fill-mode: both;
+    animation-delay: 1s
 }
 
 .myanimated3 {
-  animation-duration: 2s;
-  animation-fill-mode: both;
-  animation-delay: 2s
+    animation-duration: 2s;
+    animation-fill-mode: both;
+    animation-delay: 2s
 }
 
 @keyframes myfadeInUp {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 40%, 0);
-  }
+    from {
+        opacity: 0;
+        transform: translate3d(0, 40%, 0);
+    }
 
-  to {
-    opacity: 1;
-    transform: none;
-  }
+    to {
+        opacity: 1;
+        transform: none;
+    }
 }
 
 .myfadeInUp {
-  animation-name: myfadeInUp;
+    animation-name: myfadeInUp;
 }
 
 @keyframes myfadeIn0 {
-  from {
-    opacity: .8;
-  }
+    from {
+        opacity: .8;
+    }
 
-  to {
-    opacity: 1;
-  }
+    to {
+        opacity: 1;
+    }
 }
 
 .myfadeIn0 {
-  animation-name: myfadeIn0;
+    animation-name: myfadeIn0;
 }
 
 @keyframes myfadeIn {
-  from {
-    opacity: 0;
-  }
+    from {
+        opacity: 0;
+    }
 
-  to {
-    opacity: 1;
-  }
+    to {
+        opacity: 1;
+    }
 }
 
 .myfadeIn {
-  animation-name: myfadeIn;
+    animation-name: myfadeIn;
 }

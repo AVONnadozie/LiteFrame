@@ -19,3 +19,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Mailing (other than php mail)
 - Dependency injection
 - Auto sitemap generation
+
+
+## [0.1.0] - 2018-01-29
+- Initial release
+
+[Unreleased]: https://github.com/avonnadozie/LiteFrame/compare/v0.1.0...HEAD

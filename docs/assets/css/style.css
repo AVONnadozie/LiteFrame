@@ -5,6 +5,10 @@ body {
     font-family: lato;
 }
 
+nav {
+  background-color: #74828e;
+}
+
 section{
     margin-bottom: 2em;
 }

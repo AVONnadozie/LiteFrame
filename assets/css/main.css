@@ -46,6 +46,12 @@ body {
     font-weight: 300; 
     font-size: 6em;
     font-family: 'lato', sans-serif;
+    
+}
+
+.herotext img{
+    height: 70px;
+    /*margin-right: 10px;*/
 }
 
 .herotext2 {

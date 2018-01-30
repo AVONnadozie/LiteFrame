@@ -4,11 +4,6 @@
     <div class="container">
         <div class="row center mg30">
             <div class="col s12">
-                <a class="social" href="<?= config('social.twit', '#') ?>" target="_blank"><i class="fa fa-twitter metallic-text fa-2x"></i></a>
-                <a class="social" href="<?= config('social.gplus', '#') ?>" target="_blank"><i class="fa fa-github metallic-text fa-2x"></i></a>
-                <a class="social" href="<?= config('social.lin', '#') ?>" target="_blank"><i class="fa fa-linkedin metallic-text fa-2x"></i></a>
-            </div>
-
             <div class="col-xs-12" style="padding-top: 10px">
                 <p class="lightext">Copyright &copy; <?= date('Y') ?> <?= config('app.name')?></p>
             </div>

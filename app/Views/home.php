@@ -14,7 +14,10 @@
                     <div class="container">
                         <div class="row">
                             <div class="col s12 l12 center">
-                                <h3 class="herotext myanimated myfadeIn" style=""><?= config('app.name') ?></h3>
+                                <h3 class="herotext myanimated myfadeIn" style="">
+                                    <img src="<?= asset('img/logo.png') ?>" alt="Liteframe logo"/>
+                                    <?= config('app.name') ?>
+                                </h3>
                                 <p class="herotext2 myanimated2 myfadeInUp">The PHP framework built to be swift and strong.</p>
                                 <a href="<?= url('docs') ?>" class = "btn-large metallic waves-effect waves-light lato ">Get Started</a>
                             </div>

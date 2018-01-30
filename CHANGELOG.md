@@ -19,8 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Dependency injection
 - Auto sitemap generation
 
-
-## [0.1.1] - 2018-01-29
+## [0.1.1] - 2018-01-30
 ### Removed
 - Unused styles and images
 

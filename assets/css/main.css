@@ -3,7 +3,7 @@ body {
     min-width:425px;
     width: auto !important;  /* Firefox will set width as auto */
     background-color:#141819;
-    background-image: url(../img/backgrounds/geo.png);
+    background-image: url(../img/backgrounds/geo.jpg);
     margin:0;
     padding:0;
     perspective: 1px;

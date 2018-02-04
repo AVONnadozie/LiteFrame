@@ -1,5 +1,5 @@
 <!-- Nav Menu Section -->
-<div class = "row" style = "width: 100%; margin-bottom: 0px; background-color: #161819">
+<div class = "row" style = "width: 100%; margin-bottom: 0px; background-color: #242422">
     <div class = "" style="margin-bottom:">
         <nav role = "navigation" class="z-depth-0">
             <div class = "nav-wrapper">

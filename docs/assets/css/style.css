@@ -5,6 +5,10 @@ body {
     font-family: lato;
 }
 
+nav {
+  background-color: #74828e;
+}
+
 section{
     margin-bottom: 2em;
 }
@@ -196,8 +200,13 @@ p.comment::before{
 }
 
 .logotext {
-    font-size: 50px;
+    font-size: 2em;
     font-weight: 500;
+}
+
+.logotext img{
+    height: 70px;
+    margin-right: 20px;
 }
 
 a {

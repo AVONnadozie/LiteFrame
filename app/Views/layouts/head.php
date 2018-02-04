@@ -1,9 +1,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Bootstrap -->
-<link rel="stylesheet" type="text/css" href="<?= asset('css/materialize.css') ?>">
-<!-- Main Style -->
-<link rel="stylesheet" type="text/css" href="<?= asset('css/main.css') ?>">
+<link rel="stylesheet" type="text/css" href="<?= asset('css/materialize.min.css') ?>">
 <!--Icon Font-->
 <link rel="stylesheet" media="screen" href="<?= asset('fonts/font-awesome/font-awesome.min.css') ?>" />
 <!-- Extras -->
@@ -14,6 +12,8 @@
 <link href="https://fonts.googleapis.com/css?family=Ubuntu:300" rel="stylesheet">
 <!-- Lato -->
 <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet">
+<!-- Main Style -->
+<link rel="stylesheet" type="text/css" href="<?= asset('css/main.css') ?>">
 <!-- Favico -->
 <link rel="icon" href='<?= asset('img/logo.ico')?>' type="image/x-icon" />
 <link rel='shortcut icon' type='image/x-icon' href='<?= asset('img/logo.ico')?>' />

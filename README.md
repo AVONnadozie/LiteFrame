@@ -25,11 +25,7 @@ LiteFrame is a lightweight PHP framework designed to earn the claps.
 PHP 5.5 and above
 
 ## Installation
-<!-- Download the latest release [here](#) or use the downloader file [here](#) --->
-
-No releases yet.
-
-To preview what we've been up to, you can clone this repo or download and unzip it. that's all!
+Download the latest release [here](https://github.com/AVONnadozie/LiteFrame/releases) and unzip it. that's all!
 
 Still need it the Composer way?
 

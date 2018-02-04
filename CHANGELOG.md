@@ -9,7 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Optimise for API calls
 - Handle uploaded files in Request object
 - Validators for Controllers
-- Enforces html output escaping for views or find a convenient way to use blade/smarty like view template
 - Full Documentation
 - Good and robust ORM/Query Builder. should be light, support migration, relationships and also secure.
 - Whoops Support
@@ -19,3 +18,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Mailing (other than php mail)
 - Dependency injection
 - Auto sitemap generation
+
+## [0.1.1] - 2018-01-30
+### Removed
+- Unused styles and images
+
+### Fixed
+- Optimized homepage images
+
+## [0.1.0] - 2018-01-29
+- Initial release
+
+[Unreleased]: https://github.com/avonnadozie/LiteFrame/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/avonnadozie/LiteFrame/compare/v0.1.0...v0.1.1

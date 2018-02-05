@@ -6,10 +6,10 @@
         <!-- Favicon -->
         <link rel="icon" href="assets/img/logo.ico" type="image/x-icon" />
         <link rel="shortcut icon" type="image/x-icon" href='assets/img/logo.ico' />
-        
+
         <!-- Materialize -->
         <link rel="stylesheet" type="text/css" href="assets/css/materialize.css">
-        
+
         <!--Icon Font-->
         <link rel="stylesheet" media="screen" href="assets/fonts/font-awesome/font-awesome.min.css" />
         <!--Exo font -->
@@ -178,11 +178,18 @@
 
                         <br />
                         <h5 id="Installation" class="lv4">Installation:</h5>
-                        <p>Download the latest release  <a class="blue-text" href="#">here</a> 
+                        <p>Download the latest release  <a class="blue-text" href="https://github.com/AVONnadozie/LiteFrame/releases">here</a> and unzip. That's all!
                             <!--or use the <a class="blue-text" href="#">downloader file</a></p>-->
                         <p>
-                            Ensure the path <span class="scode path">components/logs</span> is writeable, preferably <span class="scode path">755</span>
+                            Ensure the path <span class="scode path">components/logs</span> is writeable, preferably <span class="scode path">755</span>.
                         </p>
+                        <p>
+                            Still need it the Composer way?
+                        </p>
+                        <pre class="z-depth-1"><code class="bash">#!/bin/bash
+
+composer create-project avonnadozie/liteframe
+</code></pre>
                     </section>
                     <section>
                         <h4 id="ArchitectureConcept" class="lv2">Architecture Concept</h4>
@@ -201,7 +208,7 @@
                         <h5 id="BasicsRouting" class="lv4">Basics:</h5>
                         <p>The simpler method accepts just a URI and a Closure when defining routes:</p>
 
-<pre class="z-depth-1"><code>Router::get('foo', function () {
+                        <pre class="z-depth-1"><code>Router::get('foo', function () {
     return 'Hello World';
 });
 </code></pre>

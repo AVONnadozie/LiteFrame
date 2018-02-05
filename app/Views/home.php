@@ -114,9 +114,9 @@
                     <h6 class="lightext">As a user, or a contributor. </h6>
                     <div class="mg30"></div>
                     <div class="row">
-                        <a href="#" class = "btn-large metallic waves-effect waves-light lato ">Download</a>
+                        <a href="https://github.com/AVONnadozie/LiteFrame/releases" class = "btn-large metallic waves-effect waves-light lato ">Download</a>
                         <a href="<?= url('docs') ?>" class = "btn-large metallic waves-effect waves-light lato ">Documentation</a>
-                        <a href="#" class = "btn-large metallic waves-effect waves-purple lato ">GitHub</a>
+                        <a href="https://github.com/AVONnadozie/LiteFrame" class = "btn-large metallic waves-effect waves-purple lato ">GitHub</a>
                     </div>
                 </div>
             </div>

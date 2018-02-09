@@ -208,7 +208,7 @@ composer create-project avonnadozie/liteframe
                         <h5 id="BasicsRouting" class="lv4">Basics:</h5>
                         <p>The simpler method accepts just a URI and a Closure when defining routes:</p>
 
-                        <pre class="z-depth-1"><code>Router::get('foo', function () {
+                        <pre class="z-depth-1"><code class="php">Router::get('foo', function () {
     return 'Hello World';
 });
 </code></pre>
@@ -230,19 +230,39 @@ composer create-project avonnadozie/liteframe
 
                         <p>The router allows you to register routes that respond to the common HTTP verb:</p>
 
-                        <pre class="z-depth-1"><code class="php">Router::get($uri, $callback);
+                        <pre class="z-depth-1"><code class="php">//Match GET requests
+Router::get($uri, $callback);
 
+//match POST requests
 Router::post($uri, $callback);
+
+//Match PUT requests
+Router::put($uri, $callback);
+
+//Match PATCH requests
+Router::patch($uri, $callback);
+
+//Match DELETE requests
+Router::delete($uri, $callback);
 </code></pre>                      
 
-                        <p>Sometimes you may need to register a route that responds to multiple HTTP verbs. 
-                            You may do so using the <span class="scode path">all</span> method. </p>
-                        <p>Or, you may even register a route that responds to all HTTP verbs using the  <span class="scode path">anyOf</span> method:
+                        <p>Sometimes you may need to register a route that responds to multiple HTTP verbs. You can do so using the <span class="scode path">Router::anyOf</span> method. </p>
+                        <p>Or, you may even register a route that responds to all HTTP verbs using the  <span class="scode path">Router::all</span> method:
                         </p>
 
-                        <pre class="z-depth-1"><code>Router::anyOf($method, $uri, $callback);
+                        <pre class="z-depth-1"><code>//Match any of the request method specified
+Router::anyOf('POST|PUT|GET', $uri, $callback);
 
+//Match all request methods
 Router::all($uri, $callback);
+</code></pre>
+
+                        Interestingly, we can also match multiple routes at once by supplying an array of routes to the <span class="scode path">Router::matchAll</span> method. For example,
+                        <pre class="z-depth-1"><code class="php">Router::matchAll(array(
+    array('POST|PUT', 'profile/create', 'ProfileController@create'),
+    array('GET', 'profile', 'ProfileController@show'),
+    array('DELETE', 'profile/[i:id]', 'ProfileController@delete'),
+));
 </code></pre>
 
                         <br />
@@ -260,37 +280,37 @@ Router::all($uri, $callback);
                             You may specify a name for a route by chaining the <span class="scode path">setName</span> method onto the route definition:
                         </p>
 
-                        <pre class="z-depth-1"><code>Router::get('user/profile', function () {
+                        <pre class="z-depth-1"><code class="php">Router::get('user/profile', function () {
     //To do
 })->setName('profile');</code></pre>
 
                         <p>You may also specify route names for controller actions:</p>
 
-                        <pre class="z-depth-1"><code>Router::get('user/profile', 'AppController@showProfile')->setName('profile');</code></pre>
+                        <pre class="z-depth-1"><code class="php">Router::get('user/profile', 'AppController@showProfile')->setName('profile');</code></pre>
 
                         <br />
                         <h5 id="RedirectRoute" class="lv4">Redirect Route:</h5>
                         <p>With Redirect Route you can redirect a route permanently to another route or a url. </p>
                         <p><b>Redirecting to a route:</b></p>
 
-                        <pre class="z-depth-1"><code>Router::redirect('redirect-this', 'home-view');</code></pre>
+                        <pre class="z-depth-1"><code class="php">Router::redirect('redirect-this', 'home-view');</code></pre>
                         <p>The URL <span class="scode path">http://yoursite/redirect-this</span> will redirect to the route named <span class="scode path">home-view</span></p>
 
                         <p><b>Redirecting to a url:</b></p>
 
-                        <pre class="z-depth-1"><code>Router::redirect('redirect-this', 'https://example.com');</code></pre>
+                        <pre class="z-depth-1"><code class="php">Router::redirect('redirect-this', 'https://example.com');</code></pre>
                         <p>The URL <span class="scode path">http://yoursite/redirect-this</span> will redirect to the URL <span class="scode path">http://example.com</span></p>
 
                         <br />
                         <h5 id="view-route" class="lv4">View Route:</h5>
                         <p>This allows you to return a view as response directly without the need for closures or controllers.</p>
 
-                        <pre class="z-depth-1"><code>
+                        <pre class="z-depth-1"><code class="php">
 Router::view('myview', 'viewname');
 </code></pre>
                         <p>Where <span class="scode path">myview</span> is the URI as in <span class="scode path">http://yoursite/myview</span> and <span class="scode path">viewname</span> is the name of the view.<br/>
                             Additionally, you can pass data to the view just like you would in a closure or controller.  
-                        <pre class="z-depth-1"><code>$data = array('name'=>'John Doe');
+                        <pre class="z-depth-1"><code class="php">$data = array('name'=>'John Doe');
 Router::view('myview', 'home', $data);</code></pre>
 
                         <br />
@@ -311,7 +331,7 @@ Router::view('myview', 'home', $data);</code></pre>
                             directory and should extend <span class="scode path">Middlewares/Middleware</span> class in the same directory.
                         </p>
 
-                        <pre class="z-depth-1"><code>&lt;?php
+                        <pre class="z-depth-1"><code class="php">&lt;?php
 
 namespace Middlewares;
 
@@ -340,7 +360,7 @@ class MySampleMiddleware extends Middleware
                             <span class="scode path">after_core</span> key of the array.
                         </p>
 
-                        <pre class="z-depth-1"><code>return [
+                        <pre class="z-depth-1"><code class="php">return [
      /*
      * Array of middleware classes that should be executed before core middleware
      * classes are executed on every request.
@@ -364,7 +384,7 @@ class MySampleMiddleware extends Middleware
                             To do this, you have to register your middleware with a name
                         </p>
 
-                        <pre class="z-depth-1"><code>return [
+                        <pre class="z-depth-1"><code class="php">return [
     /*
      * Example of a route/named middleware
      */
@@ -373,15 +393,15 @@ class MySampleMiddleware extends Middleware
 
                         <p>Then set it for the required routes like this</p>
 
-                        <pre class="z-depth-1"><code>Router::get('user/profile', 'AppController@showProfile')->setMiddlewares("sample");</code></pre>
+                        <pre class="z-depth-1"><code class="php">Router::get('user/profile', 'AppController@showProfile')->setMiddlewares("sample");</code></pre>
 
                         <p>To juice things up, the <span class="scode path">setMiddlewares</span> method can accept multiple middleware names:</p>
 
-                        <pre class="z-depth-1"><code>Router::get('user/profile', 'AppController@showProfile')->setMiddlewares("sample1", "sample2");</code></pre>
+                        <pre class="z-depth-1"><code class="php">Router::get('user/profile', 'AppController@showProfile')->setMiddlewares("sample1", "sample2");</code></pre>
 
                         <p>Or</p>
 
-                        <pre class="z-depth-1"><code>Router::get('user/profile', 'AppController@showProfile')->setMiddlewares(["sample1", "sample2"]);</code></pre>
+                        <pre class="z-depth-1"><code class="php">Router::get('user/profile', 'AppController@showProfile')->setMiddlewares(["sample1", "sample2"]);</code></pre>
 
                         <br />
                         <h5 id="Controllers" class="lv3">Controllers</h5>
@@ -394,20 +414,20 @@ class MySampleMiddleware extends Middleware
 
                         <h5 id="RoutingToController" class="lv4">Routing to a controller action/method:</h5>
 
-                        <pre class="z-depth-1"><code>Router::get('user/profile', 'AppController@showHelloWorld');</code></pre>
+                        <pre class="z-depth-1"><code class="php">Router::get('user/profile', 'AppController@showHelloWorld');</code></pre>
 
                         <br />
                         <h5 id="ControllerMiddleware" class="lv4">Controller Middleware:</h5>
                         <p>Middleware may be assigned to the controller's routes in your route files:</p>
 
-                        <pre class="z-depth-1"><code>Route::get('profile', 'UserController@show')->setMiddleware('sample');</code></pre>
+                        <pre class="z-depth-1"><code class="php">Route::get('profile', 'UserController@show')->setMiddleware('sample');</code></pre>
 
                         <p>
                             However, it is more convenient to specify middleware within your controller's constructor. 
                             Using the middleware method from your controller's constructor:
                         </p>
 
-                        <pre class="z-depth-1"><code>class AppController extends Controller
+                        <pre class="z-depth-1"><code class="php">class AppController extends Controller
 {
 
     public function __construct()

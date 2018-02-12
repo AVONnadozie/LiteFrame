@@ -94,7 +94,20 @@ class Response
      */
     public function prependContent($content, $code = 200)
     {
-        return $this->setContent($content.$this->content, $code);
+        if (!empty($content)) {
+            $oldContent = $this->content;
+            if (!is_scalar($oldContent)) {
+                $oldContent = json_encode($oldContent);
+            }
+            
+            if (!is_scalar($content)) {
+                $content = json_encode($content);
+            }
+            
+            $this->setContent($content.$oldContent, $code);
+        }
+        
+        return $this;
     }
 
     /**

@@ -3,9 +3,7 @@
 [![Build Status](https://travis-ci.org/AVONnadozie/php-form-validation.svg?branch=master)](https://travis-ci.org/AVONnadozie/php-form-validation)
 [![License](https://poser.pugx.org/avonnadozie/php-form-validation/license)](https://packagist.org/packages/avonnadozie/php-form-validation)
 
-This class follows Zend Framework naming conventions for easy drop-in as a substitute to Zend_Validation.
-If you opt out of using the bulky Zend_Form on your projects, you might choose to use this for quick and painless
-form validation.
+Quick and painless form validation.
 
 ## Installation
 ```bash
@@ -21,7 +19,10 @@ be handled in your Model. This is just a quick example.
 
 ```php
 <?php
-class ExampleController extends Zend_Controller_Action {
+use FormValidator\Exception\ValidatorException;
+use FormValidator\Validator;
+
+class ExampleController {
 
     /**
      * Your controller action that handles validation errors, as you would
@@ -33,23 +34,17 @@ class ExampleController extends Zend_Controller_Action {
     public function indexAction()
     {
         try {
-
             // validate the data
-            $validData = $this->_validate($_POST);
+            $validData = $this->validate($_POST);
 
             // validation passed because no exception was thrown
             // ... to something with the $validData ...
-
-        } catch (Validator_Exception $e) {
+        } catch (ValidatorException $e) {
             // retrieve the overall error message to display
             $message = $e->getMessage();
 
             // retrieve all of the errors
             $errors = $e->getErrors();
-
-            // the below code is specific to ZF
-            $this->_helper->FlashMessenger(array('error' => $message));
-            $this->_helper->layout->getView()->errors = $errors;
         }
     }
 
@@ -61,22 +56,21 @@ class ExampleController extends Zend_Controller_Action {
      * @param   array   $post
      * @return  mixed
      */
-    private function _validate(array $post = array())
+    private function validate(array $post = array())
     {
         $validator = new Validator($post);
         $validator
-            ->required('You must supply a name.')
-            ->validate('name', 'Name');
+                ->required('You must supply a name.')
+                ->validate('name', 'Name');
         $validator
-            ->required('You must supply an email address.')
-            ->email('You must supply a valid email address')
-            ->validate('email', 'Email');
+                ->required('You must supply an email address.')
+                ->email('You must supply a valid email address')
+                ->validate('email', 'Email');
 
         // check for errors
         if ($validator->hasErrors()) {
-            throw new Validator_Exception(
-                'There were errors in your form.',
-                $validator->getAllErrors()
+            throw new ValidatorException(
+            'There were errors in your form.', $validator->getAllErrors()
             );
         }
 

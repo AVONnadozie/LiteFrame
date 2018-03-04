@@ -233,20 +233,97 @@ Router::post($uri, $callback);
                         <p>Or, you may even register a route that responds to all HTTP verbs using the  <span class="scode path">anyOf</span> method:
                         </p>
 
-                        <pre class="z-depth-1"><code>Router::anyOf($method, $uri, $callback);
+                        <pre class="z-depth-1"><code>
+Router::anyOf($method, $uri, $callback);
 
 Router::all($uri, $callback);
 </code></pre>
 
                         <br />
                         <h5 id="Mapping" class="lv4">Mapping:</h5>
-                        <div><p class="comment"> Underneath, the framework uses <a href="http://altorouter.com/">AltoRouter </a>. 
+                        <div><p class="comment"> 
+                                
+                                Underneath, the framework uses <a href="http://altorouter.com/">AltoRouter </a>. 
                                 Although most methods were modified or renamed, the mapping is still the same. 
                                 So you may want to look at 
                                 <a href="http://altorouter.com/usage/mapping-routes.html"> Alto router mapping </a> 
                                 for instructions on how to match routes
                             </p></div>
-
+                        
+                        <p>To map your routes, use the method with the same name as the HTTP request you intend to carry out.
+                            The shown example maps all GET / requests.</p>
+                                
+                            <pre class="z-depth-1"><code>
+$router::get( '/', 'render_home', 'home' );
+</code></pre>
+                        
+                        <p>The method accepts the following parameters: </p>
+                        
+                        <span class="path"><b>1. Route</b></span> (type: string)
+                        
+                        <p>Here, you define the pattern of the route that is to be matched.
+                            It could take different forms like a string, a predefined regular expression filter or a custom regular expression.
+                            Note that all custom regexes are preceded with '@' </p>
+                           
+                        <p><i>Instances:</i></p>
+                        
+                        <div class="row">
+                            <div class="col s12 m4">
+                                <div class="card metallic">
+                                    <div class="card-content white-text">
+                                        <span class="card-title">Instance 1</span>
+                                        <p>Route: <span class="scode path z-depth-1">/contact/</span></p>
+                                        <p>Example Match: <span class="scode path z-depth-1">/contact/</span></p>
+                                    </div>
+                                    <div class="card-action">
+                                        <p class="white-text">"No Variables"</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col s12 m4">
+                                <div class="card metallic">
+                                    <div class="card-content white-text">
+                                        <span class="card-title">Instance 2</span>
+                                        <p>Route: <span class="scode path z-depth-1">/guests/[i:id]/</span></p>
+                                        <p>Example Match: <span class="scode path z-depth-1">/guests/21</span></p>
+                                    </div>
+                                    <div class="card-action">
+                                        <p class="white-text">Where: 'id' = 21</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col s12 m4">
+                                <div class="card metallic">
+                                    <div class="card-content white-text">
+                                        <span class="card-title">Instance 3</span>
+                                        <p>Route: <span class="scode path z-depth-1">/[a:c]/[a:a]?/[i:id]?</span></p>
+                                        <p>Example Match: <span class="scode path z-depth-1">/controller/action/21</span></p>
+                                    </div>
+                                    <div class="card-action">
+                                        <p class="white-text">Where: $c = "controller", $a = "action" and $id = 21</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <span class="path"><b>2. Target</b></span> (type: mixed)
+                        <p>Almost anything is allowed here, because you're allowed to handle routes the way you prefer.</p>
+                        
+                        <i>Instances:</i>
+                        <p>With a function callback:
+                        <span class="scode path z-depth-1">function() {...}</span></p>
+                        
+                        <p>With a controller#action string:  
+                        <span class="scode path z-depth-1">UserController#showDetails</span></p>
+                        
+                        <span class="path"><b>3. Name</b></span> (type: string)
+                        <p>This is an optional parameter, but if you want to use reversed routing, you have to specify a name parameter so that you 
+                        will be able to generate URLs with this route later.</p>
+                        
+                        
+                        
                         <br />
                         <h5 id="NamedRoutes" class="lv4">Named Routes:</h5>
                         <p>Named routes allow the convenient generation of URLs or redirects for specific routes. 
@@ -304,7 +381,7 @@ Router::view('myview', 'home', $data);</code></pre>
                             directory and should extend <span class="scode path">Middlewares/Middleware</span> class in the same directory.
                         </p>
 
-                        <pre class="z-depth-1"><code>&lt;?php
+<pre class="z-depth-1"><code>&lt;?php
 
 namespace Middlewares;
 

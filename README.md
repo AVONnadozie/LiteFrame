@@ -13,7 +13,7 @@ LiteFrame is a lightweight PHP framework designed to earn the claps.
 - [x] Easy setup (no shell commands required)
 - [x] Routing
 - [x] Middleware
-- [ ] Filtering and Validation
+- [ ] Improved filtering and Validation functionality
 - [ ] Security
 - [x] Job Scheduling
 - [x] Error Logging

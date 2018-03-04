@@ -33,7 +33,7 @@
     },
     "scripts": {
         "post-root-package-install": [
-            "@php -r \"file_exists('components/.env.php') || copy('components/.env.example.php', '.env');\""
+            "php -r \"file_exists('components/.env.php') || copy('components/.env.example.php', 'components/.env.php');\""
         ],
         "test": "\"components/composer/bin/phpunit\""
     }

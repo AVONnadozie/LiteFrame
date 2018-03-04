@@ -21,7 +21,7 @@ $autoload_config = [
         /**
          * Form Validator
          */
-        "FormValidator\\" => "FormValidator/src",
+        "FormValidator\\" => "php-form-validation/src",
     ],
     //Other files to autoload
     "files" => [

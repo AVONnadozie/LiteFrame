@@ -336,6 +336,54 @@ class Router
         return static::getInstance()
                         ->map('POST', $route, $target, $name, $middleware);
     }
+    
+    /**
+     * Route all PATCH request for a given route to a controller or closure.
+     *
+     * @param string       $route      Request route
+     * @param mixed        $target     Target controller method or closure
+     * @param string       $name       (Optional) name of route
+     * @param string|array $middleware (Optional) Middleware
+     *
+     * @return Route
+     */
+    public static function patch($route, $target, $name = null, $middleware = null)
+    {
+        return static::getInstance()
+                        ->map('PATCH', $route, $target, $name, $middleware);
+    }
+    
+    /**
+     * Route all DELETE request for a given route to a controller or closure.
+     *
+     * @param string       $route      Request route
+     * @param mixed        $target     Target controller method or closure
+     * @param string       $name       (Optional) name of route
+     * @param string|array $middleware (Optional) Middleware
+     *
+     * @return Route
+     */
+    public static function delete($route, $target, $name = null, $middleware = null)
+    {
+        return static::getInstance()
+                        ->map('DELETE', $route, $target, $name, $middleware);
+    }
+    
+    /**
+     * Route all PUT request for a given route to a controller or closure.
+     *
+     * @param string       $route      Request route
+     * @param mixed        $target     Target controller method or closure
+     * @param string       $name       (Optional) name of route
+     * @param string|array $middleware (Optional) Middleware
+     *
+     * @return Route
+     */
+    public static function put($route, $target, $name = null, $middleware = null)
+    {
+        return static::getInstance()
+                        ->map('PUT', $route, $target, $name, $middleware);
+    }
 
     /**
      * Route all request verbs/methods for a given route to a controller or closure.
@@ -369,6 +417,26 @@ class Router
     {
         return static::getInstance()
                         ->map($methods, $route, $target, $name, $middleware);
+    }
+    
+    /**
+     * Route all request verbs/methods matching the given methods for
+     * the given route to a controller or closure.
+     *
+     * @param string       $methods    Request methods e.g GET|POST|DELETE
+     * @param string       $route      Request route
+     * @param mixed        $target     Target controller method or closure
+     * @param string       $name       (Optional) name of route
+     * @param string|array $middleware (Optional) Middleware
+     *
+     * @return Route
+     */
+    public static function matchAll(array $routes)
+    {
+        foreach ($routes as $mapping) {
+            list($methods, $route, $target, $name, $middleware) = $mapping;
+            static::getInstance()->map($methods, $route, $target, $name, $middleware);
+        }
     }
 
     /**

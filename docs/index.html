@@ -294,45 +294,34 @@ $router::get( '/', 'render_home', 'home' );
                         <p><i>Instances:</i></p>
                         
                         <div class="row">
-                            <div class="col s12 m4">
-                                <div class="card metallic">
-                                    <div class="card-content white-text">
-                                        <span class="card-title">Instance 1</span>
-                                        <p>Route: <span class="scode path z-depth-1">/contact/</span></p>
-                                        <p>Example Match: <span class="scode path z-depth-1">/contact/</span></p>
-                                    </div>
-                                    <div class="card-action">
-                                        <p class="white-text">"No Variables"</p>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="col s12 m4">
-                                <div class="card metallic">
-                                    <div class="card-content white-text">
-                                        <span class="card-title">Instance 2</span>
-                                        <p>Route: <span class="scode path z-depth-1">/guests/[i:id]/</span></p>
-                                        <p>Example Match: <span class="scode path z-depth-1">/guests/21</span></p>
-                                    </div>
-                                    <div class="card-action">
-                                        <p class="white-text">Where: 'id' = 21</p>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="col s12 m4">
-                                <div class="card metallic">
-                                    <div class="card-content white-text">
-                                        <span class="card-title">Instance 3</span>
-                                        <p>Route: <span class="scode path z-depth-1">/[a:c]/[a:a]?/[i:id]?</span></p>
-                                        <p>Example Match: <span class="scode path z-depth-1">/controller/action/21</span></p>
-                                    </div>
-                                    <div class="card-action">
-                                        <p class="white-text">Where: $c = "controller", $a = "action" and $id = 21</p>
-                                    </div>
-                                </div>
-                            </div>
+                            <table class="responsive-table striped">
+                                <thead>
+                                    <tr>
+                                        <th>Route</th>
+                                        <th>Example Match</th>
+                                        <th>Variables</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>/contact/</td>
+                                        <td>/contact/</td>
+                                        <td>nil</td>
+                                    </tr>
+                                    <tr>
+                                        <td>/users/[i:id]/</td>
+                                        <td>/users/12/</td>
+                                        <td>$id = 12</td>
+                                    </tr>
+                                    <tr>
+                                        <td>/[a:c]/[a:a]?/[i:id]?</td>
+                                        <td>/controller/action/21/</td>
+                                        <td>$c = 'controller, $a = 'action', $id = '21'</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
+                        
                         
                         <span class="path"><b>2. Target</b></span> (type: mixed)
                         <p>Almost anything is allowed here, because you're allowed to handle routes the way you prefer.</p>

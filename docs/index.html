@@ -28,7 +28,7 @@
         <div id="container" class="">
             <div id="menu">
                 <ul id="slide-out" class="sidetxt side-nav fixed lilv1">
-                    <li class="logotext mt-10"><a href="../">LiteFrame</a></li>
+                    <li><a href="../"><h1 class="logotext mt-10">LiteFrame</h1></a></li>
                     <li class="mt-10 hide-on-large-only">
                         <a href = "https://github.com/AVONnadozie/LiteFrame" target="_blank">
                             <i class="fa fa-github" aria-hidden = "true"></i> View on GitHub
@@ -140,7 +140,7 @@
                     <nav role = "navigation" class="">
                         <div class = "nav-wrapper container">
                             <a href = "../" class = "brand-logo white-text">
-                                <h4 class="hide-on-large-only">LiteFrame</h4>
+                                <h1 class="mob-head hide-on-large-only">LiteFrame</h1>
                             </a>
                             <ul id="nav-mobile" class="right lato hide-on-med-and-down">
                                 <li class="">
@@ -168,7 +168,7 @@
             <div id="content" class="container2">
                 <div class="col s12 m9 l7">
                     <section>
-                        <h4 id="GettingStarted" class="lv2">Getting Started</h4>
+                        <h2 id="GettingStarted" class="lv2">Getting Started</h2>
                         <div class="divider"></div>
 
                         <p class="comment">Lines with asterisks(<span class="red-text">*</span>) are comments for developers.</p>
@@ -191,8 +191,9 @@
 composer create-project avonnadozie/liteframe
 </code></pre>
                     </section>
+                    
                     <section>
-                        <h4 id="ArchitectureConcept" class="lv2">Architecture Concept</h4>
+                        <h2 id="ArchitectureConcept" class="lv2">Architecture Concept</h2>
                         <div class="divider"></div>
                         <h5 id="RequestLifecycle" class="lv4">Request Lifecycle:</h5>
                         <p>This part of the document aims to give you an overall view on how the framework works to help you understand the framework better. If you find some terms strange, it's okay, you will understand them and get familiar as you read on.</p>
@@ -218,9 +219,9 @@ composer create-project avonnadozie/liteframe
                     </section>
 
                     <section>
-                        <h4 id="TheBasics" class="lv2">The Basics</h4>
+                        <h2 id="TheBasics" class="lv2">The Basics</h2>
                         <div class="divider"></div>
-                        <h5 id="Routing" class="lv3">Routing</h5>
+                        <h3 id="Routing" class="lv3">Routing</h3>
                         <h5 id="BasicsRouting" class="lv4">Basics:</h5>
                         <p>The simpler method accepts just a URI and a Closure when defining routes:</p>
 
@@ -382,9 +383,9 @@ Router::all($route, $target);
 '**' => '.++'
 ''   => '[^/\.]++'</code></pre>
 
-                        You can register your own match types using the addMatchTypes() method.
+                        <p>You can register your own match types using the addMatchTypes() method.</p>
                         <pre class="z-depth-1"><code class="php">Router::getInstance()->addMatchTypes(array('cId' => '[a-zA-Z]{2}[0-9](?:_[0-9]++)?'));</code></pre>
-                        Once your routes are all mapped you can start matching requests and continue processing the request.
+                        <p>Once your routes are all mapped you can start matching requests and continue processing the request.</p>
 
                         <h5 id="NamedRoutes" class="lv4">Named Routes:</h5>
                         <p>
@@ -438,10 +439,10 @@ Router::get('user/profile', 'AppController@showProfile','profile');
 Router::view($route, 'view-name', $data);</code></pre>
                         <br />
 
-                        <h5 id="Requests" class="lv3">Requests</h5>
+                        <h3 id="Requests" class="lv3">Requests</h3>
                         <p class="comment"> Explain the <span class="scode path">LiteFrame\Http\Request</span> object.</p>
 
-                        <h5 id="Middleware" class="lv3">Middleware</h5>
+                        <h3 id="Middleware" class="lv3">Middleware</h3>
 
                         <h5 id="TheBasicsMiddleware" class="lv4">The Basics:</h5>
 
@@ -528,7 +529,7 @@ class MySampleMiddleware extends Middleware
                         <pre class="z-depth-1"><code class="php">Router::get('user/profile', 'AppController@showProfile')->setMiddlewares(["sample1", "sample2"]);</code></pre>
 
                         <br />
-                        <h5 id="Controllers" class="lv3">Controllers</h5>
+                        <h3 id="Controllers" class="lv3">Controllers</h3>
                         <p>Instead of defining all of your request handling logic as Closures in route files, 
                             you may wish to organize this behavior using Controller classes. 
                             Controllers can group related request handling logic into a single class. 
@@ -560,13 +561,13 @@ class MySampleMiddleware extends Middleware
     }
 }</code></pre>
 
-                        <h5 id="Models" class="lv3">Models</h5>
+                        <h3 id="Models" class="lv3">Models</h3>
                         <p class="comment"> Explain how to create and use models.</p>
-                        <h5 id="Views" class="lv3">Views</h5>
+                        <h3 id="Views" class="lv3">Views</h3>
                         <p class="comment"> Explain how to create views.</p>
-                        <h5 id="Response" class="lv3">Response</h5>
+                        <h3 id="Response" class="lv3">Response</h3>
                         <p class="comment"> Explain the <span class="scode path">LiteFrame\Http\Response</span> object.</p>
-                        <h5 id="ErrorsAndLogging" class="lv3">Errors & Logging</h5>
+                        <h3 id="ErrorsAndLogging" class="lv3">Errors & Logging</h3>
 
                         <h5 id="EnvironmentVariables" class="lv4">Environment Variables:</h5>
                         <p class="comment"> Explain how to configure app environment variables.</p>
@@ -577,44 +578,44 @@ class MySampleMiddleware extends Middleware
 
                     </section>
                     <section>
-                        <h5 id="Database" class="lv2">Database</h5>
+                        <h2 id="Database" class="lv2">Database</h2>
                         <div class="divider"></div>
-                        <h5 id="GettingStartedDbase" class="lv3">Getting Started</h5>
+                        <h3 id="GettingStartedDbase" class="lv3">Getting Started</h3>
                         <p class="comment">Explain how to setup database.</p>
-                        <h5 id="RedBeanPHP" class="lv3">RedBeanPHP</h5>
+                        <h3 id="RedBeanPHP" class="lv3">RedBeanPHP</h3>
                         <p class="comment"> Explain the underneath RedBeanPHP.</p>
                     </section>
                     <section>
-                        <h5 id="Libraries" class="lv2">Working with Libraries</h5>
+                        <h2 id="Libraries" class="lv2">Working with Libraries</h2>
                         <div class="divider"></div>
-                        <h5 id="AutoloadingFiles" class="lv3">Autoloading Files</h5>
+                        <h3 id="AutoloadingFiles" class="lv3">Autoloading Files</h3>
                         <p class="comment">Explain thow to autoload custom files.</p>
-                        <h5 id="3rdPartyLibraries" class="lv3">3rd-Party Libraries</h5>
+                        <h3 id="3rdPartyLibraries" class="lv3">3rd-Party Libraries</h3>
                         <p class="comment">Explain how to autoload 3rd party libraries.</p>
-                        <h5 id="Composer" class="lv3">Composer</h5>
+                        <h3 id="Composer" class="lv3">Composer</h3>
                         <p>In as much as we "really" avoided the need for commands, we couldn't help supporting composer.
                             Composer files are autoloaded by the framework if available but we changed the vendor directory to <span class="scode path">components/composer</span> for security reasons.
                         </p>
                     </section>
                     <section>
-                        <h5 id="Security" class="lv2">Security</h5>
+                        <h2 id="Security" class="lv2">Security</h2>
                         <div class="divider"></div>
-                        <h5 id="URISecurity" class="lv3">URI Security</h5>
+                        <h3 id="URISecurity" class="lv3">URI Security</h3>
                         <p class="comment">Explain URI security using type hints</p>
-                        <h5 id="htaccess" class="lv3">Use of .htaccess</h5>
+                        <h3 id="htaccess" class="lv3">Use of .htaccess</h3>
                         <p class="comment">Explain strategic .htaccess files</p>
-                        <h5 id="RequestValidation" class="lv3">Request Validation</h5>
+                        <h3 id="RequestValidation" class="lv3">Request Validation</h3>
                         <p class="comment">Explain <span class="scode path">Validator</span></p>
-                        <h5 id="FilteringOutput" class="lv3">Filtering Output</h5>
+                        <h3 id="FilteringOutput" class="lv3">Filtering Output</h3>
                         <p class="comment">Explain output filtering using <span class="scode path">e()</span></p>
                     </section>
                     <section>
-                        <h5 id="Testing" class="lv2">Testing</h5>
+                        <h2 id="Testing" class="lv2">Testing</h2>
                         <div class="divider"></div>
                         <p class="comment">Explain how to run tests</p>
                     </section>
                     <section>
-                        <h5 id="Contributing" class="lv2">Contributing</h5>
+                        <h2 id="Contributing" class="lv2">Contributing</h2>
                         <div class="divider"></div>
                         <p>To contribute,</p>
                         <ol>

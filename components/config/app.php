@@ -6,7 +6,7 @@ return [
      *  Application Name
      * ---------------------------
      */
-    'name' => 'Lite frame',
+    'name' => 'LiteFrame',
     /*
      * ---------------------------
      *  Application URL

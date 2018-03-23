@@ -15,7 +15,7 @@
                         <div class="row">
                             <div class="col s12 l12 center">
                                 <h3 class="herotext myanimated myfadeIn" style="">
-                                    <img src="<?= asset('img/logo.png') ?>" alt="Liteframe logo"/>
+                                    <img src="<?= asset('img/logo.png') ?>" alt="LiteFrame logo"/>
                                     <?= config('app.name') ?>
                                 </h3>
                                 <p class="herotext2 myanimated2 myfadeInUp">The PHP framework built to be swift and strong.</p>
@@ -60,7 +60,7 @@
                                                 <h4 class="center deschead">Light & Clean.</h4>
                                                 <p class="center descsub"> A feather-weight, lightning-fast PHP framework. 
                                                     All of the functionality with none of the clutter. 
-                                                    Lite Frame is built with the philosophy: "If it's not essential, it's not included"
+                                                    LiteFrame is built with the philosophy: "If it's not essential, it's not included"
                                                 </p>
                                             </div>
                                         </div>
@@ -110,7 +110,7 @@
             <div class="container">
                 <div class="center">
                     <div class="mg70"></div>
-                    <h4 class="lightext"> Get started with Lite Frame now.</h4>
+                    <h4 class="lightext"> Get started with LiteFrame now.</h4>
                     <h6 class="lightext">As a user, or a contributor. </h6>
                     <div class="mg30"></div>
                     <div class="row">

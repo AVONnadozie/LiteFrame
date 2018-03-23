@@ -195,7 +195,23 @@ composer create-project avonnadozie/liteframe
                         <h4 id="ArchitectureConcept" class="lv2">Architecture Concept</h4>
                         <div class="divider"></div>
                         <h5 id="RequestLifecycle" class="lv4">Request Lifecycle:</h5>
-                        <p class="comment">Request Lifecycle (inspired by <span class="scode path">https://laravel.com/docs/5.5/lifecycle</span>)</p>
+                        <p>This part of the document aims to give you an overall view on how the framework works to help you understand the framework better. If you find some terms strange, it's okay, you will understand them and get familiar as you read on.</p>
+                        <p>
+                            Like most PHP applications, all requests to the framework is directed to the <span class="scode path">index.php</span> file. The <span class="scode path">index.php</span> file does not contain much. Rather, it is a starting point for loading the rest of the framework.
+                        </p>
+                        <p>
+                            The <span class="scode path">index.php</span> file loads all files required by the framework (including Composer files if present) and then creates a <span class="scode path">\LiteFrame\Kernel</span> object to handle the request.
+                        </p>
+                        <p>
+                            The Kernel instance gets the <span class="scode path">LiteFrame\Http\Request</span> 
+                            and <span class="scode path">LiteFrame\Http\Routing\Route</span> objects for the current request, 
+                            and obtains the target Closure or Controller from the Route object. 
+                            See <a href="#Routing">this section</a> on how to define routes using 
+                            <span class="scode path">LiteFrame\Http\Routing\Router</span>.
+                        </p>
+                        <p>                         
+                            All Middlewares attached to the target (if any) are then executed before executing the target, and the Kernel finally terminates the framework.
+                        </p>
 
                         <h5 id="DirectoryStructure" class="lv4">Directory Structure:</h5>
                         <p class="comment"> Explain directory structure</p>
@@ -342,7 +358,7 @@ Router::all($route, $target);
 </code></pre>
                         <p>
                             <b>Match Types</b><br/>
-                            You can use the following limits on your named parameters. The application will create the correct regexes for you
+                            You can use the following limits on your named parameters. The framework will create the correct regexes for you
                         </p>
                         <pre class="z-depth-1"><code class="php">*                    // Match all request URIs
 [i]                  // Match an integer
@@ -369,7 +385,7 @@ Router::all($route, $target);
                         You can register your own match types using the addMatchTypes() method.
                         <pre class="z-depth-1"><code class="php">Router::getInstance()->addMatchTypes(array('cId' => '[a-zA-Z]{2}[0-9](?:_[0-9]++)?'));</code></pre>
                         Once your routes are all mapped you can start matching requests and continue processing the request.
-                        
+
                         <h5 id="NamedRoutes" class="lv4">Named Routes:</h5>
                         <p>
                             If you want to use reversed routing, 
@@ -393,11 +409,11 @@ Router::get('user/profile', 'AppController@showProfile','profile');
                         To reverse a route, use the <span class="scode path">route($routeName, $params);</span> helper with optional parameters
                         <p>
                             <b>Parameters</b><br/>
-                        <span class="scode path">$routeName</span> | string - Name of route<br/>
-                        <span class="scode path">$params</span> | array - Optional parameters to build the URL with<br/>
-                        <br />
+                            <span class="scode path">$routeName</span> | string - Name of route<br/>
+                            <span class="scode path">$params</span> | array - Optional parameters to build the URL with<br/>
+                            <br />
                         </p>
-                        
+
                         <h5 id="RedirectRoute" class="lv4">Redirect Route:</h5>
                         <p>With Redirect Route you can redirect a route permanently to another route or a url. </p>
                         <p><b>Redirecting to a route:</b></p>
@@ -421,7 +437,7 @@ Router::get('user/profile', 'AppController@showProfile','profile');
                         <pre class="z-depth-1"><code class="php">$data = array('name'=>'John Doe');
 Router::view($route, 'view-name', $data);</code></pre>
                         <br />
-                        
+
                         <h5 id="Requests" class="lv3">Requests</h5>
                         <p class="comment"> Explain the <span class="scode path">LiteFrame\Http\Request</span> object.</p>
 
@@ -577,7 +593,7 @@ class MySampleMiddleware extends Middleware
                         <p class="comment">Explain how to autoload 3rd party libraries.</p>
                         <h5 id="Composer" class="lv3">Composer</h5>
                         <p>In as much as we "really" avoided the need for commands, we couldn't help supporting composer.
-                            Composer files are autoloaded by the application if available but we changed the vendor directory to <span class="scode path">components/composer</span> for security reasons.
+                            Composer files are autoloaded by the framework if available but we changed the vendor directory to <span class="scode path">components/composer</span> for security reasons.
                         </p>
                     </section>
                     <section>

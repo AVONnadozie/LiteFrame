@@ -419,7 +419,7 @@ Router::get('user/profile', 'AppController@showProfile','profile');
                         <p>Where  <span class="scode path">view-name</span> is the name of the view.<br/>
                             Additionally, you can pass data to the view as such.  
                         <pre class="z-depth-1"><code class="php">$data = array('name'=>'John Doe');
-Router::view('myview', 'home', $data);</code></pre>
+Router::view($route, 'view-name', $data);</code></pre>
                         <br />
                         
                         <h5 id="Requests" class="lv3">Requests</h5>

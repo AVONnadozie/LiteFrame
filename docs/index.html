@@ -215,7 +215,33 @@ composer create-project avonnadozie/liteframe
                         </p>
 
                         <h5 id="DirectoryStructure" class="lv4">Directory Structure:</h5>
-                        <p class="comment"> Explain directory structure</p>
+                        <p>Important directories and files</p>
+                        <pre class="z-depth-1"><code>app
+  |____ Commands //Application commands
+  |____ Controllers //Application controllers
+  |____ Middlewares //Application middlewares
+  |____ Models //Application model
+  |____ Routes //Application route files
+  |____ Views //Application view files
+  |____ .htaccess //Prevents direct access to files in this folder and subfolders
+assets //(Optional) public assets such as css, images and JavaScript files
+components
+  |____ composer //(Optional) Composer files
+  |____ config //Config files
+  |____ data //Private application data
+  |____ helpers //Helper files
+  |____ lib //3rd party libraries
+  |____ logs //Error logs
+  |____ .htaccess //Prevents direct access to files in this folder and subfolders
+  |____ env.php //Environment specific configurations
+  |____ env.sample //Sample env.php file
+core //Core files, do not modify
+docs //(Optional) Documentation
+storage //(Optional) Publicly accessible files
+tests //Test files
+.htaccess //Important .htaccess file
+cli //Entry point for command line requests
+index.php //Entry point for HTTP requests</code></pre>
                     </section>
 
                     <section>

@@ -18,9 +18,10 @@
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
-    # For existing folders, rewrite only access to the app, components, and core folders
+    # For existing folders, rewrite only access to cli file, app, components, and core folders
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule !^(app|components|core|tests)($|/) - [L]
+    RewriteRule ^cli index.php [L]
 
     ## Rewrite the rest to index.php
     RewriteCond %{REQUEST_FILENAME} !-f

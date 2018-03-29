@@ -307,11 +307,35 @@ function data_path($path)
  */
 function base_path($path = '')
 {
-    if ($path) {
-        return WD . DS . trim(normalizePath($path), DS);
-    }
+    return npath(WD, $path);
+}
 
-    return WD;
+/**
+ * Get the default path to application files.
+ *
+ * @param string $path
+ *
+ * @return string
+ */
+function app_path($path = '')
+{
+    return base_path('app/'.$path);
+}
+
+/**
+ * Get normalized path.
+ * @param string $path
+ * @param type $context
+ *
+ * @return string
+ */
+function npath($path, $context = '')
+{
+    $path = rtrim(normalizePath($path), DS);
+    if ($context) {
+        $path .= DS . trim(normalizePath($context), DS);
+    }
+    return $path;
 }
 
 /**

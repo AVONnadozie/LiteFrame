@@ -1,5 +1,5 @@
 nbproject/
 components/composer/
-components/.env.php
+components/env.php
 php-cs-fixer.phar
 .php_cs.cache

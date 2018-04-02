@@ -41,6 +41,7 @@
                             <li><a href="#Installation">Installation</a></li>
                         </ul>
                     </li>
+                    <li class="divider"></li>
 
                     <li>
                         <a href="#ArchitectureConcept">Architecture Concept</a>
@@ -95,6 +96,8 @@
                             <li><a href="#Helpers">Helpers</a></li>
                         </ul>
                     </li>
+                    <li class="divider"></li>
+                    
                     <li>
                         <a href="#Database">Database</a>
                         <ul class="lilv2">
@@ -102,6 +105,8 @@
                             <li><a href="#RedBeanPHP">RedBeanPHP</a></li>
                         </ul>
                     </li>
+                    <li class="divider"></li>
+                    
                     <li>
                         <a href="#Libraries">Working with Libraries</a>
                         <ul class='lilv2'>
@@ -110,6 +115,8 @@
                             <li><a href="#Composer">Composer</a></li>
                         </ul>
                     </li>
+                    <li class="divider"></li>
+                    
                     <li>
                         <a href="#Security">Security</a>
                         <ul class="lilv2">
@@ -119,6 +126,8 @@
                             <li><a href="#FilteringOutput">Filtering Output</a></li>
                         </ul>
                     </li>
+                    <li class="divider"></li>
+                    
                     <li>
                         <a href="#Testing">Testing</a>
                         <ul class="">
@@ -138,7 +147,7 @@
             <div class = "row" style = "width: 100%; margin-bottom: 0px; background-color: #74828e">
                 <div class = "exo">
                     <nav role = "navigation" class="">
-                        <div class = "nav-wrapper container">
+                        <div class = "nav-wrapper container2">
                             <a href = "../" class = "brand-logo white-text">
                                 <h1 class="mob-head hide-on-large-only">LiteFrame</h1>
                             </a>
@@ -173,11 +182,10 @@
 
                         <p class="comment">Lines with asterisks(<span class="red-text">*</span>) are comments for developers.</p>
 
-                        <div><h5 id="Requirements" class="lv4">Requirements:</h5>
+                        <div><h4 id="Requirements" class="lv4">Requirements:</h4>
                             <p>PHP 5.5 and above</p></div>
 
-                        <br />
-                        <h5 id="Installation" class="lv4">Installation:</h5>
+                        <h4 id="Installation" class="lv4">Installation:</h4>
                         <p>Download the latest release  <a href="https://github.com/AVONnadozie/LiteFrame/releases">here</a> and unzip. That's all!
                             <!--or use the <a class="blue-text" href="#">downloader file</a></p>-->
                         <p>
@@ -195,7 +203,7 @@ composer create-project avonnadozie/liteframe
                     <section>
                         <h2 id="ArchitectureConcept" class="lv2">Architecture Concept</h2>
                         <div class="divider"></div>
-                        <h5 id="RequestLifecycle" class="lv4">Request Lifecycle:</h5>
+                        <h4 id="RequestLifecycle" class="lv4">Request Lifecycle:</h4>
                         <p>This part of the document aims to give you an overall view on how the framework works to help you understand the framework better. If you find some terms strange, it's okay, you will understand them and get familiar as you read on.</p>
                         <p>
                             Like most PHP applications, all requests to the framework is directed to the <span class="scode path">index.php</span> file. The <span class="scode path">index.php</span> file does not contain much. Rather, it is a starting point for loading the rest of the framework.
@@ -214,7 +222,7 @@ composer create-project avonnadozie/liteframe
                             All Middlewares attached to the target (if any) are then executed before executing the target, and the Kernel finally terminates the framework.
                         </p>
 
-                        <h5 id="DirectoryStructure" class="lv4">Directory Structure:</h5>
+                        <h4 id="DirectoryStructure" class="lv4">Directory Structure:</h4>
                         <p>Important directories and files</p>
                         <pre class="z-depth-1"><code>app
   |____ Commands //Application commands
@@ -248,7 +256,7 @@ index.php //Entry point for HTTP requests</code></pre>
                         <h2 id="TheBasics" class="lv2">The Basics</h2>
                         <div class="divider"></div>
                         <h3 id="Routing" class="lv3">Routing</h3>
-                        <h5 id="BasicsRouting" class="lv4">Basics:</h5>
+                        <h4 id="BasicsRouting" class="lv4">Basics:</h4>
                         <p>The simpler method accepts just a URI and a Closure when defining routes:</p>
 
                         <pre class="z-depth-1"><code class="php">Router::get('foo', function () {
@@ -269,7 +277,7 @@ index.php //Entry point for HTTP requests</code></pre>
                             </p></div>
 
                         <br />
-                        <h5 id="AvailableRouterMethods" class="lv4">Available Router Methods:</h5>
+                        <h4 id="AvailableRouterMethods" class="lv4">Available Router Methods:</h4>
 
                         <p>The router allows you to register routes that respond to the common HTTP verb:</p>
 
@@ -301,7 +309,7 @@ Router::all($route, $target);
 </code></pre>
 
                         <br />
-                        <h5 id="Mapping" class="lv4">Mapping:</h5>
+                        <h4 id="Mapping" class="lv4">Mapping:</h4>
                         To map your routes, use the any of the methods.
                         <pre class="z-depth-1"><code class="php">//Match GET requests
 Router::get($route, $target);
@@ -413,7 +421,7 @@ Router::all($route, $target);
                         <pre class="z-depth-1"><code class="php">Router::getInstance()->addMatchTypes(array('cId' => '[a-zA-Z]{2}[0-9](?:_[0-9]++)?'));</code></pre>
                         <p>Once your routes are all mapped you can start matching requests and continue processing the request.</p>
 
-                        <h5 id="NamedRoutes" class="lv4">Named Routes:</h5>
+                        <h4 id="NamedRoutes" class="lv4">Named Routes:</h4>
                         <p>
                             If you want to use reversed routing, 
                             Named routes allow you to conveniently specify a name parameter so you can later generate URL's using this route. 
@@ -441,7 +449,7 @@ Router::get('user/profile', 'AppController@showProfile','profile');
                             <br />
                         </p>
 
-                        <h5 id="RedirectRoute" class="lv4">Redirect Route:</h5>
+                        <h4 id="RedirectRoute" class="lv4">Redirect Route:</h4>
                         <p>With Redirect Route you can redirect a route permanently to another route or a url. </p>
                         <p><b>Redirecting to a route:</b></p>
 
@@ -454,7 +462,7 @@ Router::get('user/profile', 'AppController@showProfile','profile');
                         <p>This route will redirect to the URL <span class="scode path">http://example.com</span></p>
 
                         <br />
-                        <h5 id="view-route" class="lv4">View Route:</h5>
+                        <h4 id="view-route" class="lv4">View Route:</h4>
                         <p>This allows you to return a view as response directly without the need for closures or controllers.</p>
 
                         <pre class="z-depth-1"><code class="php">Router::view($route, 'view-name');
@@ -470,7 +478,7 @@ Router::view($route, 'view-name', $data);</code></pre>
 
                         <h3 id="Middleware" class="lv3">Middleware</h3>
 
-                        <h5 id="TheBasicsMiddleware" class="lv4">The Basics:</h5>
+                        <h4 id="TheBasicsMiddleware" class="lv4">The Basics:</h4>
 
                         <p>
                             Middleware provide a convenient mechanism for filtering HTTP requests 
@@ -528,7 +536,7 @@ class MySampleMiddleware extends Middleware
     ],
 ];</code></pre>
                         <br />
-                        <h5 id="NamedRouteMiddleware" class="lv4">Named/Route Middleware:</h5>
+                        <h4 id="NamedRouteMiddleware" class="lv4">Named/Route Middleware:</h4>
 
                         <p>
                             You may also specify middleware to run only for specific routes.
@@ -563,12 +571,12 @@ class MySampleMiddleware extends Middleware
                             <span class="scode path">Controllers/Controller</span> class.
                         </p>
 
-                        <h5 id="RoutingToController" class="lv4">Routing to a controller action/method:</h5>
+                        <h4 id="RoutingToController" class="lv4">Routing to a controller action/method:</h4>
 
                         <pre class="z-depth-1"><code class="php">Router::get('user/profile', 'AppController@showHelloWorld');</code></pre>
 
                         <br />
-                        <h5 id="ControllerMiddleware" class="lv4">Controller Middleware:</h5>
+                        <h4 id="ControllerMiddleware" class="lv4">Controller Middleware:</h4>
                         <p>Middleware may be assigned to the controller's routes in your route files:</p>
 
                         <pre class="z-depth-1"><code class="php">Route::get('profile', 'UserController@show')->setMiddleware('sample');</code></pre>
@@ -595,11 +603,11 @@ class MySampleMiddleware extends Middleware
                         <p class="comment"> Explain the <span class="scode path">LiteFrame\Http\Response</span> object.</p>
                         <h3 id="ErrorsAndLogging" class="lv3">Errors & Logging</h3>
 
-                        <h5 id="EnvironmentVariables" class="lv4">Environment Variables:</h5>
+                        <h4 id="EnvironmentVariables" class="lv4">Environment Variables:</h4>
                         <p class="comment"> Explain how to configure app environment variables.</p>
-                        <h5 id="ErrorPages" class="lv4">Error Pages:</h5>
+                        <h4 id="ErrorPages" class="lv4">Error Pages:</h4>
                         <p class="comment">Explain how to create error pages to overide the default error page on production.</p>
-                        <h5 id="Helpers" class="lv4">Helpers:</h5>
+                        <h4 id="Helpers" class="lv4">Helpers:</h4>
                         <p class="comment">Explain how to add helper functions.</p>
 
                     </section>
@@ -682,6 +690,35 @@ class MySampleMiddleware extends Middleware
         <!--Highlight.js-->
         <script src="assets/highlightjs/highlight.pack.js" type="text/javascript"></script>
         <script>hljs.initHighlightingOnLoad();</script>
+        
+        <!-- Smooth Scroll -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script>
+        $(document).ready(function(){
+          // Add smooth scrolling to all links
+          $("a").on('click', function(event) {
+
+            // Make sure this.hash has a value before overriding default behavior
+            if (this.hash !== "") {
+              // Prevent default anchor click behavior
+              event.preventDefault();
+
+              // Store hash
+              var hash = this.hash;
+
+              // Using jQuery's animate() method to add smooth page scroll
+              // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+              $('html, body').animate({
+                scrollTop: $(hash).offset().top
+              }, 800, function(){
+
+                // Add hash (#) to URL when done scrolling (default click behavior)
+                window.location.hash = hash;
+              });
+            } // End if
+          });
+        });
+        </script>
 
     </body>
 </html>

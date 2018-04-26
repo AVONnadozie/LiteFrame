@@ -19,7 +19,7 @@
                                     <?= config('app.name') ?>
                                 </h3>
                                 <p class="herotext2 myanimated2 myfadeInUp">The PHP framework built to be swift and strong.</p>
-                                <a href="<?= url('docs') ?>" class = "btn-large metallic waves-effect waves-light lato ">Get Started</a>
+                                <a href="docs/" class = "btn-large metallic waves-effect waves-light lato ">Get Started</a>
                             </div>
                         </div>
 
@@ -115,7 +115,7 @@
                     <div class="mg30"></div>
                     <div class="row">
                         <a target="_blank" href="https://github.com/AVONnadozie/LiteFrame/releases" class = "btn-large metallic waves-effect waves-light lato ">Download</a>
-                        <a href="<?= url('docs') ?>" class = "btn-large metallic waves-effect waves-light lato ">Documentation</a>
+                        <a href="docs/" class = "btn-large metallic waves-effect waves-light lato ">Documentation</a>
                         <a target="_blank" href="https://github.com/AVONnadozie/LiteFrame" class = "btn-large metallic waves-effect waves-purple lato ">GitHub</a>
                     </div>
                 </div>

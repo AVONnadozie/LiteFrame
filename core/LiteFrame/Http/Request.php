@@ -98,7 +98,7 @@ final class Request
     public function getProtocol()
     {
         if (empty($this->protocol)) {
-            $this->protocol = $_SERVER['REQUEST_SCHEME'];
+            $this->protocol = isset($_SERVER['REQUEST_SCHEME'])?$_SERVER['REQUEST_SCHEME']:'http';
         }
 
         return $this->protocol;

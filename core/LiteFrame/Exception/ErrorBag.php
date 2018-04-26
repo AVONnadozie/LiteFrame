@@ -147,6 +147,7 @@ class ErrorBag
             case 'google':
             case 'duckduckgo':
             case 'bing':
+                break;
             default:
                 $filtered = 'LiteFrame ' . $filtered;
                 break;

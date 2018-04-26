@@ -1,6 +1,6 @@
 <?php
 
-namespace LiteFrame\Http\Middleware;
+namespace LiteFrame\Http\Middlewares;
 
 use BinaryFileResponse;
 use Closure;

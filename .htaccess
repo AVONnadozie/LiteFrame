@@ -6,12 +6,12 @@
     RewriteEngine On
 
     ## Redirect www to  non www
-    #  RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
-    #  RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+    # RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+    # RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
     
     ## Redirect unsecure to secure
-    RewriteCond %{HTTPS} off
-    RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,QSA,R=permanent]
+    # RewriteCond %{HTTPS} off
+    # RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,QSA,R=permanent]
 
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d

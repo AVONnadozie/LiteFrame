@@ -69,11 +69,16 @@ function config($key, $default = null)
  *
  * @return string
  */
-function includeView($path, $data = [])
+function includeView($path, $data = [], $return = false)
 {
     $view = new View();
 
-    return $view->fetch($path, $data);
+    $content = $view->fetch($path, $data);
+    if ($return) {
+        return $content;
+    } else {
+        echo $content;
+    }
 }
 
 /**

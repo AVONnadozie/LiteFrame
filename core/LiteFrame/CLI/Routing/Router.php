@@ -91,6 +91,11 @@ class Router
         return $this->routes;
     }
 
+    /**
+     * Get Route
+     * @param type $command
+     * @return Route
+     */
     public function getRoute($command)
     {
         if (!isset($this->routes[$command])) {

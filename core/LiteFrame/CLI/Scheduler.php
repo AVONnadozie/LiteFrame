@@ -6,6 +6,7 @@ namespace LiteFrame\CLI;
 use DateTime;
 use GO\Job;
 use GO\Scheduler as GoScheduler;
+use LiteFrame\CLI\Routing\Router;
 
 class Scheduler extends GoScheduler implements Runnable
 {
@@ -21,13 +22,12 @@ class Scheduler extends GoScheduler implements Runnable
      */
     public function command($command, $args = [], $id = null)
     {
-        $target = Router::getInstance()->getRoute($command);
+        $target = Router::getInstance()->getTarget($command);
         $fn = function () use ($target) {
             return $target->run();
         };
 
         return $this->call($fn, $args, $id);
-//        return $this->call("cli $target", $args, $id);
     }
 
     public function run(DateTime $runTime = null)

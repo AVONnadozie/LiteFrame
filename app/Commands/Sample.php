@@ -20,7 +20,6 @@ class Sample extends Command
     public function run()
     {
         $this->comment('Sample Command Line Hello World App');
-        $name = $this->ask("What is your name");
-        $this->output("Hello $name");
+        $this->output("Hello World");
     }
 }

@@ -114,7 +114,7 @@ abstract class Command implements Runnable
 
         if ($realtime) {
             while ($s = fgets($pipes[1])) {
-                print $s;
+                echo $s;
                 flush();
             }
         }

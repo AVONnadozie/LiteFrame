@@ -3,9 +3,12 @@
 namespace LiteFrame;
 
 use Closure;
-use LiteFrame\CLI\Scheduler;
+use LiteFrame\CLI\Args;
+use LiteFrame\CLI\Command;
+use LiteFrame\CLI\Output;
+use LiteFrame\CLI\Routing\Router as CLIRouter;
 use LiteFrame\Http\Controller;
-use LiteFrame\Http\Middleware\CompressResponse;
+use LiteFrame\Http\Middlewares\CompressResponse;
 use LiteFrame\Http\Request;
 use LiteFrame\Http\Response;
 use LiteFrame\Http\Routing\Route;
@@ -23,13 +26,13 @@ final class Kernel
     private $controllerMiddlewares = [];
 
     /**
-     * Controller Middleware
+     * Core Controller Middlewares
      * @var array
      */
     private $middlewares = [
         CompressResponse::class,
     ];
-
+    
     /**
      * Return singleton class instance.
      *
@@ -64,8 +67,7 @@ final class Kernel
 
         //Match routes
         $request = Request::getInstance();
-        $routeFile = base_path('app/Routes/web.php');
-        $route = Router::getInstance()->matchRequest($request, $routeFile);
+        $route = Router::getInstance()->matchRequest($request);
         abort_unless($route instanceof Route, 404);
 
         //Get target controller or closure
@@ -167,11 +169,11 @@ final class Kernel
 
     public function handleJob()
     {
-        $this->bootForJob();
+        list($args, $target) = $this->bootForJob();
 
-        $this->runForJob();
+        list($output, $code) = $this->runForJob($args, $target);
 
-        $this->terminateJob();
+        $this->terminateJob($output, $code);
     }
 
     private function bootForJob()
@@ -181,18 +183,38 @@ final class Kernel
         }
 
         $this->setErrorConfigurations(true);
+
+        //Match routes
+        $args = Args::parse();
+        $target = CLIRouter::getInstance()->matchCommand($args);
+        
+        return [$args, $target];
     }
 
-    private function runForJob()
+    private function runForJob(Args $args, $target)
     {
-        $scheduler = new Scheduler();
-        $routeFile = base_path('app/Routes/cli.php');
-        require $routeFile;
-        $scheduler->run();
+        $output = '';
+        $code = 0;
+        if ($target instanceof Command) {
+            //Run command
+            $output = $target->run();
+            if (is_array($output)) {
+                list($output, $code) = $output;
+            }
+        } else {
+            $output = $args->getCommand(). " is not a command";
+            $code = 1;
+        }
+        return [$output, $code];
     }
 
-    private function terminateJob()
+    private function terminateJob($output = '', $code = 0)
     {
-        exit;
+        if ($code) {
+            Output::error($output ?: "Exited with error code $code");
+        } else {
+            Output::write($output);
+        }
+        exit($code);
     }
 }

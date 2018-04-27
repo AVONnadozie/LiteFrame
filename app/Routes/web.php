@@ -1,4 +1,7 @@
 <?php
+/**
+ * Map web routes to controllers or closures here
+ */
 
 use LiteFrame\Http\Request;
 use LiteFrame\Http\Routing\Router;

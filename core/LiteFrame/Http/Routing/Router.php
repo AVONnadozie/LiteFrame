@@ -203,12 +203,13 @@ class Router
      *
      * @return Route|bool Array with route information on success, false on failure (no match)
      */
-    public function matchRequest(Request $request, $routeFile = null)
+    public function matchRequest(Request $request)
     {
         $requestUrl = $request->getRouteURL();
         $requestMethod = $request->getMethod();
 
-        if ($routeFile) {
+        if (empty($this->routes)) {
+            $routeFile = base_path('app/Routes/web.php');
             if (file_exists($routeFile)) {
                 require_once $routeFile;
             } else {

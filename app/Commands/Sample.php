@@ -5,8 +5,22 @@ namespace Commands;
 
 class Sample extends Command
 {
-    public function greet()
+
+    
+    /**
+     *
+     * Command line argument names definition
+     *
+     * list of names for command line arguments in their respective order, separated by spaces
+     * @var string
+     */
+    public $definition = "";
+    
+    
+    public function run()
     {
-        echo 'Hello World';
+        $this->comment('Sample Command Line Hello World App');
+        $name = $this->ask("What is your name");
+        $this->output("Hello $name");
     }
 }

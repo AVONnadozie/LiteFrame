@@ -41,13 +41,23 @@ class Output
     {
         $array = (array) $data;
         foreach ($array as $value) {
-            print_r(self::label($value . ($newline ? PHP_EOL : ''), $level));
+            echo(self::label($value . ($newline ? PHP_EOL : ''), $level));
         }
     }
 
     public static function error($data)
     {
         self::write($data, self::ERROR);
+    }
+    
+    public static function warn($data)
+    {
+        self::write($data, self::WARNING);
+    }
+    
+    public static function info($data)
+    {
+        self::write($data, self::INFO);
     }
 
     private static function label($value, $level)

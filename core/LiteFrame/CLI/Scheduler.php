@@ -7,7 +7,7 @@ use DateTime;
 use GO\Job;
 use GO\Scheduler as GoScheduler;
 
-class Scheduler extends GoScheduler
+class Scheduler extends GoScheduler implements Runnable
 {
 
 
@@ -21,14 +21,13 @@ class Scheduler extends GoScheduler
      */
     public function command($command, $args = [], $id = null)
     {
-        list($class, $method) = getClassAndMethodFromString($command);
-        $fn = function () use ($class, $method) {
-            $commmandClass = "\\Commands\\$class";
-            $class = new $commmandClass;
-            return $class->$method();
+        $target = Router::getInstance()->getRoute($command);
+        $fn = function () use ($target) {
+            return $target->run();
         };
 
         return $this->call($fn, $args, $id);
+//        return $this->call("cli $target", $args, $id);
     }
 
     public function run(DateTime $runTime = null)

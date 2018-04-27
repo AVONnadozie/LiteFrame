@@ -1,8 +1,8 @@
 <?php
+/**
+ * Map commands to classes here
+ */
 
-use LiteFrame\CLI\Scheduler;
+use LiteFrame\CLI\Routing\Router;
 
-/* @var $scheduler Scheduler */
-/* @var \LiteFrame\CLI\Scheduler $scheduler */
-
-$scheduler->command('Sample@greet')->output('components/logs/cron.log');
+Router::map('hello', 'Sample', 'Sample Hello World command');

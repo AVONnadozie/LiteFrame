@@ -12,12 +12,17 @@ class Collection implements \Iterator, \ArrayAccess, \Countable
     {
         $this->current = 0;
         $this->items = $items;
-        $this->keys = [];
+        $this->keys = array_keys($items);
     }
 
     public function all()
     {
         return $this->items;
+    }
+    
+    public function keys()
+    {
+        return $this->keys;
     }
 
     /**
@@ -65,7 +70,7 @@ class Collection implements \Iterator, \ArrayAccess, \Countable
             return false;
         }
 
-        $key = $this->keys[$this->current];
+        $key = $this->keys[$offset];
         return isset($this->items[$key]);
     }
 
@@ -117,5 +122,10 @@ class Collection implements \Iterator, \ArrayAccess, \Countable
     public function first()
     {
         return isset($this->keys[0]) ? $this->items[$this->keys[0]] : null;
+    }
+    
+    public function toArray()
+    {
+        return $this->items;
     }
 }

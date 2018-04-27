@@ -39,6 +39,7 @@
                         <ul class="lilv2">
                             <li><a href="#Requirements">Requirements</a></li>
                             <li><a href="#Installation">Installation</a></li>
+                            <li><a href="#running">Running LiteFrame</a></li>
                         </ul>
                     </li>
                     <li class="divider"></li>
@@ -97,7 +98,7 @@
                         </ul>
                     </li>
                     <li class="divider"></li>
-                    
+
                     <li>
                         <a href="#Database">Database</a>
                         <ul class="lilv2">
@@ -106,7 +107,7 @@
                         </ul>
                     </li>
                     <li class="divider"></li>
-                    
+
                     <li>
                         <a href="#Libraries">Working with Libraries</a>
                         <ul class='lilv2'>
@@ -116,7 +117,7 @@
                         </ul>
                     </li>
                     <li class="divider"></li>
-                    
+
                     <li>
                         <a href="#Security">Security</a>
                         <ul class="lilv2">
@@ -127,7 +128,7 @@
                         </ul>
                     </li>
                     <li class="divider"></li>
-                    
+
                     <li>
                         <a href="#Testing">Testing</a>
                         <ul class="">
@@ -182,8 +183,10 @@
 
                         <p class="comment">Lines with asterisks(<span class="red-text">*</span>) are comments for developers.</p>
 
-                        <div><h4 id="Requirements" class="lv4">Requirements:</h4>
-                            <p>PHP 5.5 and above</p></div>
+                        <div>
+                            <h4 id="Requirements" class="lv4">Requirements:</h4>
+                            <p>PHP 5.5 and above</p>
+                        </div>
 
                         <h4 id="Installation" class="lv4">Installation:</h4>
                         <p>Download the latest release  <a href="https://github.com/AVONnadozie/LiteFrame/releases">here</a> and unzip. That's all!
@@ -198,8 +201,23 @@
 
 composer create-project avonnadozie/liteframe
 </code></pre>
+
+                        <h4 id="running" class="lv4">Running LiteFrame</h4>
+                        <p>
+                            <b>On Production</b><br/>
+                            No extra setup required, simply place the application files on your server document root folder, most likely to be public_html
+                        </p>
+                        <p>
+                            <b>On Local</b><br/>
+                            Run the cli <span class="scode path">serve</span> command to start the local server and optionally specify a port
+                        </p>
+                        <pre class="z-depth-1"><code class="bash">#!/bin/bash
+
+php cli serve --port=500
+</code></pre>
+                        This will start the local server at address 127.0.0.1:500
                     </section>
-                    
+
                     <section>
                         <h2 id="ArchitectureConcept" class="lv2">Architecture Concept</h2>
                         <div class="divider"></div>
@@ -690,34 +708,34 @@ class MySampleMiddleware extends Middleware
         <!--Highlight.js-->
         <script src="assets/highlightjs/highlight.pack.js" type="text/javascript"></script>
         <script>hljs.initHighlightingOnLoad();</script>
-        
+
         <!-- Smooth Scroll -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script>
-        $(document).ready(function(){
-          // Add smooth scrolling to all links
-          $("a").on('click', function(event) {
+            $(document).ready(function () {
+                // Add smooth scrolling to all links
+                $("a").on('click', function (event) {
 
-            // Make sure this.hash has a value before overriding default behavior
-            if (this.hash !== "") {
-              // Prevent default anchor click behavior
-              event.preventDefault();
+                    // Make sure this.hash has a value before overriding default behavior
+                    if (this.hash !== "") {
+                        // Prevent default anchor click behavior
+                        event.preventDefault();
 
-              // Store hash
-              var hash = this.hash;
+                        // Store hash
+                        var hash = this.hash;
 
-              // Using jQuery's animate() method to add smooth page scroll
-              // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
-              $('html, body').animate({
-                scrollTop: $(hash).offset().top
-              }, 800, function(){
+                        // Using jQuery's animate() method to add smooth page scroll
+                        // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+                        $('html, body').animate({
+                            scrollTop: $(hash).offset().top
+                        }, 800, function () {
 
-                // Add hash (#) to URL when done scrolling (default click behavior)
-                window.location.hash = hash;
-              });
-            } // End if
-          });
-        });
+                            // Add hash (#) to URL when done scrolling (default click behavior)
+                            window.location.hash = hash;
+                        });
+                    } // End if
+                });
+            });
         </script>
 
     </body>

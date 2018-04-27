@@ -18,7 +18,6 @@ LiteFrame is a lightweight PHP framework designed to earn the claps.
 - [x] Job Scheduling
 - [x] Error Logging
 - [x] Testing
-- [ ] Dependency Injection
 - [ ] Modular
 
 ## Requirements

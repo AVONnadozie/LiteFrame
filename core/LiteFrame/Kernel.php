@@ -3,6 +3,7 @@
 namespace LiteFrame;
 
 use Closure;
+use Exception;
 use LiteFrame\CLI\Args;
 use LiteFrame\CLI\Command;
 use LiteFrame\CLI\Output;
@@ -115,6 +116,9 @@ final class Kernel
         //Todo: Dependency Injection
         /* @var $controller Controller */
         $controller = new $controllerClass();
+        if (!$controller instanceof Controller) {
+            throw new Exception("$class does not extend Controller");
+        }
         $this->controllerMiddlewares = $controller->getMiddlewares();
         return function ($request) use ($controller, $method) {
             //Todo: Dependency Injection

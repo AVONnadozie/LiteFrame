@@ -135,24 +135,24 @@ final class Request
         return $this;
     }
 
-    public function input($key, $default = null)
+    public function input($key = null, $default = null)
     {
-        $route = $this->getRoute();
-        if (isset($_POST[$key])) {
-            $input = $_POST[$key];
-        }
+        $post = $_POST;
+        $get = $_GET;
+        $routeParams = [];
+        
         //Check route parameters
-        elseif ($route && isset($route->getParameters()[$key])) {
-            $input = $route->getParameters()[$key];
+        $route = $this->getRoute();
+        if ($route) {
+            $routeParams = $route->getParameters();
         }
-        //Check get parameters
-        elseif (isset($_GET[$key])) {
-            $input = $_GET[$key];
+        
+        $inputs = array_merge($get, $post, $routeParams);
+        if ($key) {
+            return isset($inputs[$key])?$inputs[$key]:$default;
         } else {
-            $input = $default;
+            return $inputs;
         }
-
-        return $input;
     }
 
     public function response()

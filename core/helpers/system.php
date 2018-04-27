@@ -171,7 +171,7 @@ function isRoute($route)
  *
  * @return mixed
  */
-function input($key, $default = null)
+function input($key = null, $default = null)
 {
     return Request::getInstance()
                     ->input($key, $default);

@@ -43,15 +43,16 @@ class Response
      */
     public function view($path, $data = [])
     {
-        $this->json = false;
-
         $view = new View();
-        $this->content .= $view->fetch($path, $data);
-        if (!$this->content) {
-            $this->status = 404;
-            $this->content = $view->getErrorPage(404);
+        $content = $view->fetch($path, $data);
+        $this->appendContent($content);
+        if (!$content) {
+            $content = $view->getErrorPage(404);
+            $this->setContent($content, 404);
         }
 
+        $this->toHTML();
+        
         return $this;
     }
 
@@ -67,6 +68,9 @@ class Response
     {
         $this->content = $content ? $content : '';
         $this->code = $code;
+        if (!is_scalar($content)) {
+            $this->toJson();
+        }
 
         return $this;
     }
@@ -81,7 +85,21 @@ class Response
      */
     public function appendContent($content, $code = 200)
     {
-        return $this->setContent($this->content.$content, $code);
+        if (!empty($content)) {
+            $oldContent = $this->getContent();
+
+            if (!empty($oldContent)) {
+                if (!is_scalar($content)) {
+                    $content = json_encode($content);
+                }
+
+                $this->toHTML();
+                $content = $oldContent . $content;
+            }
+
+            $this->setContent($content, $code);
+        }
+        return $this;
     }
 
     /**
@@ -95,18 +113,19 @@ class Response
     public function prependContent($content, $code = 200)
     {
         if (!empty($content)) {
-            $oldContent = $this->content;
-            if (!is_scalar($oldContent)) {
-                $oldContent = json_encode($oldContent);
+            $oldContent = $this->getContent();
+
+            if (!empty($oldContent)) {
+                if (!is_scalar($content)) {
+                    $content = json_encode($content);
+                }
+
+                $this->toHTML();
+                $content .= $oldContent;
             }
-            
-            if (!is_scalar($content)) {
-                $content = json_encode($content);
-            }
-            
-            $this->setContent($content.$oldContent, $code);
+
+            $this->setContent($content, $code);
         }
-        
         return $this;
     }
 
@@ -154,6 +173,33 @@ class Response
         $this->header('Content-Type', 'application/json');
         $this->json = true;
         return $this;
+    }
+
+    /**
+     * Force response to return as html
+     * @return $this
+     */
+    public function toHTML()
+    {
+        $this->header('Content-Type', 'text/html');
+        $this->json = false;
+        return $this;
+    }
+    
+    /**
+     * Force response to return as html
+     * @return $this
+     */
+    public function toPlain()
+    {
+        $this->header('Content-Type', 'text/plain');
+        $this->json = false;
+        return $this;
+    }
+    
+    public function isJson()
+    {
+        return $this->json;
     }
 
     /**
@@ -213,16 +259,15 @@ class Response
      */
     public function output()
     {
+        $content = $this->getContent();
+
+        //Set headers
         header($this->getStatusText());
         foreach ($this->headers as $header) {
             header($header);
         }
 
-        if ($this->request->wantsJson() || $this->json) {
-            $this->content = json_encode($this->content);
-        }
-
-        return $this->content;
+        return $content;
     }
 
     /**
@@ -241,6 +286,25 @@ class Response
      * @return string
      */
     public function getContent()
+    {
+        //Convert non scalar responses
+        if ($this->content && !is_scalar($this->content) && !$this->json) {
+            $this->toJson();
+        }
+
+        if (($this->json || $this->request->wantsJson()) && !is_scalar($this->content)) {
+            return json_encode($this->content);
+        } else {
+            return $this->content;
+        }
+    }
+
+    /**
+     * Get content of this response object as is.
+     *
+     * @return string
+     */
+    public function getRawContent()
     {
         return $this->content;
     }
@@ -267,7 +331,7 @@ class Response
             $code = 200;
         }
 
-        return "HTTP/1.1 $code ".$this->getHttpResponseMessage($code);
+        return "HTTP/1.1 $code " . $this->getHttpResponseMessage($code);
     }
 
     public function getHttpResponseMessage($code)

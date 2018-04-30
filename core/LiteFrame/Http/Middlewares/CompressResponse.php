@@ -47,6 +47,10 @@ class CompressResponse extends Middleware
 
     protected function optimize(Response $response)
     {
+        if ($response->isJson()) {
+            return $response;
+        }
+        
         $buffer = $response->getContent();
         if (stripos($buffer, '<pre>') !== false ||
                 stripos($buffer, '<textarea') !== false) {
@@ -69,7 +73,7 @@ class CompressResponse extends Middleware
                 '/ +/' => ' ',
             );
         }
-
+        
         $tinyContent = preg_replace(array_keys($replace), array_values($replace), $buffer);
         $response->setContent($tinyContent);
         ini_set('zlib.output_compression', 'On'); //enable GZip, too!

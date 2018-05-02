@@ -2,6 +2,11 @@
 
 namespace LiteFrame\Http;
 
+use LiteFrame\Http\Request\Header;
+use LiteFrame\Http\Request\UploadedFile;
+use LiteFrame\Http\Routing\Route;
+use LiteFrame\Storage\Server;
+use LiteFrame\Storage\Session;
 use LogicException;
 
 /**
@@ -16,8 +21,6 @@ final class Request
     protected $route;
     protected $appURL;
     protected $baseDir;
-    protected $protocol;
-    protected $hostname;
     protected $ajax;
     protected $content;
 
@@ -43,7 +46,7 @@ final class Request
     public function getRouteURL()
     {
         if (empty($this->routeUrl)) {
-            $param = trim($_SERVER['REQUEST_URI'], '/');
+            $param = trim(Server::get('REQUEST_URI'), '/');
 
             // strip base directory from request url
             $base_dir = $this->getBaseDir();
@@ -69,7 +72,7 @@ final class Request
     public function getBaseDir()
     {
         if (empty($this->baseDir)) {
-            $this->baseDir = trim(str_replace('index.php', '', $_SERVER['SCRIPT_NAME']), '/');
+            $this->baseDir = trim(str_replace('index.php', '', Server::get('SCRIPT_NAME')), '/');
         }
 
         return $this->baseDir;
@@ -97,48 +100,46 @@ final class Request
 
     public function getProtocol()
     {
-        if (empty($this->protocol)) {
-            $this->protocol = isset($_SERVER['REQUEST_SCHEME'])?$_SERVER['REQUEST_SCHEME']:'http';
-        }
-
-        return $this->protocol;
+        return Server::getInstance()->getProtocol();
     }
 
     public function getHostname()
     {
-        if (empty($this->hostname)) {
-            $this->hostname = $_SERVER['HTTP_HOST'];
-        }
-
-        return $this->hostname;
+        return Server::getInstance()->getHostname();
     }
 
     public function getMethod()
     {
-        return isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
+        return Server::getInstance()->getMethod();
     }
 
     /**
      * Current Route object.
      *
-     * @return Routing\Route
+     * @return Route
      */
     public function getRoute()
     {
         return $this->route;
     }
 
-    public function setRoute(Routing\Route $route)
+    public function setRoute(Route $route)
     {
         $this->route = $route;
 
         return $this;
     }
 
+    /**
+     * Get request parameters
+     * @param string $key
+     * @param mixed $default
+     * @return array|string
+     */
     public function input($key = null, $default = null)
     {
-        $post = $_POST;
-        $get = $_GET;
+        $post = $this->rawPostContent();
+        $get = $this->rawGetContent();
         $routeParams = [];
         
         //Check route parameters
@@ -154,12 +155,45 @@ final class Request
             return $inputs;
         }
     }
+    
+    private function rawGetContent()
+    {
+        return $_GET;
+    }
+    
+    private function rawPostContent()
+    {
+        return $_POST;
+    }
+    
+    private function rawRequestContent()
+    {
+        return $_REQUEST;
+    }
+    
+    /**
+     * Get uploaded file
+     * @param string $name
+     * @return UploadedFile Uploaded file
+     */
+    public function file($name)
+    {
+        return new UploadedFile($name);
+    }
 
+    /**
+     * Get response object
+     * @return Response
+     */
     public function response()
     {
         return Response::getInstance();
     }
 
+    /**
+     * Get session
+     * @return Session
+     */
     public function session()
     {
         return Session::getInstance();
@@ -172,13 +206,13 @@ final class Request
      */
     public function pjax()
     {
-        return Header::getInstance()->get('X-PJAX') == true;
+        return Header::get('X-PJAX') == true;
     }
 
     public function ajax()
     {
         if (!isset($this->ajax)) {
-            $rw = Header::getInstance()->get('HTTP_X_REQUESTED_WITH');
+            $rw = Header::get('HTTP_X_REQUESTED_WITH');
             $this->ajax = !empty($rw) && strtolower($rw) === 'xmlhttprequest';
         }
 
@@ -192,7 +226,7 @@ final class Request
      */
     public function isJson()
     {
-        $contentType = Header::getInstance()->get('CONTENT_TYPE');
+        $contentType = Header::get('CONTENT_TYPE');
 
         return stripos($contentType, '/json') !== false ||
                 stripos($contentType, '+json') !== false;
@@ -215,7 +249,7 @@ final class Request
      */
     public function wantsJson()
     {
-        $acceptable = Header::getInstance()->get('Accept');
+        $acceptable = Header::get('Accept');
 
         return isset($acceptable[0]) && (stripos($acceptable[0], '/json') !== false ||
                 stripos($acceptable[0], '+json') !== false);

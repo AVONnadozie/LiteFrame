@@ -1,6 +1,6 @@
 <?php
 
-namespace LiteFrame\Http;
+namespace LiteFrame\Http\Request;
 
 use ArrayIterator;
 use DateTime;
@@ -32,6 +32,11 @@ class Header
         return self::$instance;
     }
 
+    public static function get($key, $default = null, $first = true)
+    {
+        return self::getInstance()->getHeaderValue($key, $default, $first);
+    }
+    
     /**
      * Returns a header value by name.
      *
@@ -41,7 +46,7 @@ class Header
      *
      * @return string|array The first header value if $first is true, an array of values otherwise
      */
-    public function get($key, $default = null, $first = true)
+    public function getHeaderValue($key, $default = null, $first = true)
     {
         $key = $this->formatKey($key);
         if (!array_key_exists($key, $this->headers)) {
@@ -58,6 +63,8 @@ class Header
 
         return $this->headers[$key];
     }
+    
+    
 
     /**
      * Get all headers.
@@ -248,7 +255,7 @@ class Header
      */
     public function contains($key, $value)
     {
-        return in_array($value, $this->get($key, null, false));
+        return in_array($value, $this->getHeaderValue($key, null, false));
     }
 
     /**
@@ -281,7 +288,7 @@ class Header
      */
     public function getDate($key, DateTime $default = null)
     {
-        if (null === $value = $this->get($key)) {
+        if (null === $value = $this->getHeaderValue($key)) {
             return $default;
         }
 

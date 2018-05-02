@@ -30,7 +30,7 @@ class Logger
     private $exception;
     private $logFileFormat;
 
-    public function __construct($exception, $outputMedium = static::MEDIUM_STDOUT_FILE)
+    public function __construct($exception, $outputMedium = self::MEDIUM_STDOUT_FILE)
     {
         $this->outputMedium = $outputMedium;
         $this->exception = $exception;

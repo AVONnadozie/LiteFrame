@@ -41,7 +41,7 @@ class Output
         'reverse' => '7', 'hidden' => '8',
     );
 
-    public static function write($data, $level = static::NORMAL, $newline = true)
+    public static function write($data, $level = self::NORMAL, $newline = true)
     {
         $array = (array) $data;
         foreach ($array as $value) {

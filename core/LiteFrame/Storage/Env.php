@@ -9,6 +9,12 @@ class Env
     protected static $instance;
     protected $env;
 
+    
+    protected function __construct()
+    {
+    }
+
+    
     /**
      * Return singleton class instance.
      *
@@ -16,21 +22,21 @@ class Env
      */
     public static function getInstance()
     {
-        if (empty(self::$instance)) {
-            self::$instance = new self();
+        if (empty(static::$instance)) {
+            static::$instance = new static();
         }
 
-        return self::$instance;
+        return static::$instance;
     }
 
     public static function set($key, $value)
     {
-        return self::getInstance()->setValue($key, $value);
+        return static::getInstance()->setValue($key, $value);
     }
 
     public static function get($key, $default = null)
     {
-        return self::getInstance()->getValue($key, $default);
+        return static::getInstance()->getValue($key, $default);
     }
 
     public function setValue($key, $value)

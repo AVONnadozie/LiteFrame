@@ -26,6 +26,10 @@ final class Kernel
     private static $kernelInstance;
     private $controllerMiddlewares = [];
 
+    private function __construct()
+    {
+    }
+
     /**
      * Core Controller Middlewares
      * @var array

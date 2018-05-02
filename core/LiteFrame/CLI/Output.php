@@ -8,6 +8,10 @@ class Output
     const NORMAL = 1;
     const INFO = 2;
     const WARNING = 3;
+    
+    private function __construct()
+    {
+    }
 
     private static $colors = array(
         /**
@@ -37,40 +41,40 @@ class Output
         'reverse' => '7', 'hidden' => '8',
     );
 
-    public static function write($data, $level = self::NORMAL, $newline = true)
+    public static function write($data, $level = static::NORMAL, $newline = true)
     {
         $array = (array) $data;
         foreach ($array as $value) {
-            echo(self::label($value . ($newline ? PHP_EOL : ''), $level));
+            echo(static::label($value . ($newline ? PHP_EOL : ''), $level));
         }
     }
 
     public static function error($data)
     {
-        self::write($data, self::ERROR);
+        static::write($data, static::ERROR);
     }
     
     public static function warn($data)
     {
-        self::write($data, self::WARNING);
+        static::write($data, static::WARNING);
     }
     
     public static function info($data)
     {
-        self::write($data, self::INFO);
+        static::write($data, static::INFO);
     }
 
     private static function label($value, $level)
     {
         switch ($level) {
-            case self::INFO:
-                $value = "\033[" . self::$colors['blue'] . "m" . $value . "\033[0m";
+            case static::INFO:
+                $value = "\033[" . static::$colors['blue'] . "m" . $value . "\033[0m";
                 break;
-            case self::ERROR:
-                $value = "\033[" . self::$colors['red'] . "m" . $value . "\033[0m";
+            case static::ERROR:
+                $value = "\033[" . static::$colors['red'] . "m" . $value . "\033[0m";
                 break;
-            case self::WARNING:
-                $value = "\033[" . self::$colors['yellow'] . "m" . $value . "\033[0m";
+            case static::WARNING:
+                $value = "\033[" . static::$colors['yellow'] . "m" . $value . "\033[0m";
                 break;
             default:
                 break;
@@ -105,7 +109,7 @@ class Output
         array_shift($args);
         //Apply options
         array_push($args, $option);
-        return self::setOptions($string, $args);
+        return static::setOptions($string, $args);
     }
     
     private static function setOptions($string, array $options)
@@ -113,12 +117,12 @@ class Output
         $modded = '';
         foreach ($options as $option) {
             //Find color
-            if (isset(self::$colors[$option])) {
-                $modded .= "\033[" . self::$colors[$option] . "m";
+            if (isset(static::$colors[$option])) {
+                $modded .= "\033[" . static::$colors[$option] . "m";
             }
             //Find option
-            elseif (isset(self::$options[$option])) {
-                $modded .= "\033[" . self::$options[$option] . "m";
+            elseif (isset(static::$options[$option])) {
+                $modded .= "\033[" . static::$options[$option] . "m";
             }
         }
         $modded .= $string . "\033[0m";

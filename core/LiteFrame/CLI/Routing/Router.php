@@ -13,6 +13,10 @@ class Router
     protected $routes = [];
     protected $args;
 
+    private function __construct()
+    {
+    }
+
     /**
      * Return singleton class instance.
      *
@@ -20,13 +24,13 @@ class Router
      */
     public static function getInstance()
     {
-        if (empty(self::$instance)) {
-            self::$instance = new self();
+        if (empty(static::$instance)) {
+            static::$instance = new static();
             //load cli commands routes
-            self::$instance->loadRoutes();
+            static::$instance->loadRoutes();
         }
 
-        return self::$instance;
+        return static::$instance;
     }
     
     /**
@@ -43,7 +47,7 @@ class Router
 
     public static function map($command, $target, $description = '')
     {
-        $self = self::getInstance();
+        $self = static::getInstance();
         //Restrict users to Commands namespace
         $class = "\\Commands\\{$target}";
         $self->addCommand($command, $class, $description);
@@ -51,7 +55,7 @@ class Router
     
     private function addCommand($command, $class, $description = '')
     {
-        $self = self::getInstance();
+        $self = static::getInstance();
         if (isset($self->routes[$command])) {
             throw new Exception("Command '$command' already mapped.");
         }

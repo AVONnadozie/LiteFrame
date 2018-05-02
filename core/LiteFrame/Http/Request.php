@@ -24,6 +24,10 @@ final class Request
     protected $ajax;
     protected $content;
 
+    private function __construct()
+    {
+    }
+
     /**
      * Return singleton class instance.
      *
@@ -31,11 +35,11 @@ final class Request
      */
     public static function getInstance()
     {
-        if (empty(self::$instance)) {
-            self::$instance = new self();
+        if (empty(static::$instance)) {
+            static::$instance = new static();
         }
 
-        return self::$instance;
+        return static::$instance;
     }
 
     /**

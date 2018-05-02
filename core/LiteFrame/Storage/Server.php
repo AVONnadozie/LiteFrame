@@ -6,6 +6,9 @@ class Server
 {
     protected static $instance;
 
+    protected function __construct()
+    {
+    }
 
     /**
      * Return singleton class instance.
@@ -14,17 +17,17 @@ class Server
      */
     public static function getInstance()
     {
-        if (empty(self::$instance)) {
-            self::$instance = new self();
+        if (empty(static::$instance)) {
+            static::$instance = new static();
         }
 
-        return self::$instance;
+        return static::$instance;
     }
 
     
     public static function get($key, $default = null)
     {
-        return self::getInstance()->getServerValue($key, $default);
+        return static::getInstance()->getServerValue($key, $default);
     }
     
     public function getServerValue($key, $default = null)

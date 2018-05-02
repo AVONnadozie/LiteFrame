@@ -30,6 +30,10 @@ namespace LiteFrame\CLI;
 class Args
 {
     protected $args;
+    
+    protected function __construct()
+    {
+    }
 
     /**
      * Route definition
@@ -125,8 +129,8 @@ class Args
         }
         if (is_string($value)) {
             $value = strtolower($value);
-            if (isset(self::$optionsMap[$value])) {
-                return self::$optionsMap[$value];
+            if (isset(static::$optionsMap[$value])) {
+                return static::$optionsMap[$value];
             }
         }
         return $default;

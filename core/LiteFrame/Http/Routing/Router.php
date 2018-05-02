@@ -44,7 +44,7 @@ class Router
      * @param string $basePath
      * @param array  $matchTypes
      */
-    public function __construct($routes = array(), $matchTypes = array())
+    private function __construct($routes = array(), $matchTypes = array())
     {
         $this->addRoutes($routes);
         $this->addMatchTypes($matchTypes);
@@ -57,11 +57,11 @@ class Router
      */
     public static function getInstance()
     {
-        if (empty(self::$instance)) {
-            self::$instance = new self();
+        if (empty(static::$instance)) {
+            static::$instance = new static();
         }
 
-        return self::$instance;
+        return static::$instance;
     }
 
     /**

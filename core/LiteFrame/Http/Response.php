@@ -19,6 +19,12 @@ class Response
     protected $status;
     protected static $instance;
 
+    
+    protected function __construct()
+    {
+    }
+
+    
     /**
      * Return singleton class instance.
      *

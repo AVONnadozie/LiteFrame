@@ -30,7 +30,7 @@ class Logger
     private $exception;
     private $logFileFormat;
 
-    public function __construct($exception, $outputMedium = self::MEDIUM_STDOUT_FILE)
+    public function __construct($exception, $outputMedium = static::MEDIUM_STDOUT_FILE)
     {
         $this->outputMedium = $outputMedium;
         $this->exception = $exception;
@@ -125,7 +125,7 @@ class Logger
             $this->writeToLogFile($message);
             echo $message;
         } else {
-            if ($this->outputMedium !== self::MEDIUM_STDOUT) {
+            if ($this->outputMedium !== static::MEDIUM_STDOUT) {
                 $this->writeToLogFile($this->getContentForFile());
             }
 
@@ -144,7 +144,7 @@ class Logger
             $content['code'] = $this->exception->getCode();
             $content['title'] = "$title at $file line $line";
             $content['content'] = $content['title'];
-            if ($this->outputMedium !== self::MEDIUM_FILE) {
+            if ($this->outputMedium !== static::MEDIUM_FILE) {
                 $content['trace'] = $this->exception->getTraceAsString();
 
                 $content['content'] = $content['title'].PHP_EOL;
@@ -164,7 +164,7 @@ class Logger
         $content = '';
         if ($this->exception instanceof Exception) {
             $content = $this->exception->getMessage().PHP_EOL;
-            if ($this->outputMedium !== self::MEDIUM_STDOUT) {
+            if ($this->outputMedium !== static::MEDIUM_STDOUT) {
                 $date = date('Y-m-d H:i:s');
                 $file = $this->exception->getFile();
                 $line = $this->exception->getLine();
@@ -185,10 +185,10 @@ class Logger
     private function writeToLogFile($content)
     {
         switch ($this->logFileFormat ?: config('app.log', 'single')) {
-            case self::LOG_FILE_FORMAT_DAILY:
+            case static::LOG_FILE_FORMAT_DAILY:
                 $filename = 'liteframe-'.date('d-m-Y').'.log';
                 break;
-            case self::LOG_FILE_FORMAT_WEEKLY:
+            case static::LOG_FILE_FORMAT_WEEKLY:
                 $filename = 'liteframe-'.date('W-Y').'.log';
                 break;
             default:

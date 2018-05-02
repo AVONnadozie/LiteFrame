@@ -16,6 +16,10 @@ class Header
     private static $instance;
     protected $headers = array();
     protected $cacheControl = array();
+    
+    private function __construct()
+    {
+    }
 
     /**
      * Return singleton class instance.
@@ -24,17 +28,17 @@ class Header
      */
     public static function getInstance()
     {
-        if (empty(self::$instance)) {
-            self::$instance = new self();
-            self::$instance->setHeadersFromServer();
+        if (empty(static::$instance)) {
+            static::$instance = new static();
+            static::$instance->setHeadersFromServer();
         }
 
-        return self::$instance;
+        return static::$instance;
     }
 
     public static function get($key, $default = null, $first = true)
     {
-        return self::getInstance()->getHeaderValue($key, $default, $first);
+        return static::getInstance()->getHeaderValue($key, $default, $first);
     }
     
     /**

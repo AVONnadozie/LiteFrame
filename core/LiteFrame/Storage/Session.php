@@ -6,9 +6,9 @@ class Session
 {
     private static $instance;
 
-    public function __construct()
+    protected function __construct()
     {
-        //load session configurations
+        //load session configurations here
         
         //Start session
         if (session_status() === PHP_SESSION_NONE) {
@@ -24,21 +24,21 @@ class Session
      */
     public static function getInstance()
     {
-        if (empty(self::$instance)) {
-            self::$instance = new self();
+        if (empty(static::$instance)) {
+            static::$instance = new static();
         }
 
-        return self::$instance;
+        return static::$instance;
     }
     
     public static function set($key, $value)
     {
-        return self::getInstance()->set($key, $value);
+        return static::getInstance()->set($key, $value);
     }
     
     public static function get($key, $default = null)
     {
-        return self::getInstance()->get($key, $default);
+        return static::getInstance()->get($key, $default);
     }
     
     public function getValue($key, $default = null)

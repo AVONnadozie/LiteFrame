@@ -2,11 +2,11 @@
 
 namespace LiteFrame\Http\Middlewares;
 
-use BinaryFileResponse;
 use Closure;
 use LiteFrame\Http\Middleware;
 use LiteFrame\Http\Request;
 use LiteFrame\Http\Response;
+use LiteFrame\Http\Response\FileResponse;
 
 class CompressResponse extends Middleware
 {
@@ -37,7 +37,7 @@ class CompressResponse extends Middleware
         $response = $next($request);
         if (!config('app.compress_output') ||
                 self::$noOptimize ||
-                $response instanceof BinaryFileResponse ||
+                $response instanceof FileResponse ||
                 $response->getStatusCode() === 500) {
             return $response;
         } else {

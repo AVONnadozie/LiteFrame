@@ -14,9 +14,19 @@ use LiteFrame\View\View;
  *
  * @return string
  */
+define('ENV_PATH', 'components/env.php');
 function appEnv($key, $default = null)
 {
-    return Env::get($key, $default);
+    if (!isset($GLOBALS['env'])) {
+        $path = base_path(ENV_PATH);
+        if (file_exists($path)) {
+            $GLOBALS['env'] = require $path;
+        } else {
+            return $default;
+        }
+    }
+
+    return isset($GLOBALS['env'][$key]) ? $GLOBALS['env'][$key] : $default;
 }
 
 /**

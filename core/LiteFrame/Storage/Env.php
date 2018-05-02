@@ -8,7 +8,6 @@ class Env
 {
     protected static $instance;
     protected $env;
-    protected $file = 'components/env.php';
 
     /**
      * Return singleton class instance.
@@ -49,16 +48,7 @@ class Env
 
     public function getAppEnv($key, $default = null)
     {
-        if (!isset($this->env)) {
-            $path = base_path($this->file);
-            if (file_exists($path)) {
-                $this->env = require $path;
-            } else {
-                return $default;
-            }
-        }
-
-        return isset($this->env[$key]) ? $this->env[$key] : $default;
+        return appEnv($key, $default);
     }
 
     public function getSystemEnv($key, $default = null)

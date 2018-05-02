@@ -63,6 +63,11 @@ function stripEmoji($text)
     return $cleanText;
 }
 
+function strStartsWith($haystack, $needle)
+{
+    return stripos($haystack, $needle) === 0;
+}
+
 function strEndsWith($haystack, $needle)
 {
     return strripos($haystack, $needle) === (strlen($haystack) - strlen($needle));

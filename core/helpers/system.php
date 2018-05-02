@@ -15,16 +15,7 @@ use LiteFrame\View\View;
  */
 function appEnv($key, $default = null)
 {
-    if (!isset($GLOBALS['env'])) {
-        $path = WD . normalizePath('/components/env.php');
-        if (file_exists($path)) {
-            $GLOBALS['env'] = require $path;
-        } else {
-            return $default;
-        }
-    }
-
-    return isset($GLOBALS['env'][$key]) ? $GLOBALS['env'][$key] : $default;
+    return LiteFrame\Storage\Env::get($key, $default);
 }
 
 /**

@@ -3,6 +3,7 @@
 use LiteFrame\Http\Request;
 use LiteFrame\Http\Response;
 use LiteFrame\Http\Routing\Router;
+use LiteFrame\Storage\Env;
 use LiteFrame\View\View;
 
 /**
@@ -15,7 +16,7 @@ use LiteFrame\View\View;
  */
 function appEnv($key, $default = null)
 {
-    return LiteFrame\Storage\Env::get($key, $default);
+    return Env::get($key, $default);
 }
 
 /**

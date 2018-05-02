@@ -51,7 +51,7 @@ class View
             }
         }
 
-        return $this->getContent($file, ['bag' => $errorBag]);
+        return $this->getContent($file, ['bag' => $errorBag, 'errorBag' => $errorBag]);
     }
 
     private function getContent($file, $data = [])

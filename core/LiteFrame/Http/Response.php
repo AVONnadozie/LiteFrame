@@ -3,6 +3,7 @@
 namespace LiteFrame\Http;
 
 use LiteFrame\Exception\ErrorBag;
+use LiteFrame\Http\Response\FileResponse;
 use LiteFrame\View\View;
 
 /**
@@ -162,6 +163,25 @@ class Response
         $this->content = $content;
 
         return $this;
+    }
+    
+    /**
+     * Return file as response
+     * @param type $path
+     */
+    public function file($path)
+    {
+        return new FileResponse($path);
+    }
+    
+    /**
+     * Force download of file
+     * @param type $path
+     */
+    public function download($path, $name = null)
+    {
+        $fResponse = new FileResponse($path);
+        return $fResponse->download($name);
     }
 
     /**

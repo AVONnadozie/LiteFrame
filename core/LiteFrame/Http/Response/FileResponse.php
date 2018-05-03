@@ -48,8 +48,8 @@ class FileResponse extends Response
                 $known_mime_types[$ext] :
                 "application/force-download";
     }
-
-    public function download($name = null)
+    
+    public function forceDownload($name = null)
     {
         if (empty($name)) {
             $name = basename($this->path);

@@ -187,7 +187,7 @@ class Response
     public function download($path, $name = null)
     {
         $fResponse = new FileResponse($path);
-        return $fResponse->download($name);
+        return $fResponse->forceDownload($name);
     }
 
     /**

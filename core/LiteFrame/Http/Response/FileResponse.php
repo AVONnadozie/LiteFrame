@@ -4,25 +4,25 @@ namespace LiteFrame\Http\Response;
 
 use Exception;
 use LiteFrame\Http\Response;
+use LiteFrame\Storage\Server;
 
 class FileResponse extends Response
 {
     protected $path;
     protected $fileRange;
     protected $filesize;
+    protected $httpRange;
 
-    public function __construct($path)
+    protected function __construct($path)
     {
         if (!is_readable($path)) {
             throw new Exception("File $path not found or inaccessible");
         }
 
-        $this->setContent($path);
-    }
-
-    public function setContent($path)
-    {
         $this->path = $path;
+        $this->httpRange = Server::get('HTTP_RANGE');
+        
+        parent::__construct();
     }
 
     public function guessContentType()
@@ -74,7 +74,7 @@ class FileResponse extends Response
         $this->header('Content-Type', $mimeType);
 
         $size = $this->fileSize();
-        if (isset($_SERVER['HTTP_RANGE'])) {
+        if (!empty($this->httpRange)) {
             list($range_start, $range_end) = $this->getRequestedFileRange();
             $r_length = $this->getRequestedFileLength();
             $this->header("HTTP/1.1 206 Partial Content");
@@ -87,10 +87,10 @@ class FileResponse extends Response
 
     private function getRequestedFileRange()
     {
-        if (empty($this->fileRange) && isset($_SERVER['HTTP_RANGE'])) {
+        if (empty($this->fileRange) && !empty($this->httpRange)) {
             $size = $this->fileSize();
-        
-            list($a, $http_range_value) = explode("=", $_SERVER['HTTP_RANGE'], 2);
+
+            list($a, $http_range_value) = explode("=", $this->httpRange, 2);
             list($range) = explode(",", $http_range_value, 2);
             list($range_start_str, $range_end_str) = explode("-", $range);
             $range_start = intval($range_start_str);
@@ -103,7 +103,7 @@ class FileResponse extends Response
         }
         return $this->fileRange;
     }
-    
+
     private function getRequestedFileLength()
     {
         list($range_start, $range_end) = $this->getRequestedFileRange();
@@ -150,7 +150,7 @@ class FileResponse extends Response
         $file = fopen($this->path, 'r');
         list($range_start, $range_end) = $this->getRequestedFileRange();
         if ($file) {
-            if (isset($_SERVER['HTTP_RANGE'])) {
+            if ($this->httpRange) {
                 fseek($file, $range_start);
                 $length = $this->getRequestedFileLength();
             } else {

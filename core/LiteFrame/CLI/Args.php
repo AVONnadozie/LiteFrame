@@ -42,7 +42,7 @@ class Args
     protected $map = '';
     protected $command = '';
     protected $file = '';
-    public static $optionsMap = array(
+    public static $booleanMap = array(
         'y' => true,
         'n' => false,
         'yes' => true,
@@ -129,8 +129,8 @@ class Args
         }
         if (is_string($value)) {
             $value = strtolower($value);
-            if (isset(static::$optionsMap[$value])) {
-                return static::$optionsMap[$value];
+            if (isset(static::$booleanMap[$value])) {
+                return static::$booleanMap[$value];
             }
         }
         return $default;

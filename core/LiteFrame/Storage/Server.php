@@ -2,12 +2,16 @@
 
 namespace LiteFrame\Storage;
 
+use LiteFrame\CLI\Args;
+
 class Server
 {
     protected static $instance;
+    protected $values;
 
     protected function __construct()
     {
+        $this->values = $_SERVER;
     }
 
     /**
@@ -30,9 +34,14 @@ class Server
         return static::getInstance()->getServerValue($key, $default);
     }
     
+    public static function isSecure()
+    {
+        return static::getInstance()->isHttps();
+    }
+    
     public function getServerValue($key, $default = null)
     {
-        return isset($_SERVER[$key]) ? $_SERVER[$key] : $default;
+        return isset($this->values[$key]) ? $this->values[$key] : $default;
     }
     
     
@@ -49,5 +58,12 @@ class Server
     public function getMethod()
     {
         return static::get('REQUEST_METHOD', 'GET');
+    }
+    
+    public function isHttps()
+    {
+        $value = static::get('HTTPS', 'off');
+        //Translate
+        return Args::$booleanMap[$value];
     }
 }

@@ -5,19 +5,14 @@ namespace Middlewares;
 use Closure;
 use LiteFrame\Http\Request;
 
-/**
- * Description of MyMiddleware
- *
- * @author Victor Anuebunwa
- */
 class MyNamedSampleMiddleware extends Middleware
 {
     public function run(Closure $next = null, Request $request = null)
     {
         if ($next) {
-            //Do something before controller
+            //Do something before target controller or closure executes
             $response = $next($request);
-            //Do something after controller
+            //Do something after target controller or closure executes
             return $response;
         }
     }

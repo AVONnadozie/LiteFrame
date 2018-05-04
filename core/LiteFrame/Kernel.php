@@ -170,6 +170,7 @@ final class Kernel
             ini_set('display_errors', $local ? 1 : 0);
             ini_set('display_startup_errors', $local ? 1 : 0);
             ini_set('log_errors', 1);
+            ini_set('expose_php', 0);
 //        ini_set('error_log', '');
             ini_set('log_errors_max_length', $local ? 1024 : 0);
         }

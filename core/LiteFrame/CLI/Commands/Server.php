@@ -23,7 +23,7 @@ class Server extends Command
     public function run()
     {
         $port = $this->getArgument('port', '500');
-        $this->comment("Server started at 127.0.0.1:$port");
+        $this->output("Development server started at ". Output::green("http://127.0.0.1:$port"));
         $command  = "php -S 127.0.0.1:$port".(windows_os()?'':' 2>&1');
         return $this->exec($command);
     }

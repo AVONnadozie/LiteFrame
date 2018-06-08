@@ -68,13 +68,13 @@ class Output
     {
         switch ($level) {
             case static::INFO:
-                $value = "\033[" . static::$colors['blue'] . "m" . $value . "\033[0m";
+                $value = static::setOptions($value, ['blue']);
                 break;
             case static::ERROR:
-                $value = "\033[" . static::$colors['red'] . "m" . $value . "\033[0m";
+                $value = static::setOptions($value, ['red']);
                 break;
             case static::WARNING:
-                $value = "\033[" . static::$colors['yellow'] . "m" . $value . "\033[0m";
+                $value = static::setOptions($value, ['yellow']);
                 break;
             default:
                 break;
@@ -114,6 +114,10 @@ class Output
     
     private static function setOptions($string, array $options)
     {
+//        if (windows_os()) {
+//            return $string;
+//        }
+        
         $modded = '';
         foreach ($options as $option) {
             //Find color

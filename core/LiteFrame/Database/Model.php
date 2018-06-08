@@ -7,11 +7,6 @@ use Exception;
 use ReflectionObject;
 use ReflectionProperty;
 
-/**
- * Description of Model.
- *
- * @author Victor Anuebunwa
- */
 class Model extends QueryBuilder
 {
     protected static $connection;
@@ -95,12 +90,12 @@ class Model extends QueryBuilder
 
         if (!empty($this->primaryValues)) {
             $this->setPrimaryWhereCondition();
-            $query = 'select * from '.$this->getTable()
-                    .' where '.$this->getWhereQuery();
-            $result = $this->raw($query);
+            $query = 'select * from ' . $this->getTable()
+                    . ' where ' . $this->getWhereQuery();
+            $this->raw($query);
 
-            if (isset($result[0])) {
-                $this->setProperties($result[0]->record);
+            if (!$this->isEmpty()) {
+                $this->setProperties();
                 $this->setFinal();
 
                 return $this;
@@ -137,23 +132,31 @@ class Model extends QueryBuilder
     /**
      * Fetch results as array if it exists, else make a new query.
      */
-    public function fetch($limit = null)
+    public function fetch($limit = null, $offset = 0)
     {
         if ($this->isEmpty()) {
-            $query = 'select * from '.$this->getTable();
+            $query = 'select * from ' . $this->getTable();
 
             $where = $this->getWhereQuery();
             if (!empty($where)) {
-                $query .= ' where '.$where;
+                $query .= ' where ' . $where;
             }
 
             if (!empty($limit)) {
                 $query .= " limit $limit";
             }
 
+            if (!empty($offset)) {
+                $query .= " offset $offset";
+            }
+
             return $this->raw($query)->record;
         } else {
-            return $this->all();
+            if ($limit || $offset) {
+                return array_slice($this->all(), $offset, $limit);
+            } else {
+                return $this->all();
+            }
         }
     }
 
@@ -167,6 +170,7 @@ class Model extends QueryBuilder
 
     /**
      * Return first result. similar to fetch with a limit of 1.
+     * @return Model First model
      */
     public function first()
     {
@@ -189,9 +193,9 @@ class Model extends QueryBuilder
     {
         $model = new static();
         $link = static::getConnection();
-        $query = 'insert into '.$model->getTable().' set ';
+        $query = 'insert into ' . $model->getTable() . ' set ';
         foreach ($data as $key => $value) {
-            $query .= "$key = '".mysqli_escape_string($link, $value)."',";
+            $query .= "$key = '" . mysqli_escape_string($link, $value) . "',";
         }
         $query = rtrim($query, ',');
         if (mysqli_query($link, $query)) {
@@ -216,10 +220,10 @@ class Model extends QueryBuilder
      */
     public function delete()
     {
-        $query = 'delete from '.$this->getTable();
+        $query = 'delete from ' . $this->getTable();
         $where = $this->getWhereQuery();
         if (!empty($where)) {
-            $query .= ' where '.$where;
+            $query .= ' where ' . $where;
         }
 
         return $this->raw($query);
@@ -235,16 +239,16 @@ class Model extends QueryBuilder
      */
     public function update(array $data)
     {
-        $query = 'update '.$this->getTable().' set ';
+        $query = 'update ' . $this->getTable() . ' set ';
         $link = static::getConnection();
         foreach ($data as $key => $value) {
-            $query .= $key.'=\''.mysqli_escape_string($link, $value).'\',';
+            $query .= $key . '=\'' . mysqli_escape_string($link, $value) . '\',';
         }
         $query = rtrim($query, ',');
 
         $where = $this->getWhereQuery();
         if (!empty($where)) {
-            $query .= ' where '.$where;
+            $query .= ' where ' . $where;
         }
 
         return $this->raw($query);
@@ -349,7 +353,7 @@ class Model extends QueryBuilder
             //If __group key is set then the programmer wants to group this set
             //of conditions in __where
             if (is_array($value) && isset($value['__group'])) {
-                $query .= '('.$this->getWhereQuery($value['__where']).')';
+                $query .= '(' . $this->getWhereQuery($value['__where']) . ')';
             } elseif (is_array($value)) {
                 if (isset($value['__op'])) {
                     //Set column, operation and value
@@ -372,6 +376,7 @@ class Model extends QueryBuilder
     public function save()
     {
         $properties = (new ReflectionObject($this))->getProperties(ReflectionProperty::IS_PUBLIC);
+        //Check properties and create
     }
 
     public function __get($name)
@@ -388,7 +393,11 @@ class Model extends QueryBuilder
         $this->record[$name] = $value;
     }
 
-    public function paginate($limit)
+    public function paginate($limit = 10, $page = null)
     {
+        if (!$page) {
+            $page = 1;
+        }
+        return $this->fetch($limit, (($page - 1) * 10));
     }
 }

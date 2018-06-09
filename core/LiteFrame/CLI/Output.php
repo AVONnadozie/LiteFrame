@@ -8,7 +8,7 @@ class Output
     const NORMAL = 1;
     const INFO = 2;
     const WARNING = 3;
-    
+
     private function __construct()
     {
     }
@@ -34,7 +34,6 @@ class Output
         'b_blue' => '44', 'b_magenta' => '45',
         'b_cyan' => '46', 'b_light_gray' => '47',
     );
-    
     private static $options = array(
         'bold' => '1', 'dim' => '2',
         'underline' => '4', 'blink' => '5',
@@ -53,12 +52,12 @@ class Output
     {
         static::write($data, static::ERROR);
     }
-    
+
     public static function warn($data)
     {
         static::write($data, static::WARNING);
     }
-    
+
     public static function info($data)
     {
         static::write($data, static::INFO);
@@ -111,13 +110,13 @@ class Output
         array_push($args, $option);
         return static::setOptions($string, $args);
     }
-    
+
     private static function setOptions($string, array $options)
     {
-//        if (windows_os()) {
-//            return $string;
-//        }
-        
+        if (!self::terminalSupportsANSICodes()) {
+            return $string;
+        }
+
         $modded = '';
         foreach ($options as $option) {
             //Find color
@@ -131,5 +130,22 @@ class Output
         }
         $modded .= $string . "\033[0m";
         return $modded;
+    }
+
+    /**
+     * Check if terminal supports ANSI color codes
+     * @return boolean
+     */
+    private static function terminalSupportsANSICodes()
+    {
+        //Temporary solution, hoping this will be improved on
+        if (function_exists('posix_isatty')) {
+            return posix_isatty(STDOUT);
+        } else {
+            //UPDATE REALLY REQUIRED HERE!
+            //We are aware that with some programs like Cygwin, windows terminal can support ANSI codes,
+            //but we don't know how to detect that yet.
+            return !windows_os();
+        }
     }
 }

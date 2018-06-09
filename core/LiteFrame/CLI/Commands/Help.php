@@ -48,13 +48,18 @@ class Help extends Command
                 $this->error('Command not found');
             }
         } else {
-            $this->info('Available CLI commands:');
+            $output = [];
             foreach ($routes as $command => $route) {
                 if (empty($command)) {
                     continue; //Skip other description for Help command
                 }
-
-                $text = $this->paint($command, $route->getDescription());
+                $output[$command] = $route->getDescription();
+            }
+            
+            asort($output);
+            $this->info('Available CLI commands:');
+            foreach ($output as $command => $description) {
+                $text = $this->paint($command, $description);
                 $this->output($text);
             }
         }
@@ -81,6 +86,6 @@ class Help extends Command
 
     private function paint($command, $description)
     {
-        return Output::green($command) . ": $description";
+        return Output::green($command) . " - $description";
     }
 }

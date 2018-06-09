@@ -34,7 +34,7 @@
     },
     "scripts": {
         "post-root-package-install": [
-            "php -r \"file_exists('components/.env.php') || copy('components/.env.example.php', 'components/.env.php');\""
+            "@php cli make:env"
         ],
         "test": "\"components/composer/bin/phpunit\""
     }

@@ -33,11 +33,13 @@ class Router
         return static::$instance;
     }
     
-    /**
-     * Add core commands to routes
+    /**************************************
+     * ************************************
+     *  Add core commands to routes here
      */
     private function addCoreCommands()
     {
+        $this->addCommand('make:env', \LiteFrame\CLI\Commands\MakeEnv::class, 'Create application env file if it does not exist');
         $this->addCommand('serve', \LiteFrame\CLI\Commands\Server::class, 'Start PHP Server');
         $this->addCommand('schedule', \LiteFrame\CLI\Commands\Schedule::class, 'Schedule cron jobs');
         $this->addCommand('help', \LiteFrame\CLI\Commands\Help::class, 'Display command descriptions');

@@ -19,6 +19,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Dependency injection
 - Auto sitemap generation
 
+## [0.1.2] - 2018-06-09
+### Added
+- Commands
+- Local Development Server Support
+
 ## [0.1.1] - 2018-01-30
 ### Removed
 - Unused styles and images
@@ -31,3 +36,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 [Unreleased]: https://github.com/avonnadozie/LiteFrame/compare/v0.1.1...HEAD
 [0.1.1]: https://github.com/avonnadozie/LiteFrame/compare/v0.1.0...v0.1.1
+[0.1.2]: https://github.com/avonnadozie/LiteFrame/compare/v0.1.1...v0.1.2

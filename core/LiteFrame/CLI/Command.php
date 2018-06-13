@@ -64,9 +64,9 @@ abstract class Command implements Runnable
         Output::write(Output::yellow($text));
     }
 
-    public function output($text)
+    public function output($text, $newline = true)
     {
-        Output::write($text);
+        Output::write($text, Output::NORMAL, $newline);
     }
     
     public function error($text)

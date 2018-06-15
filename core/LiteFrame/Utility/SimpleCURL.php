@@ -117,7 +117,38 @@ class SimpleCURL
         return $this;
     }
 
-    
+    private function request($url, $method = 'GET', $data = [])
+    {
+        $process = curl_init($url);
+        curl_setopt($process, CURLOPT_HTTPHEADER, $this->headers);
+        curl_setopt($process, CURLOPT_USERAGENT, $this->userAgent);
+        if ($this->acceptsCookie) {
+            curl_setopt($process, CURLOPT_COOKIEFILE, $this->cookieFile);
+            curl_setopt($process, CURLOPT_COOKIEJAR, $this->cookieFile);
+        }
+        
+        if ($this->proxy) {
+            curl_setopt($process, CURLOPT_PROXY, $this->proxy);
+        }
+        
+        curl_setopt($process, CURLOPT_ENCODING, $this->compression);
+        curl_setopt($process, CURLOPT_TIMEOUT, 30);
+        curl_setopt($process, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($process, CURLOPT_FOLLOWLOCATION, 1);
+        
+        if (strcasecmp($method, 'POST') === 0) {
+            curl_setopt($process, CURLOPT_HEADER, 1);
+            curl_setopt($process, CURLOPT_POST, 1);
+            curl_setopt($process, CURLOPT_POSTFIELDS, $data);
+        } else {
+            curl_setopt($process, CURLOPT_HEADER, 0);
+        }
+        
+        $return = curl_exec($process);
+        $this->requestInfo = curl_getinfo($process);
+        curl_close($process);
+        return $process;
+    }
     
     /**
      * Make HTTP GET request to a URL
@@ -126,27 +157,7 @@ class SimpleCURL
      */
     public function sendGET($url)
     {
-        $process = curl_init($url);
-        curl_setopt($process, CURLOPT_HTTPHEADER, $this->headers);
-        curl_setopt($process, CURLOPT_HEADER, 0);
-        curl_setopt($process, CURLOPT_USERAGENT, $this->userAgent);
-        if ($this->acceptsCookie == true) {
-            curl_setopt($process, CURLOPT_COOKIEFILE, $this->cookieFile);
-        }
-        if ($this->acceptsCookie == true) {
-            curl_setopt($process, CURLOPT_COOKIEJAR, $this->cookieFile);
-        }
-        curl_setopt($process, CURLOPT_ENCODING, $this->compression);
-        curl_setopt($process, CURLOPT_TIMEOUT, 30);
-        if ($this->proxy) {
-            curl_setopt($process, CURLOPT_PROXY, $this->proxy);
-        }
-        curl_setopt($process, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($process, CURLOPT_FOLLOWLOCATION, 1);
-        $return = curl_exec($process);
-        $this->requestInfo = curl_getinfo($process);
-        curl_close($process);
-        return $return;
+        return $this->request($url);
     }
 
     /**
@@ -157,29 +168,7 @@ class SimpleCURL
      */
     public function sendPOST($url, $data)
     {
-        $process = curl_init($url);
-        curl_setopt($process, CURLOPT_HTTPHEADER, $this->headers);
-        curl_setopt($process, CURLOPT_HEADER, 1);
-        curl_setopt($process, CURLOPT_USERAGENT, $this->userAgent);
-        if ($this->acceptsCookie == true) {
-            curl_setopt($process, CURLOPT_COOKIEFILE, $this->cookieFile);
-        }
-        if ($this->acceptsCookie == true) {
-            curl_setopt($process, CURLOPT_COOKIEJAR, $this->cookieFile);
-        }
-        curl_setopt($process, CURLOPT_ENCODING, $this->compression);
-        curl_setopt($process, CURLOPT_TIMEOUT, 30);
-        if ($this->proxy) {
-            curl_setopt($process, CURLOPT_PROXY, $this->proxy);
-        }
-        curl_setopt($process, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($process, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($process, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($process, CURLOPT_POST, 1);
-        $return = curl_exec($process);
-        $this->requestInfo = curl_getinfo($process);
-        curl_close($process);
-        return $return;
+        return $this->request($url, 'POST', $data);
     }
 
     /**
@@ -236,7 +225,7 @@ class SimpleCURL
         return $self->sendGET($url);
     }
     
-    protected function __destruct()
+    public function __destruct()
     {
         $file = $this->getCookieFile();
         if (file_exists($file)) {

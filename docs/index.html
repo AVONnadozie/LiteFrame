@@ -265,9 +265,9 @@ components
   |____ helpers //Helper files
   |____ lib //3rd party libraries
   |____ logs //Error logs
-  |____ .htaccess //Prevents direct access to files in this folder and subfolders
   |____ env.php //Environment specific configurations
   |____ env.sample //Sample env.php file
+  |____ .htaccess //Prevents direct access to files in this folder and subfolders
 core //Core files, do not modify
 docs //(Optional) Documentation
 storage //(Optional) Publicly accessible files
@@ -282,24 +282,26 @@ index.php //Entry point for HTTP requests</code></pre>
                         <div class="divider"></div>
                         <h3 id="Routing" class="lv3">Routing</h3>
                         <h4 id="BasicsRouting" class="lv4">Basics:</h4>
-                        <p>The simpler method accepts just a URI and a Closure when defining routes:</p>
+                        <p>All routes are defined in your route files, which are located in the 
+                            <span class="scode path">app/Routes</span> directory. 
+                            These files are automatically loaded by the framework. 
+                            The <span class="scode path">app/Routes/web.php</span> file defines 
+                            routes that are for your web interface.
+                            The routes in <span class="scode path">app/Routes/api.php</span> 
+                            are stateless and are suited for API calls, while 
+                            <span class="scode path">app/Routes/cli.php</span> are for commands.
+                        </p>
+                        <p>The simpler method for web and api routes accepts just a URI and a Closure</p>
 
                         <pre class="z-depth-1"><code class="php">Router::get('foo', function () {
     return 'Hello World';
 });
 </code></pre>
 
-                        <div>
-                            <p>Alternatively, you can specify a controller action in place of the closure.</p>
-                            <p>All routes are defined in your route files, which are located in the 
-                                <span class="scode path">app/Routes</span> directory. 
-                                These files are automatically loaded by the framework. 
-                                The <span class="scode path">app/Routes/web.php</span> file defines 
-                                routes that are for your web interface.
-                                The routes in <span class="scode path">app/Routes/api.php</span> 
-                                are stateless and are suited for API calls, while 
-                                <span class="scode path">app/Routes/cli.php</span> are for commands.
-                            </p></div>
+                        <p>Alternatively, you can specify a controller action in place of the closure.</p>
+                        <pre class="z-depth-1"><code class="php">Router::get('foo', 'AppController@helloworld');</code></pre>
+                        <p>This will be explained further down</p>
+
 
                         <br />
                         <h4 id="AvailableRouterMethods" class="lv4">Available Router Methods:</h4>
@@ -426,7 +428,6 @@ Router::all($route, $target);
 [a:action]           // Match alphanumeric characters as 'action'
 [h:key]              // Match hexadecimal characters as 'key'
 [:action]            // Match anything up to the next / or end of the URI as 'action'
-[create|edit:action] // Match either 'create' or 'edit' as 'action'
 [*]                  // Catch all (lazy, stops at the next trailing slash)
 [*:trailing]         // Catch all as 'trailing' (lazy)
 [**:trailing]        // Catch all (possessive - will match the rest of the URI)
@@ -622,19 +623,19 @@ class MySampleMiddleware extends Middleware
 
                         <h3 id="Models" class="lv3">Models</h3>
                         <p class="comment"> Explain how to create and use models.</p>
-                        
+
                         <h3 id="Views" class="lv3">Views</h3>
                         <p class="comment"> Explain how to create views.</p>
-                        
+
                         <h3 id="Response" class="lv3">Response</h3>
                         <p class="comment"> Explain the <span class="scode path">LiteFrame\Http\Response</span> object.</p>
-                        
+
                         <h3 id="Commands" class="lv3">Commands</h3>
                         <h4 id="CommandBasics" class="lv4">Basics:</h4>
                         <p class="comment"> Explain the basics in creating commands.</p>
                         <h3 id="Scheduling" class="lv4">Scheduling</h3>
                         <p class="comment"> Explain scheduling.</p>
-                        
+
                         <h3 id="ErrorsAndLogging" class="lv3">Errors & Logging</h3>
                         <h4 id="EnvironmentVariables" class="lv4">Environment Variables:</h4>
                         <p class="comment"> Explain how to configure app environment variables.</p>

@@ -31,15 +31,20 @@ $autoload_config = [
         /**
          * PHP Cron Scheduler
          */
-        "GO\\" => "php-cron-scheduler/src/GO",
+        'GO' => "php-cron-scheduler/src/GO",
         /**
          * Cron Expression required by PHP Cron Scheduler
          */
-        "Cron\\" => "cron-expression/src/Cron",
+        'Cron' => "cron-expression/src/Cron",
         /**
          * Form Validator
          */
-        "FormValidator\\" => "php-form-validation/src",
+        'FormValidator' => "php-form-validation/src",
+        /**
+         * Symfony Components
+         */
+        'Symfony\Component\VarDumper' => "symphony/var-dumper",
+        'Symfony\Polyfill\Mbstring' => "symphony/polyfill-mbstring",
     ],
     /*
      * ----------------------------

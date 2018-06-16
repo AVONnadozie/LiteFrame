@@ -3,8 +3,11 @@
 use LiteFrame\Http\Request;
 use LiteFrame\Http\Response;
 use LiteFrame\Http\Routing\Router;
-use LiteFrame\Storage\Env;
 use LiteFrame\View\View;
+use Symfony\Component\VarDumper\Cloner\VarCloner;
+use Symfony\Component\VarDumper\Dumper\CliDumper;
+use Symfony\Component\VarDumper\Dumper\HtmlDumper;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Get environment setting.
@@ -222,25 +225,38 @@ function response($content = null, $code = 200)
  */
 function d()
 {
-    if (isCLI()) {
-        $args = func_get_args();
-        foreach ($args as $value) {
-            var_dump($value);
+    $args = func_get_args();
+    $cutomStyles = array(
+        'default' => 'background-color:#ecf0f3; border:lightgray solid thin; color:#757575; line-height:1.2em; font:12px Menlo, Monaco, Consolas, monospace; word-wrap: break-word; white-space: pre-wrap; position:relative; z-index:99999; word-break: break-all',
+        'num' => 'font-weight:bold; color:#1299DA',
+        'const' => 'font-weight:bold',
+        'str' => 'font-weight:bold; color:#56DB3A',
+        'note' => 'color:#1299DA',
+        'ref' => 'color:#A0A0A0',
+        'public' => 'color:#FFFFFF',
+        'protected' => 'color:#FFFFFF',
+        'private' => 'color:#FFFFFF',
+        'meta' => 'color:#B729D9',
+        'key' => 'color:#56DB3A',
+        'index' => 'color:#1299DA',
+        'ellipsis' => 'color:#FF8400',
+    );
+    
+    VarDumper::setHandler(function ($var) use ($cutomStyles) {
+        $cloner = new VarCloner();
+        if ('cli' === PHP_SAPI) {
+            $dumper = new CliDumper();
+        } else {
+            $dumper =  new HtmlDumper();
+            $dumper->setStyles($cutomStyles);
         }
-        exit;
-    } else {
-        echo <<<'EOF'
-<html><head><style>pre{border: lightgrey thin solid;border-radius: 5px;padding: 10px;background-color: #eee}</style></head><body>
-EOF;
-        $args = func_get_args();
-        echo '<body>';
-        foreach ($args as $value) {
-            echo '<pre>' . PHP_EOL;
-            var_dump($value) . '<br/><br/>';
-            echo '</pre>';
-        }
-        die('</body></html>');
+        $dumper->dump($cloner->cloneVar($var));
+    });
+    
+    foreach ($args as $value) {
+        VarDumper::dump($value);
     }
+    exit;
 }
 
 /**

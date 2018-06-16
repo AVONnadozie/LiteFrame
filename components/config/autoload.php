@@ -44,10 +44,8 @@ return [
      */
     "mapping" => [
         "Carbon" => "nesbot/carbon/src/Carbon",
-        "Symfony\Component\VarDumper" => "symphony/var-dumper",
-        "Symfony\Component\Translation" => "symphony/translation",
-        "Symfony\Polyfill\Mbstring" => "symphony/polyfill-mbstring",
-//            "PHPMailer\PHPMailer" => "PHPMailer/src"
+        //Required by Carbon
+        "Symfony\Component\Translation" => "symphony/translation"
     ],
     
     /*

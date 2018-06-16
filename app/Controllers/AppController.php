@@ -12,7 +12,7 @@ class AppController extends Controller
     public function index()
     {
         $data['time'] = \Carbon\Carbon::now();
-
+        
         return view('home', $data);
     }
 

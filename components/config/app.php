@@ -53,23 +53,5 @@ return [
      * | Name of storage folder.
      */
     'storage' => appEnv('APP_STORAGE', 'storage'),
-    /*
-     * ----------------------------
-     *  Autoload settings
-     * ----------------------------
-     * |
-     */
-    "autoload" => [
-        //Folders where autloader will look for files
-        "classmap" => [
-            "components/lib"
-        ],
-        //Namespace to folder mapping
-        "psr-4" => [
-//            "PHPMailer\PHPMailer" => "PHPMailer/src"
-        ],
-        //Other files to autoload
-        "files" => [
-        ]
-    ],
+    
 ];

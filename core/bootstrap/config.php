@@ -1,15 +1,33 @@
 <?php
 
+/*
+ * ----------------------------
+ *  Core Autoload Settings
+ * ----------------------------
+ * |
+ */
+
 $autoload_config = [
-    //Folders for autloader to look for files
-    "classmap" => [
+    /*
+     * ----------------------------
+     *  Lookup folders
+     * ----------------------------
+     * | Folders where autloader will look for packages
+     */
+    "folders" => [
         'core',
         'core/toolkit',
         'app',
         'tests'
     ],
-    //Namespace - Directory mapping
-    "psr-4" => [
+    
+    /*
+     * ----------------------------
+     *  PSR-4 Namespace to folder mapping
+     * ----------------------------
+     * |
+     */
+    "mapping" => [
         /**
          * PHP Cron Scheduler
          */
@@ -23,11 +41,12 @@ $autoload_config = [
          */
         "FormValidator\\" => "php-form-validation/src",
     ],
-    //Other files to autoload
+    /*
+     * ----------------------------
+     *  Files to autoload (auto include)
+     * ----------------------------
+     * |
+     */
     "files" => [
-        /**
-         * RedBean file
-         */
-    //        'core/toolkit/RedBeanPHP5_0_0/rb.php'
     ]
 ];

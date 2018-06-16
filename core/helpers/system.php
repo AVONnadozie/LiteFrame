@@ -390,13 +390,13 @@ function appAutoloader($class)
     global $autoload_config;
 
     //Autoload paths (in order of importance)
-    $defaultAutoloadPaths = $autoload_config['classmap'];
-    $userAutoloadPaths = config('app.autoload.classmap');
+    $defaultAutoloadPaths = $autoload_config['folders'];
+    $userAutoloadPaths = config('autoload.folders');
     $autoloadPaths = array_merge($defaultAutoloadPaths, $userAutoloadPaths);
 
     //Check psr-4 configuration
-    $defaultPsr4 = $autoload_config['psr-4'];
-    $userPsr4 = config('app.autoload.psr-4', []);
+    $defaultPsr4 = $autoload_config['mapping'];
+    $userPsr4 = config('autoload.mapping', []);
     $psr4 = array_merge($userPsr4, $defaultPsr4);
     $psr4Path = null;
     foreach ($psr4 as $namespace => $folder) {

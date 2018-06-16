@@ -33,20 +33,6 @@ class Router
         return static::$instance;
     }
     
-    /**************************************
-     * ************************************
-     *  Add core commands to routes here
-     */
-    private function addCoreCommands()
-    {
-        $this->addCommand('make:env', \LiteFrame\CLI\Commands\MakeEnv::class, 'Create application env file if it does not exist');
-        $this->addCommand('serve', \LiteFrame\CLI\Commands\Server::class, 'Start PHP Server');
-        $this->addCommand('schedule', \LiteFrame\CLI\Commands\Schedule::class, 'Schedule cron jobs');
-        $this->addCommand('help', \LiteFrame\CLI\Commands\Help::class, 'Display command descriptions');
-        //Display help when no command is specified
-        $this->addCommand('', \LiteFrame\CLI\Commands\Help::class);
-    }
-
     public static function map($command, $target, $description = '')
     {
         $self = static::getInstance();
@@ -80,10 +66,8 @@ class Router
     private function loadRoutes()
     {
         if (empty($this->routes)) {
-            $this->addCoreCommands();
-
-            $routeFile = base_path('app/Routes/cli.php');
-
+            require_once $this->coreRouteFile();
+            $routeFile = $this->userRouteFile();
             if (file_exists($routeFile)) {
                 require_once $routeFile;
             } else {
@@ -137,5 +121,15 @@ class Router
         /* @var $route Route */
         $route = $this->routes[$command];
         return $route->getDescription();
+    }
+    
+    protected function userRouteFile()
+    {
+        return base_path('app/Routes/cli.php');
+    }
+    
+    protected function coreRouteFile()
+    {
+        return __DIR__.'/routes.php';
     }
 }

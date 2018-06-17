@@ -97,37 +97,9 @@ abstract class Command implements Runnable
      *
      * @return array
      */
-    public function exec($cmd, $write = '', $realtime = true)
+    public function exec($cmd)
     {
-        $cmd = escapeshellcmd($cmd);
-        $process = proc_open($cmd, [
-            0 => ['pipe', 'r'],
-            1 => ['pipe', 'w'],
-            2 => ['pipe', 'w']], $pipes);
-
-        if (!is_resource($process)) {
-            return ['Could not open resource stream', 1];
-        }
-
-        fwrite($pipes[0], $write);
-        fclose($pipes[0]);
-
-        if ($realtime) {
-            while ($s = fgets($pipes[1])) {
-                echo $s;
-                flush();
-            }
-        }
-
-        $stdout = stream_get_contents($pipes[1]);
-        fclose($pipes[1]);
-
-        $stderr = stream_get_contents($pipes[2]);
-        fclose($pipes[2]);
-
-        $rtn = proc_close($process);
-
-        return [$rtn ? $stderr : $stdout, $rtn];
+        return system($cmd);
     }
     
     /**

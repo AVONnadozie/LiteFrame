@@ -125,7 +125,7 @@ class Router
     
     protected function userRouteFile()
     {
-        return base_path('app/Routes/cli.php');
+        return basePath('app/Routes/cli.php');
     }
     
     protected function coreRouteFile()

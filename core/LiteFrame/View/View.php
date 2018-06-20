@@ -18,13 +18,13 @@ class View
     {
         $paths = config('view.path');
         if (empty($paths)) {
-            $paths = [app_path('Views')];
+            $paths = [appPath('Views')];
         }
 
         $filename = trim($path, '/') . '.php';
         $file = null;
         foreach ($paths as $dir) {
-            $file = npath($dir, $filename);
+            $file = nPath($dir, $filename);
             if (file_exists($file)) {
                 break;
             }
@@ -44,9 +44,9 @@ class View
 
             //We are left with no choose but to use our default error pages
             if (!file_exists($file)) {
-                $file = base_path("core/html/errors/$code.php");
+                $file = basePath("core/html/errors/$code.php");
                 if (!file_exists($file)) {
-                    $file = base_path('core/html/errors/default.php');
+                    $file = basePath('core/html/errors/default.php');
                 }
             }
         }

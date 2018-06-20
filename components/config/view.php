@@ -9,6 +9,6 @@ return [
      *
      */
     'path' => [
-        app_path('Views')
+        appPath('Views')
     ]
 ];

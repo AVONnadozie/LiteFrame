@@ -19,6 +19,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Dependency injection
 - Auto sitemap generation
 
+
+## [0.2.0] - 2018-MM-DD
+### Added
+
+### Changed
+- 
+
+### Fixed
+- 
+
+### Removed
+- 
+
+### Deprecated
+- 
+
+### Security
+- 
+
+
 ## [0.1.2] - 2018-06-09
 ### Added
 - Commands

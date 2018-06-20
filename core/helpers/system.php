@@ -21,7 +21,7 @@ define('ENV_PATH', 'components/env.php');
 function appEnv($key, $default = null)
 {
     if (!isset($GLOBALS['env'])) {
-        $path = base_path(ENV_PATH);
+        $path = basePath(ENV_PATH);
         if (file_exists($path)) {
             $GLOBALS['env'] = require $path;
         } else {
@@ -50,7 +50,7 @@ function config($key, $default = null)
         $file = $key;
     }
 
-    $path = base_path("components/config/$file.php");
+    $path = basePath("components/config/$file.php");
     if (!file_exists($path)) {
         return $default;
     }
@@ -298,39 +298,42 @@ function asset($path = '')
  *
  * @return type
  */
-function storage_url($uri = '/')
+function publicStorageURL($uri = '/')
 {
     $folder = config('app.storage', 'storage');
 
     return url($folder . '/' . trim($uri, '/'));
 }
 
-function storage_path($path = '', $public = true)
+function storagePath($path = '', $section = 'public')
 {
-    if ($public) {
-        $folder = config('app.storage', 'storage');
-
-        return base_path($folder . DS . trim($path, DS));
-    } else {
-        return data_path($path);
+    $storage_path = config('app.storage', 'storage');
+    if ($section) {
+        $storage_path = nPath($storage_path, $section);
     }
+    
+    return basePath(nPath($storage_path, $path));
 }
 
-function data_path($path)
+function privateStoragePath($path, $context = '')
 {
-    return base_path('components/data/' . trim($path, DS));
+    return storagePath(nPath($path, $context), 'private');
+}
+
+function publicStoragePath($path, $context = '')
+{
+    return storagePath(nPath($path, $context), 'public');
 }
 
 /**
  * Get the path to the base of the application.
  *
  * @param string $path
- *
  * @return string
  */
-function base_path($path = '')
+function basePath($path = '')
 {
-    return npath(WD, $path);
+    return nPath(WD, $path);
 }
 
 /**
@@ -340,19 +343,19 @@ function base_path($path = '')
  *
  * @return string
  */
-function app_path($path = '')
+function appPath($path = '')
 {
-    return base_path('app/'.$path);
+    return basePath('app/'.$path);
 }
 
 /**
- * Get normalized path.
+ * Concatenates two paths
  * @param string $path
  * @param type $context
  *
  * @return string
  */
-function npath($path, $context = '')
+function nPath($path, $context = '')
 {
     $path = rtrim(normalizePath($path), DS);
     if ($context) {
@@ -427,9 +430,9 @@ function appAutoloader($class)
 
     foreach ($autoloadPaths as $path) {
         if ($psr4Path) {
-            $location = base_path("$path/$psr4Path.php");
+            $location = basePath("$path/$psr4Path.php");
         } else {
-            $location = base_path("$path/$class.php");
+            $location = basePath("$path/$class.php");
         }
         if (is_file($location)) {
             require_once $location;

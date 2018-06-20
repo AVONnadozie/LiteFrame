@@ -184,7 +184,7 @@ class Logger
 
     private function writeToLogFile($content)
     {
-        switch ($this->logFileFormat ?: config('app.log', 'single')) {
+        switch ($this->logFileFormat ?: config('app.log', 'daily')) {
             case static::LOG_FILE_FORMAT_DAILY:
                 $filename = 'liteframe-'.date('d-m-Y').'.log';
                 break;
@@ -196,7 +196,7 @@ class Logger
                 break;
         }
 
-        $dir = WD.DS.'components'.DS.'logs';
+        $dir = storagePath('', 'logs');
         if (!file_exists($dir)) {
             mkdir($dir, 0775);
 
@@ -206,6 +206,6 @@ class Logger
             fclose($handle);
         }
 
-        error_log($content.PHP_EOL, 3, $dir.DS.$filename);
+        error_log($content.PHP_EOL, 3, nPath($dir, $filename));
     }
 }

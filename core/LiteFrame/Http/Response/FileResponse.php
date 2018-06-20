@@ -78,10 +78,10 @@ class FileResponse extends Response
             list($range_start, $range_end) = $this->getRequestedFileRange();
             $r_length = $this->getRequestedFileLength();
             $this->header("HTTP/1.1 206 Partial Content");
-            $this->header("Content-Length: $r_length");
-            $this->header("Content-Range: bytes $range_start-$range_end/$size");
+            $this->header('Content-Length', $r_length);
+            $this->header('Content-Range', "bytes $range_start-$range_end/$size");
         } else {
-            $this->header("Content-Length: " . $size);
+            $this->header('Content-Length', $size);
         }
     }
 
@@ -145,26 +145,23 @@ class FileResponse extends Response
 
     public function streamfile()
     {
-        $chunksize = 1 * (1024 * 1024);
-        $bytes_send = 0;
         $file = fopen($this->path, 'r');
-        list($range_start, $range_end) = $this->getRequestedFileRange();
         if ($file) {
             if ($this->httpRange) {
+                list($range_start, $range_end) = $this->getRequestedFileRange();
                 fseek($file, $range_start);
                 $length = $this->getRequestedFileLength();
             } else {
                 $length = $this->fileSize();
             }
 
-            while (!feof($file) &&
-            (!connection_aborted()) &&
-            ($bytes_send < $length)
-            ) {
-                $buffer = fread($file, $chunksize);
+            $bytes_sent = 0;
+            $chunk_size = 1 * (1024 * 1024);
+            while (!feof($file) && (!connection_aborted()) && ($bytes_sent < $length)) {
+                $buffer = fread($file, $chunk_size);
                 echo($buffer);
                 flush();
-                $bytes_send += strlen($buffer);
+                $bytes_sent += strlen($buffer);
             }
             fclose($file);
         } else {

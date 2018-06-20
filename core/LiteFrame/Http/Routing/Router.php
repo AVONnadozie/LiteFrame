@@ -209,7 +209,7 @@ class Router
         $requestMethod = $request->getMethod();
 
         if (empty($this->routes)) {
-            $routeFile = base_path('app/Routes/web.php');
+            $routeFile = basePath('app/Routes/web.php');
             if (file_exists($routeFile)) {
                 require_once $routeFile;
             } else {

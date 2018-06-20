@@ -199,7 +199,7 @@
                         <p>Download the latest release  <a href="https://github.com/AVONnadozie/LiteFrame/releases">here</a> and unzip. That's all!
                             <!--or use the <a class="blue-text" href="#">downloader file</a></p>-->
                         <p>
-                            Ensure the path <span class="scode path">components/logs</span> is writeable, preferably <span class="scode path">755</span>.
+                            Ensure the <span class="scode path">storage</span> path is writable, preferably <span class="scode path">755</span>.
                         </p>
                         <p>
                             Still need it the Composer way?
@@ -261,16 +261,19 @@ assets //(Optional) public assets such as css, images and JavaScript files
 components
   |____ composer //(Optional) Composer files
   |____ config //Config files
-  |____ data //Private application data
   |____ helpers //Helper files
   |____ lib //3rd party libraries
-  |____ logs //Error logs
   |____ env.php //Environment specific configurations (to be created by you)
   |____ env.sample //Sample env.php file
   |____ .htaccess //Prevents direct access to files in this folder and subfolders
 core //Core files, do not modify
 docs //(Optional) Documentation
-storage //(Optional) Publicly accessible files
+storage 
+  |____ logs //Error logs
+  |____ private //Private application data
+  |____ public //Public application data
+  |       |____ .htaccess //Allows direct access to files in this folder and subfolders
+  |____ .htaccess //Prevents direct access to files in this folder and subfolders
 tests //Test files
 .htaccess //Important .htaccess file
 cli //Entry point for command line requests

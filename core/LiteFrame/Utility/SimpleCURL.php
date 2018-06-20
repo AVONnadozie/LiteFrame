@@ -49,7 +49,7 @@ class SimpleCURL
     
     public function setCookieFile($cookie_file = null)
     {
-        $_file = $cookie_file ?: storage_path($this->defaultCookieFile, false);
+        $_file = $cookie_file ?: privateStoragePath($this->defaultCookieFile);
         if (file_exists($_file)) {
             $this->cookieFile = $_file;
         } else {
@@ -144,10 +144,10 @@ class SimpleCURL
             curl_setopt($process, CURLOPT_HEADER, 0);
         }
         
-        $return = curl_exec($process);
+        $response = curl_exec($process);
         $this->requestInfo = curl_getinfo($process);
         curl_close($process);
-        return $process;
+        return $response;
     }
     
     /**

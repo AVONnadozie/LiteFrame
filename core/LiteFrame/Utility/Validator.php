@@ -15,7 +15,7 @@ class Validator extends CoreValidator
         return $this;
     }
 
-//    public function check($data = null, $rules = null)
-//    {
-//    }
+    public function check($data = null, $rules = null)
+    {
+    }
 }

@@ -23,7 +23,7 @@ class Schedule extends Command
         //Set scheduler object for routes
         $scheduler = new Scheduler;
         //load routes
-        $routeFile = base_path('app/Routes/schedule.php');
+        $routeFile = basePath('app/Routes/schedule.php');
         require_once $routeFile;
         //Run scheduler
         $scheduler->run();

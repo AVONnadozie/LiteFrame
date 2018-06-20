@@ -25,7 +25,7 @@ class Server extends Command
         $port = $this->getArgument('port', '500');
         $command  = "php -S 127.0.0.1:$port";
         $this->output("Development server started at ". Output::green("http://127.0.0.1:$port"));
-        $process = $this->exec($command);
+        $process = $this->exec($command, null, true);
         return $process;
     }
     

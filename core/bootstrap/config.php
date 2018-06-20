@@ -16,7 +16,7 @@ $autoload_config = [
      */
     "folders" => [
         'core',
-        'core/toolkit',
+        'core/libraries',
         'app',
         'tests'
     ],

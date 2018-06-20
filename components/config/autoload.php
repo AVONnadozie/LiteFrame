@@ -33,7 +33,7 @@ return [
      * | Folders where autloader will look for packages
      */
     "folders" => [
-        "components/lib"
+        "components/libraries"
     ],
     
     /*

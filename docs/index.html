@@ -199,8 +199,13 @@
                         <p>Download the latest release  <a href="https://github.com/AVONnadozie/LiteFrame/releases">here</a> and unzip. That's all!
                             <!--or use the <a class="blue-text" href="#">downloader file</a></p>-->
                         <p>
-                            Ensure the <span class="scode path">storage</span> path is writable, preferably <span class="scode path">755</span>.
+                            Ensure the <span class="scode path">storage</span> path is writable, preferably <span class="scode path">777</span>.
                         </p>
+                        On UNIX systems, you can do this with the command 
+                        <pre class="z-depth-1"><code class="bash">#!/bin/bash
+
+chmod 0777 -R storage
+</code></pre>
                         <p>
                             Still need it the Composer way?
                         </p>

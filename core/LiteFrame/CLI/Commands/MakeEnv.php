@@ -21,16 +21,14 @@ class MakeEnv extends Command
 
     public function run()
     {
-        $code = "if(file_exists('components/env.php')) {"
-                . " echo 'env file already exists.';"
-                . "}else{"
-                . " if(copy('components/env.sample', 'components/env.php')) {"
-                . "   echo 'env file created succesfully';"
-                . " }else{"
-                . "   echo 'creation of env file failed.';"
-                . " }"
-                . "}";
-        $command = "php -r \"$code\"";
-        return $this->exec($command);
+        if (file_exists('components/env.php')) {
+            Output::warn('env file already exists.');
+        } else {
+            if (copy('components/env.sample', 'components/env.php')) {
+                Output::info('env file created succesfully');
+            } else {
+                Output::error('creation of env file failed.');
+            }
+        }
     }
 }

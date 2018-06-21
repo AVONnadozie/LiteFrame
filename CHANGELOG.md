@@ -20,23 +20,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Auto sitemap generation
 
 
-## [0.2.0] - 2018-MM-DD
+## [0.1.3] - 2018-06-21
 ### Added
+- make:env command for generating env file
+- SimpleCURL for making cURL requests easily
 
 ### Changed
-- 
+- components/logs folder moved to storage/logs
+- components/data moved to storage/public
+- components/lib renamed to libraries
 
 ### Fixed
-- 
-
-### Removed
-- 
-
-### Deprecated
-- 
-
-### Security
-- 
+- Slow development server fixed
 
 
 ## [0.1.2] - 2018-06-09
@@ -54,6 +49,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.1.0] - 2018-01-29
 - Initial release
 
-[Unreleased]: https://github.com/avonnadozie/LiteFrame/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/avonnadozie/LiteFrame/compare/v0.1.3...HEAD
 [0.1.1]: https://github.com/avonnadozie/LiteFrame/compare/v0.1.0...v0.1.1
 [0.1.2]: https://github.com/avonnadozie/LiteFrame/compare/v0.1.1...v0.1.2
+[0.1.3]: https://github.com/avonnadozie/LiteFrame/compare/v0.1.2...v0.1.3

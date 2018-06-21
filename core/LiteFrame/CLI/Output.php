@@ -8,6 +8,7 @@ class Output
     const NORMAL = 1;
     const INFO = 2;
     const WARNING = 3;
+    const SUCCESS = 4;
 
     private function __construct()
     {
@@ -62,12 +63,20 @@ class Output
     {
         static::write($data, static::INFO);
     }
+    
+    public static function success($data)
+    {
+        static::write($data, static::SUCCESS);
+    }
 
     private static function label($value, $level)
     {
         switch ($level) {
             case static::INFO:
-                $value = static::setOptions($value, ['blue']);
+                $value = static::setOptions($value, ['light_blue']);
+                break;
+            case static::SUCCESS:
+                $value = static::setOptions($value, ['green']);
                 break;
             case static::ERROR:
                 $value = static::setOptions($value, ['red']);

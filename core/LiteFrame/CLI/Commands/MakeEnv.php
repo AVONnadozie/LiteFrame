@@ -25,7 +25,7 @@ class MakeEnv extends Command
             Output::warn('env file already exists.');
         } else {
             if (copy('components/env.sample', 'components/env.php')) {
-                Output::info('env file created succesfully');
+                Output::success('env file created succesfully');
             } else {
                 Output::error('creation of env file failed.');
             }

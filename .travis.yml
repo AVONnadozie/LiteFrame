@@ -18,6 +18,3 @@ env:
   
 before_script:
   - composer install
-  
-script:
-  - phpunit  --coverage-text --coverage-clover=coverage.clover

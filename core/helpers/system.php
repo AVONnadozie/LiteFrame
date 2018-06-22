@@ -414,23 +414,23 @@ function appAutoloader($class)
     $autoloadPaths = array_merge($defaultAutoloadPaths, $userAutoloadPaths);
 
     //Check psr-4 configuration
-    $defaultPsr4 = $autoload_config['mapping'];
-    $userPsr4 = config('autoload.mapping', []);
-    $psr4 = array_merge($userPsr4, $defaultPsr4);
-    $psr4Path = null;
-    foreach ($psr4 as $namespace => $folder) {
+    $defaultMappings = $autoload_config['mapping'];
+    $userMappings = config('autoload.mapping', []);
+    $mappings = array_merge($userMappings, $defaultMappings);
+    $mapPath = null;
+    foreach ($mappings as $namespace => $folder) {
         $pos = strpos($class, $namespace);
         if ($pos !== false) {
             $folder = trim($folder, '/');
             $chunk = trim(substr($class, strlen($namespace)), '\\');
-            $psr4Path = "$folder/$chunk";
+            $mapPath = "$folder/$chunk";
             break;
         }
     }
 
     foreach ($autoloadPaths as $path) {
-        if ($psr4Path) {
-            $location = basePath("$path/$psr4Path.php");
+        if ($mapPath) {
+            $location = basePath("$path/$mapPath.php");
         } else {
             $location = basePath("$path/$class.php");
         }

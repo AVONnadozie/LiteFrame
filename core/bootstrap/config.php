@@ -7,7 +7,7 @@
  * |
  */
 
-$autoload_config = [
+return [
     /*
      * ----------------------------
      *  Lookup folders
@@ -43,8 +43,8 @@ $autoload_config = [
         /**
          * Symfony Components
          */
-        'Symfony\Component\VarDumper' => "symphony/var-dumper",
-        'Symfony\Polyfill\Mbstring' => "symphony/polyfill-mbstring",
+        'Symfony\Component\VarDumper' => "symfony/var-dumper",
+        'Symfony\Polyfill\Mbstring' => "symfony/polyfill-mbstring",
     ],
     /*
      * ----------------------------

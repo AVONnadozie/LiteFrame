@@ -112,7 +112,7 @@ class Collection implements \Iterator, \ArrayAccess, \Countable
 
         $collection = $this->all();
         $newItems = array_slice($collection, $offset, $perPage, true);
-        return new Collection($newItems);
+        return new self($newItems);
     }
 
     /**
@@ -127,5 +127,10 @@ class Collection implements \Iterator, \ArrayAccess, \Countable
     public function toArray()
     {
         return $this->items;
+    }
+    
+    public function __toString()
+    {
+        return strval($this->items);
     }
 }

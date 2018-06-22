@@ -117,37 +117,47 @@ class SimpleCURL
         return $this;
     }
 
-    private function request($url, $method = 'GET', $data = [])
+    private function request($url, $method = 'GET', $data = [], $process = true)
     {
-        $process = curl_init($url);
-        curl_setopt($process, CURLOPT_HTTPHEADER, $this->headers);
-        curl_setopt($process, CURLOPT_USERAGENT, $this->userAgent);
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $this->headers);
+        curl_setopt($curl, CURLOPT_USERAGENT, $this->userAgent);
         if ($this->acceptsCookie) {
-            curl_setopt($process, CURLOPT_COOKIEFILE, $this->cookieFile);
-            curl_setopt($process, CURLOPT_COOKIEJAR, $this->cookieFile);
+            curl_setopt($curl, CURLOPT_COOKIEFILE, $this->cookieFile);
+            curl_setopt($curl, CURLOPT_COOKIEJAR, $this->cookieFile);
         }
         
         if ($this->proxy) {
-            curl_setopt($process, CURLOPT_PROXY, $this->proxy);
+            curl_setopt($curl, CURLOPT_PROXY, $this->proxy);
         }
         
-        curl_setopt($process, CURLOPT_ENCODING, $this->compression);
-        curl_setopt($process, CURLOPT_TIMEOUT, 30);
-        curl_setopt($process, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($process, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($curl, CURLOPT_ENCODING, $this->compression);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
         
         if (strcasecmp($method, 'POST') === 0) {
-            curl_setopt($process, CURLOPT_HEADER, 1);
-            curl_setopt($process, CURLOPT_POST, 1);
-            curl_setopt($process, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($curl, CURLOPT_HEADER, 1);
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
         } else {
-            curl_setopt($process, CURLOPT_HEADER, 0);
+            curl_setopt($curl, CURLOPT_HEADER, 0);
         }
         
-        $response = curl_exec($process);
-        $this->requestInfo = curl_getinfo($process);
-        curl_close($process);
-        return $response;
+        $response = curl_exec($curl);
+        $this->requestInfo = curl_getinfo($curl);
+        curl_close($curl);
+        return $process ? $this->process($response): $response;
+    }
+    
+    private function process($response)
+    {
+        $data = json_decode($response);
+        if (json_last_error() === JSON_ERROR_NONE) {
+            $response = $data;
+        }
+        
+        return is_array($response)? new Collection($response): $response;
     }
     
     /**

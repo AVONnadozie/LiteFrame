@@ -53,10 +53,6 @@ class Response
         $view = new View();
         $content = $view->fetch($path, $data);
         $this->appendContent($content);
-        if (!$content) {
-            $content = $view->getErrorPage(404);
-            $this->setContent($content, 404);
-        }
 
         $this->toHTML();
         

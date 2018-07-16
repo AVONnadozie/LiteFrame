@@ -115,7 +115,7 @@ final class Kernel
     private function getControllerLogic($action)
     {
         list($class, $method) = getClassAndMethodFromString($action);
-        $controllerClass = "\\Controllers\\{$class}";
+        $controllerClass = fixClassname(Router::$namespace, $class);
 
         //Todo: Dependency Injection
         /* @var $controller Controller */

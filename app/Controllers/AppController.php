@@ -15,9 +15,4 @@ class AppController extends Controller
         
         return view('home', $data);
     }
-
-    public function test()
-    {
-        echo 'Test page';
-    }
 }

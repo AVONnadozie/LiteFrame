@@ -1,3 +1,17 @@
+<!--
+    
+    ╔╗╔╦╗░░╔══╗░░░░░░░░░
+    ║║╠╣╚╦═╣═╦╬╦═╗╔══╦═╗
+    ║╚╣║╔╣╩╣╔╣╔╣╬╚╣║║║╩╣
+    ╚═╩╩═╩═╩╝╚╝╚══╩╩╩╩═╝
+
+    Download LiteFrame:
+    https://github.com/AVONnadozie/LiteFrame
+
+    404 Page Credit:    
+    https://codepen.io/sqfreakz/pen/GJRJOY
+-->
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -5,7 +19,6 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <style>
-            /*Credit https://codepen.io/sqfreakz/pen/GJRJOY*/
             @import url(https://fonts.googleapis.com/css?family=opensans:500);
             body{
                 background: #222826;

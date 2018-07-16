@@ -50,7 +50,7 @@ class Route
     {
         $target = $this->getTarget();
         if ($target instanceof Closure ||
-                !preg_match('/^\w+@\w+$/', $target)) {
+                !preg_match(Router::TARGET_REGEX, $target)) {
             return null;
         }
         $parts = explode('@', $target);
@@ -61,13 +61,13 @@ class Route
     {
         $target = $this->getTarget();
         if ($target instanceof Closure ||
-                !preg_match('/^\w+@\w+$/', $target)) {
+                !preg_match(Router::TARGET_REGEX, $target)) {
             return null;
         }
         $parts = explode('@', $target);
         return isset($parts[1]) ? $parts[1] : null;
     }
-
+    
     public function getMiddlewares()
     {
         return $this->middlewares;
@@ -90,7 +90,7 @@ class Route
     public function setTarget($target)
     {
         if (!$target instanceof Closure &&
-                !preg_match('/^\w+@\w+$/', $target)) {
+                !preg_match(Router::TARGET_REGEX, $target)) {
             throw new Exception("Invalid target string $target");
         }
         $this->target = $target;

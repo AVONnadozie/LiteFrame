@@ -56,7 +56,7 @@ class View
 
     private function getContent($file, $data = [])
     {
-        $path = normalizePath($file);
+        $path = fixPath($file);
         $content = false;
         if (file_exists($path)) {
             //Set data

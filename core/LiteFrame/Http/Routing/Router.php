@@ -36,6 +36,10 @@ class Router
         '**' => '.++',
         '' => '[^/\.]++',
     );
+    
+    public static $namespace = "Controllers";
+    
+    const TARGET_REGEX = '/^\S+@\w+$/';
 
     /**
      * Create router in one call from config.

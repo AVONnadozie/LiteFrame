@@ -357,9 +357,9 @@ function appPath($path = '')
  */
 function nPath($path, $context = '')
 {
-    $path = rtrim(normalizePath($path), DS);
+    $path = rtrim(fixPath($path), DS);
     if ($context) {
-        $path .= DS . trim(normalizePath($context), DS);
+        $path .= DS . trim(fixPath($context), DS);
     }
     return $path;
 }
@@ -372,7 +372,7 @@ function nPath($path, $context = '')
  */
 function requireAll($dir, $recursive = true, $suffix = '.php')
 {
-    $ndir = normalizePath($dir);
+    $ndir = fixPath($dir);
     if (!file_exists($ndir)) {
         return;
     }
@@ -392,16 +392,28 @@ function requireAll($dir, $recursive = true, $suffix = '.php')
     }
 }
 
-function normalizeUrl($url)
+function fixUrl($url)
 {
     return str_replace('\\', '/', urldecode($url));
 }
 
-function normalizePath($path)
+function fixPath($path)
 {
     $cds = DS === '/' ? '\\' : '/';
 
     return str_replace($cds, DS, $path);
+}
+
+
+function fixClassname($namespace, $class = null)
+{
+    $ns = rtrim(str_replace('/', '\\', $namespace), '\\');
+    if ($class) {
+        $ns .= '\\' . trim(str_replace('/', '\\', $class), '\\');
+    }
+
+    $tns = trim($ns, '\\');
+    return "\\$tns";
 }
 
 function appAutoloader($class)
@@ -443,7 +455,7 @@ function appAutoloader($class)
 
 function getClassAndMethodFromString($string)
 {
-    if (!preg_match('/^\w+@\w+$/', $string)) {
+    if (!preg_match(Router::TARGET_REGEX, $string)) {
         throw new Exception("Invalid string format $string, string must be in the format Class@method");
     }
     $parts = explode('@', $string);

@@ -6,7 +6,7 @@ body {
 }
 
 nav {
-  background-color: #74828e;
+    background-color: #74828e;
 }
 
 section{
@@ -191,19 +191,11 @@ p.comment::before{
 .scode {
     font-family: 'Source Code Pro', monospace;
     color: #d14;
-}
-
-.path {
     background-color: #f8f8f8;
     padding: 0 3px;
     border-radius: 5px;
 }
 
-.codeblock {
-    background-color: #e6eff7;
-    padding: 10px 20px;
-    border-radius: 7px
-}
 
 .logotext {
     font-size: 2em;

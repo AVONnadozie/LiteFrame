@@ -5,4 +5,4 @@
 
 use LiteFrame\CLI\Routing\Router;
 
-Router::map('hello', 'Sample', 'Sample Hello World command');
+Router::map('hello', 'SampleCommand', 'Sample Hello World command');

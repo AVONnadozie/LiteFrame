@@ -4,7 +4,7 @@ return [
     /*
      * Example of a route/named middlewares
      */
-    'sample' => Middlewares\MyNamedSampleMiddleware::class,
+    'sample' => Middlewares\SampleMiddleware::class,
     /*
      * Array of middleware classes that should be executed before core middleware
      * classes are executed on every request.

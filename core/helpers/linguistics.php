@@ -1,34 +1,5 @@
 <?php
 
-/**
- * Pluralizes a word.
- *
- * @param int    $quantity Number of items
- * @param string $singular Singular form of word
- * @param string $plural   Plural form of word; function will attempt to deduce plural form from singular if not provided
- *
- * @return string Pluralized word if quantity is not one, otherwise singular
- */
-function pluralize($singular, $plural = null)
-{
-    if (!empty($plural)) {
-        return $plural;
-    }
-
-    $last_letter = strtolower($singular[strlen($singular) - 1]);
-    switch ($last_letter) {
-        case 'y':
-            return substr($singular, 0, -1).'ies';
-        case 's':
-        case 'x':
-        case 'z':
-        case 'sh':
-        case 'ch':
-            return $singular.'es';
-        default:
-            return $singular.'s';
-    }
-}
 
 /**
  * Title case of a string.

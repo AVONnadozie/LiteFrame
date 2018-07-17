@@ -33,7 +33,7 @@ foreach ($ch_files as $file) {
   |--------------------------------------------------------------------------
   | Autoload core files and user files
  */
-$autoload_config = require __DIR__ . '/config.php';
+$autoload_config = require __DIR__ . '/autoload_config.php';
 $autoload_files = array_merge($autoload_config['files'], config('autoload.files', []));
 foreach ($autoload_files as $file) {
     require_once basePath($file);

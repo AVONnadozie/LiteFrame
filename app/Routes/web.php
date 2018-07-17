@@ -7,7 +7,7 @@ use LiteFrame\Http\Request;
 use LiteFrame\Http\Routing\Router;
 
 //Controller based route
-Router::get('/', 'AppController@index')
+Router::get('/', 'SampleController@index')
         //Let's set a middleware for this route
         //We can pass an array or paramter list to specify more than one middleware
         //They will be executed in the order passed
@@ -26,5 +26,5 @@ Router::view('redirect-view', 'home', [])
 //Redirect to route permanently
 Router::redirect('redirect', 'home-view');
 
-//Redirect route to a URL permanently
+//Redirect to URL permanently
 Router::redirect('example', 'https://example.com');

@@ -18,6 +18,7 @@ use Symfony\Component\VarDumper\VarDumper;
  * @return string
  */
 define('ENV_PATH', 'components/env.php');
+
 function appEnv($key, $default = null)
 {
     if (!isset($GLOBALS['env'])) {
@@ -227,32 +228,39 @@ function d()
 {
     $args = func_get_args();
     $cutomStyles = array(
-        'default' => 'background-color:#ecf0f3; border:lightgray solid thin; color:#757575; line-height:1.2em; font:12px Menlo, Monaco, Consolas, monospace; word-wrap: break-word; white-space: pre-wrap; position:relative; z-index:99999; word-break: break-all',
+        'default' => 'background-color:#ecf0f3; '
+        . 'border:lightgray solid thin; '
+        . 'color:#757575; '
+        . 'line-height:1.2em; font:12px Menlo, Monaco, Consolas, monospace; '
+        . 'word-wrap: break-word; '
+        . 'white-space: pre-wrap; '
+        . 'position:relative; z-index:99999; '
+        . 'word-break: break-all',
         'num' => 'font-weight:bold; color:#1299DA',
         'const' => 'font-weight:bold',
         'str' => 'font-weight:bold; color:#56DB3A',
         'note' => 'color:#1299DA',
         'ref' => 'color:#A0A0A0',
-        'public' => 'color:#FFFFFF',
-        'protected' => 'color:#FFFFFF',
-        'private' => 'color:#FFFFFF',
+        'public' => 'color:#FF8400',
+        'protected' => 'color:#6f6767',
+        'private' => 'color:#7da0b1',
         'meta' => 'color:#B729D9',
         'key' => 'color:#56DB3A',
         'index' => 'color:#1299DA',
         'ellipsis' => 'color:#FF8400',
     );
-    
+
     VarDumper::setHandler(function ($var) use ($cutomStyles) {
         $cloner = new VarCloner();
         if ('cli' === PHP_SAPI) {
             $dumper = new CliDumper();
         } else {
-            $dumper =  new HtmlDumper();
+            $dumper = new HtmlDumper();
             $dumper->setStyles($cutomStyles);
         }
         $dumper->dump($cloner->cloneVar($var));
     });
-    
+
     foreach ($args as $value) {
         VarDumper::dump($value);
     }
@@ -311,7 +319,7 @@ function storagePath($path = '', $section = 'public')
     if ($section) {
         $storage_path = nPath($storage_path, $section);
     }
-    
+
     return basePath(nPath($storage_path, $path));
 }
 
@@ -345,7 +353,7 @@ function basePath($path = '')
  */
 function appPath($path = '')
 {
-    return basePath('app/'.$path);
+    return basePath('app/' . $path);
 }
 
 /**
@@ -404,7 +412,6 @@ function fixPath($path)
     return str_replace($cds, DS, $path);
 }
 
-
 function fixClassname($namespace, $class = null)
 {
     $ns = rtrim(str_replace('/', '\\', $namespace), '\\');
@@ -416,7 +423,7 @@ function fixClassname($namespace, $class = null)
     return "\\$tns";
 }
 
-function appAutoloader($class)
+function appAutoloader($fullClassName)
 {
     global $autoload_config;
 
@@ -431,11 +438,11 @@ function appAutoloader($class)
     $mappings = array_merge($userMappings, $defaultMappings);
     $mapPath = null;
     foreach ($mappings as $namespace => $folder) {
-        $pos = strpos($class, $namespace);
+        $pos = strpos($fullClassName, $namespace);
         if ($pos !== false) {
             $folder = trim($folder, '/');
-            $chunk = trim(substr($class, strlen($namespace)), '\\');
-            $mapPath = "$folder/$chunk";
+            $classname = trim(substr($fullClassName, strlen($namespace)), '\\');
+            $mapPath = "$folder/$classname";
             break;
         }
     }
@@ -444,13 +451,87 @@ function appAutoloader($class)
         if ($mapPath) {
             $location = basePath("$path/$mapPath.php");
         } else {
-            $location = basePath("$path/$class.php");
+            $location = basePath("$path/$fullClassName.php");
         }
         if (is_file($location)) {
             require_once $location;
             return;
         }
     }
+
+    //Load vendor-file mapping
+    $file_mapping = isset($autoload_config['file_mapping']) ? $autoload_config['file_mapping'] : [];
+    $vendor = isset(explode('\\', $fullClassName)[0]) ? explode('\\', $fullClassName)[0] : '';
+    if ($vendor) {
+        foreach ($file_mapping as $namespace => $file) {
+            if ($vendor === $namespace) {
+                require_once basePath($file);
+                return;
+            }
+        }
+    }
+}
+
+/**
+ * Class casting
+ *
+ * @param string|object $destination
+ * @param object $sourceObject
+ * @return object
+ */
+function cast($destination, $sourceObject)
+{
+    if (is_string($destination)) {
+        $destination = new $destination();
+    }
+    $sourceReflection = new ReflectionObject($sourceObject);
+    $destinationReflection = new ReflectionObject($destination);
+    $sourceProperties = $sourceReflection->getProperties();
+    foreach ($sourceProperties as $sourceProperty) {
+        $sourceProperty->setAccessible(true);
+        $name = $sourceProperty->getName();
+        $value = $sourceProperty->getValue($sourceObject);
+        if ($destinationReflection->hasProperty($name)) {
+            $propDest = $destinationReflection->getProperty($name);
+            $propDest->setAccessible(true);
+            $propDest->setValue($destination, $value);
+        } else {
+            $destination->$name = $value;
+        }
+    }
+    return $destination;
+}
+
+/**
+ * Copy array to object
+ * @param array $array
+ * @param type $className
+ * @return type
+ */
+function arrayToObject(array $array, $className)
+{
+    return unserialize(sprintf(
+                    'O:%d:"%s"%s',
+        strlen($className),
+        $className,
+        strstr(serialize($array), ':')
+    ));
+}
+
+/**
+ * Copy object to another object
+ * @param type $instance
+ * @param type $className
+ * @return type
+ */
+function objectToObject($instance, $className)
+{
+    return unserialize(sprintf(
+                    'O:%d:"%s"%s',
+        strlen($className),
+        $className,
+        strstr(strstr(serialize($instance), '"'), ':')
+    ));
 }
 
 function getClassAndMethodFromString($string)

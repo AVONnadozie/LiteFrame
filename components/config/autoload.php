@@ -43,9 +43,6 @@ return [
      * |
      */
     "mapping" => [
-        "Carbon" => "nesbot/carbon/src/Carbon",
-        //Required by Carbon
-        "Symfony\Component\Translation" => "symfony/translation"
     ],
     
     /*

@@ -199,22 +199,6 @@ class Model extends OODBBean
     }
     
     /**
-     * Counts the number of beans of this model.
-     * This method accepts an argument to modify the count-query.
-     * A second argument can be used to provide bindings for the SQL snippet.
-     *
-     * @param string $addSQL   additional SQL snippet
-     * @param array  $bindings parameters to bind to SQL
-     *
-     * @return integer
-     */
-    public static function count($addSQL = '', $ids = [])
-    {
-        return DB::count(static::getTable(), $addSQL, $ids);
-    }
-    
-    
-    /**
      * Loads a bean from the object database.
      * It searches for this bean Object in the
      * database. It does not matter how this bean has been stored.

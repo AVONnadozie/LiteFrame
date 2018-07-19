@@ -239,7 +239,11 @@ class SimpleCURL
     {
         $file = $this->getCookieFile();
         if (file_exists($file)) {
-            unlink($file);
+            try {
+                unlink($file);
+            } catch (Exception $e) {
+                
+            }
         }
     }
 }

@@ -7,6 +7,8 @@ class Collection implements \Iterator, \ArrayAccess, \Countable
     protected $current = 0;
     protected $items = [];
     protected $keys = [];
+    protected $map;
+    protected $mapped = [];
 
     public function __construct(array $items)
     {
@@ -24,6 +26,23 @@ class Collection implements \Iterator, \ArrayAccess, \Countable
     {
         return $this->keys;
     }
+    
+    /**
+     * Apply a callable on all values and replace values with result
+     * @param \LiteFrame\Utility\callable $callable
+     * @param boolean $lazy set true to run mapping during access (recommended) 
+     * else set false to apply immediately
+     */
+    public function map(callable $callable, $lazy = true) {
+        if($lazy){
+            $this->map = $callable;
+        }else{
+            //Apply immediately
+            foreach ($this->items as $key => $value) {
+                $this->items[$key] = $callable($value);
+            }
+        }
+    }
 
     /**
      *
@@ -33,6 +52,10 @@ class Collection implements \Iterator, \ArrayAccess, \Countable
     public function get($key)
     {
         if (isset($this->items[$key])) {
+            if($this->map && !in_array($key, $this->mapped)){
+                $this->items[$key] = $this->map($this->items[$key]);
+                $this->mapped = $key;
+            }
             return $this->items[$key];
         }
         return null;

@@ -133,7 +133,7 @@ class Response
     }
 
     /**
-     * Add value to header. Same header values will not be replaced.
+     * Add value to header. headers with the same key will be replaced.
      *
      * @param type $key
      * @param type $value
@@ -142,12 +142,15 @@ class Response
      */
     public function header($key, $value = null)
     {
-        if (empty($value)) {
+        if (is_array($key)) {
+            foreach ($key as $a_key => $value) {
+                $this->headers[strtolower($a_key)] = "$a_key: $value";
+            }
+        } elseif (empty($value)) {
             $this->headers[] = $key;
         } else {
-            $this->headers[] = "$key: $value";
+            $this->headers[strtolower($key)] = "$key: $value";
         }
-
         return $this;
     }
 

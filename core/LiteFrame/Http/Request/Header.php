@@ -6,11 +6,6 @@ use ArrayIterator;
 use DateTime;
 use RuntimeException;
 
-/**
- * Description of Header.
- *
- * @author Victor Anuebunwa
- */
 class Header
 {
     private static $instance;

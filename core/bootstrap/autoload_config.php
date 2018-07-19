@@ -53,7 +53,7 @@ return [
      * | This is not a recommeneded way to autoload file but was added with RedBeanPHP in mind
      * | and only available as a core functionality
      */
-    "file_mapping" => [
+    "vendor_file" => [
         'RedBeanPHP' => 'core/LiteFrame/Database/DBSetup.php',
         'R' => 'core/LiteFrame/Database/DBSetup.php'
     ],

@@ -681,8 +681,34 @@ class MySampleMiddleware extends Middleware
                             <li>PDO, plus the driver you wish to use for your database</li>
                             <li>Multibyte String Support</li>
                         </ul>
-                        <p>Your database settings goes here <span class="scode">components/config/database.php</span></p>
+                        <p>Update your database settings here <span class="scode">components/config/database.php</span></p>
                         <h3 class="lv3">CRUD</h3>
+                        <p>
+                            Now you're ready to start using Database. <br/>
+                            Liteframe Database with RedBeanPHP makes it really easy to store stuff in the database. 
+                            For instance, to store a blog post in the database you write:
+                        </p>
+                        <pre><code class="php">$post = Post::instance();
+    $post->title = 'My holiday';
+    $id = $post->save();</code></pre>
+                        <p>
+                            Now, a table called post and a column called title, 
+                            big enough to hold your text will be created for you in the database.<br/>
+                            The save() function will also return the primary key ID of the record, 
+                            which we capture in the variable $id.<br/>
+                            The table and columns will be created automatically if they do not already exist. 
+                        </p>
+                        <h3 class="lv3">Models vs Beans</h3>
+                        <p>
+                            A bean is an object mapping of a record in your database.<br/>
+                            A model is a bean with some more functions.<br/>
+                        </p>
+                        <h4>Code Difference</h4>
+                        
+                        <p>
+                            Note that a model can be used in place of a bean wherever applicable
+                        </p>
+                        <h3 class="lv3">DB vs R</h3>
                     </section>
                     <section>
                         <h2 id="Libraries" class="lv2">Working with Libraries</h2>

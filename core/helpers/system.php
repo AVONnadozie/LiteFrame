@@ -228,7 +228,7 @@ function d()
 {
     $args = func_get_args();
     $cutomStyles = array(
-        'default' => 'background-color:#ecf0f3; '
+        'default' => 'background-color:#fff; '
         . 'border:lightgray solid thin; '
         . 'color:#757575; '
         . 'line-height:1.2em; font:12px Menlo, Monaco, Consolas, monospace; '
@@ -236,16 +236,16 @@ function d()
         . 'white-space: pre-wrap; '
         . 'position:relative; z-index:99999; '
         . 'word-break: break-all',
-        'num' => 'font-weight:bold; color:#1299DA',
+        'num' => 'font-weight:bold; color:#e67231',
         'const' => 'font-weight:bold',
-        'str' => 'font-weight:bold; color:#56DB3A',
+        'str' => 'font-weight:bold; color:#e67231',
         'note' => 'color:#1299DA',
         'ref' => 'color:#A0A0A0',
-        'public' => 'color:#FF8400',
+        'public' => 'color:#795da3',
         'protected' => 'color:#6f6767',
         'private' => 'color:#7da0b1',
         'meta' => 'color:#B729D9',
-        'key' => 'color:#56DB3A',
+        'key' => 'color:#1299DA',
         'index' => 'color:#1299DA',
         'ellipsis' => 'color:#FF8400',
     );
@@ -265,6 +265,13 @@ function d()
         VarDumper::dump($value);
     }
     exit;
+}
+
+/**
+ * Alias for d()
+ */
+function dd() {
+    call_user_func_array('d', func_get_args());
 }
 
 /**
@@ -427,6 +434,18 @@ function appAutoloader($fullClassName)
 {
     global $autoload_config;
 
+    //Load vendor-to-file mapping
+    $file_mapping = isset($autoload_config['vendor_file']) ? $autoload_config['vendor_file'] : [];
+    $vendor = isset(explode('\\', $fullClassName)[0]) ? explode('\\', $fullClassName)[0] : '';
+    if ($vendor) {
+        foreach ($file_mapping as $namespace => $file) {
+            if ($vendor === $namespace) {
+                require_once basePath($file);
+                break;
+            }
+        }
+    }
+    
     //Autoload paths (in order of importance)
     $defaultAutoloadPaths = $autoload_config['folders'];
     $userAutoloadPaths = config('autoload.folders');
@@ -456,18 +475,6 @@ function appAutoloader($fullClassName)
         if (is_file($location)) {
             require_once $location;
             return;
-        }
-    }
-
-    //Load vendor-file mapping
-    $file_mapping = isset($autoload_config['file_mapping']) ? $autoload_config['file_mapping'] : [];
-    $vendor = isset(explode('\\', $fullClassName)[0]) ? explode('\\', $fullClassName)[0] : '';
-    if ($vendor) {
-        foreach ($file_mapping as $namespace => $file) {
-            if ($vendor === $namespace) {
-                require_once basePath($file);
-                return;
-            }
         }
     }
 }

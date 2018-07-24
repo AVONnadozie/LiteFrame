@@ -1,12 +1,12 @@
 <?php
 
-namespace LiteFrame\Utility;
+namespace App\Library\Curl;
 
 use Exception;
 
 class SimpleCURL
 {
-    protected $headers;
+    protected $headers = [];
     protected $userAgent;
     protected $compression;
     protected $cookieFile;
@@ -14,6 +14,7 @@ class SimpleCURL
     protected $acceptsCookie;
     protected $requestInfo;
     protected $defaultCookieFile = 'cookies.txt';
+    protected $assoc;
 
     /**
      * Setup Curl
@@ -25,14 +26,13 @@ class SimpleCURL
      */
     public function __construct($accepts_cookie = true, $cookie_file = null, $compression = 'gzip', $proxy = '')
     {
-        $headers[] = 'Accept: image/gif, image/x-bitmap, image/jpeg, image/pjpeg';
-        $headers[] = 'Connection: Keep-Alive';
-        $headers[] = 'Content-type: application/x-www-form-urlencoded;charset=UTF-8';
+        $headers['Accept'] = 'image/gif, image/x-bitmap, image/jpeg, image/pjpeg';
+        $headers['Connection'] = 'Keep-Alive';
         $this->setHeaders($headers);
-        
+
         $userAgent = 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; .NET CLR 1.0.3705; .NET CLR 1.1.4322; Media Center PC 4.0)';
         $this->setUserAgent($userAgent);
-        
+
         $this->setCompression($compression);
         $this->setProxy($proxy);
         $this->setAcceptsCookie($accepts_cookie);
@@ -40,16 +40,15 @@ class SimpleCURL
             $this->setCookieFile($cookie_file);
         }
     }
-    
+
     public function getCookieFile()
     {
         return $this->cookieFile;
     }
 
-    
     public function setCookieFile($cookie_file = null)
     {
-        $_file = $cookie_file ?: privateStoragePath($this->defaultCookieFile);
+        $_file = $cookie_file ?: storage_path("data/$this->defaultCookieFile");
         if (file_exists($_file)) {
             $this->cookieFile = $_file;
         } else {
@@ -61,7 +60,7 @@ class SimpleCURL
             fclose($handle);
         }
     }
-    
+
     public function getHeaders()
     {
         return $this->headers;
@@ -87,10 +86,34 @@ class SimpleCURL
         return $this->acceptsCookie;
     }
 
-    public function setHeaders(array $headers)
+    /**
+     * Add value to header. Same header values will be replaced.
+     *
+     * @param type $key
+     * @param type $value
+     *
+     * @return $this
+     */
+    public function setHeaders($key, $value = null)
     {
-        $this->headers = $headers;
+        if (is_array($key)) {
+            foreach ($key as $a_key => $value) {
+                $this->headers[strtolower($a_key)] = "$a_key: $value";
+            }
+        } elseif (empty($value)) {
+            $this->headers[] = $key;
+        } else {
+            $this->headers[strtolower($key)] = "$key: $value";
+        }
+
         return $this;
+    }
+
+    public function removeHeaders($keys) {
+        $key_array = (array) $keys;
+        foreach ($key_array as $key) {
+            unset($this->headers[$key]);
+        }
     }
 
     public function setUserAgent($userAgent)
@@ -120,46 +143,52 @@ class SimpleCURL
     private function request($url, $method = 'GET', $data = [], $process = true)
     {
         $curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, $this->headers);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array_values($this->headers));
         curl_setopt($curl, CURLOPT_USERAGENT, $this->userAgent);
         if ($this->acceptsCookie) {
             curl_setopt($curl, CURLOPT_COOKIEFILE, $this->cookieFile);
             curl_setopt($curl, CURLOPT_COOKIEJAR, $this->cookieFile);
         }
-        
+
         if ($this->proxy) {
             curl_setopt($curl, CURLOPT_PROXY, $this->proxy);
         }
-        
+
         curl_setopt($curl, CURLOPT_ENCODING, $this->compression);
         curl_setopt($curl, CURLOPT_TIMEOUT, 30);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
-        
+
         if (strcasecmp($method, 'POST') === 0) {
-            curl_setopt($curl, CURLOPT_HEADER, 1);
+//            curl_setopt($curl, CURLOPT_HEADER, 1);
             curl_setopt($curl, CURLOPT_POST, 1);
-            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
         } else {
             curl_setopt($curl, CURLOPT_HEADER, 0);
         }
-        
+
         $response = curl_exec($curl);
         $this->requestInfo = curl_getinfo($curl);
         curl_close($curl);
-        return $process ? $this->process($response): $response;
+        return $process ? $this->process($response) : $response;
     }
-    
+
     private function process($response)
     {
-        $data = json_decode($response);
+        $data = json_decode($response, $this->assoc);
         if (json_last_error() === JSON_ERROR_NONE) {
             $response = $data;
         }
-        
-        return is_array($response)? new Collection($response): $response;
+
+        return is_array($response) ? new Collection($response) : $response;
     }
-    
+
+    public function returnArray($array = true)
+    {
+        $this->assoc = $array;
+        return $this;
+    }
+
     /**
      * Make HTTP GET request to a URL
      * @param type $url
@@ -234,7 +263,7 @@ class SimpleCURL
         $self = new static($accepts_cookie, $cookie_file, $compression, $proxy);
         return $self->sendGET($url);
     }
-    
+
     public function __destruct()
     {
         $file = $this->getCookieFile();
@@ -242,7 +271,6 @@ class SimpleCURL
             try {
                 unlink($file);
             } catch (Exception $e) {
-                
             }
         }
     }

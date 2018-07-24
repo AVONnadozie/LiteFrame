@@ -67,6 +67,17 @@ class Model extends OODBBean
     }
     
     /**
+     * Returns the model with the id.
+     *
+     * @param int $id Item id 
+     *
+     * @return Model|NULL
+     */
+    public static function withId($id) {
+        return static::findOne('id = ?', [$id]);
+    }
+
+    /**
      * Finds a bean using this model and a where clause (SQL).
      * As with most Query tools in RedBean you can provide values to
      * be inserted in the SQL statement by populating the value
@@ -78,12 +89,11 @@ class Model extends OODBBean
      *
      * @return Collection
      */
-    public static function find($sql = null, $bindings = [])
-    {
+    public static function find($sql = null, $bindings = []) {
         $items = DB::find(static::getTable(), $sql, $bindings);
         return static::createFromBean($items);
     }
-    
+
     /**
      * The findAll() method differs from the find() method in that it does
      * not assume a WHERE-clause, so this is valid:
@@ -448,4 +458,5 @@ class Model extends OODBBean
     {
         return DB::hunt($this->getTable(), $sqlSnippet, $bindings);
     }
+
 }

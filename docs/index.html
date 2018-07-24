@@ -637,7 +637,30 @@ class MySampleMiddleware extends Middleware
                         This will apply the <span class="scode">sample</span> middleware to all controller functions in this class except the <span class="scode">index</span> function.
 
                         <h3 id="Models" class="lv3">Models</h3>
-                        <p class="comment"> Explain how to create and use models.</p>
+                        <p>
+                            Each database table has a corresponding "Model" which is used to interact with that table. 
+                            Models allow you to query for data in your tables, as well as insert new records into the table.
+                        </p>
+                        <p>
+                            Be sure to configure a database connection in <span class="scode">components/config/database.php</span>
+                        </p>
+                        <p>
+                            To make a model, simply create a class in <span class="scode">app/Models</span> and extend 
+                            <span class="scode">Models\Model</span>.<br/>
+                            The class name of a model will be automatically used to create it's table. 
+                            if you wish to use a different table name from your model class name simple 
+                            override the <span class="scode">$table</span> parameter.
+                        </p>
+                        For example:
+                        <pre class="z-depth-1"><code class="php">&lt;?php
+
+namespace Models;
+
+class SampleModel extends Model
+{
+    protected static $table = 'custom_table_name';
+}
+</code></pre>
 
                         <h3 id="Views" class="lv3">Views</h3>
                         <p class="comment"> Explain how to create views.</p>
@@ -681,16 +704,16 @@ class MySampleMiddleware extends Middleware
                             <li>PDO, plus the driver you wish to use for your database</li>
                             <li>Multibyte String Support</li>
                         </ul>
-                        <p>Update your database settings here <span class="scode">components/config/database.php</span></p>
-                        <h3 class="lv3">CRUD</h3>
+                        <h3 class="lv3">Creating Records</h3>
                         <p>
                             Now you're ready to start using Database. <br/>
-                            Liteframe Database with RedBeanPHP makes it really easy to store stuff in the database. 
+                            Liteframe Database makes it really easy to store stuff in the database. 
                             For instance, to store a blog post in the database you write:
                         </p>
-                        <pre><code class="php">$post = Post::instance();
-    $post->title = 'My holiday';
-    $id = $post->save();</code></pre>
+                        <pre class="z-depth-1"><code class="php">$post = Post::instance();
+$post->title = 'My holiday';
+$id = $post->save();
+</code></pre>
                         <p>
                             Now, a table called post and a column called title, 
                             big enough to hold your text will be created for you in the database.<br/>
@@ -698,17 +721,73 @@ class MySampleMiddleware extends Middleware
                             which we capture in the variable $id.<br/>
                             The table and columns will be created automatically if they do not already exist. 
                         </p>
-                        <h3 class="lv3">Models vs Beans</h3>
+                        <h3 class="lv3">Model vs OODBean</h3>
                         <p>
-                            A bean is an object mapping of a record in your database.<br/>
+                            An OODBean or bean is an object mapping of a record in your database.<br/>
                             A model is a bean with some more functions.<br/>
                         </p>
-                        <h4>Code Difference</h4>
-                        
+                        <p><b>Code Difference</b></p>
+                        Using Model (The Liteframe Way)
+                        <pre class="z-depth-1"><code class="php">$post = Post::instance();
+$post->title = 'My holiday';
+$id = $post->save();
+</code></pre>
+                        Using OODBean (The RedBeanPHP Way)
+                        <pre class="z-depth-1"><code class="php">$post = DB::dispense('posts');
+$post->title = 'My holiday';
+DB::store($post);
+</code></pre>
                         <p>
+                            Both examples above creates a new bean object, sets it's title to 'My holiday' and saves it to the database.<br/>
                             Note that a model can be used in place of a bean wherever applicable
                         </p>
                         <h3 class="lv3">DB vs R</h3>
+                        <p>
+                            <span class="scode">R</span> is the standard class by ReadBeanPHP for manipulating beans<br/>
+                            <span class="scode">DB</span> is an <span class="scode">R</span> with more functions
+                        </p>
+                        <h3 class="lv3">Finding Records</h3>
+                        <p>
+                            Finding stuff in the database is easy:
+                        </p>
+                        <pre class="z-depth-1"><code class="php">$post = Post::withId(3);
+</code></pre>
+                        <p>
+                            This will get the post with the id of 3
+                        </p>
+                        <pre class="z-depth-1"><code class="php">$posts = Post::find(' title LIKE ?', [ 'holiday' ] );
+</code></pre>
+                        <p>
+                            This will search for all posts having the word 'holiday' in the title and will return an collection containing all the relevant beans as a result. As you see, we don't use a fancy query builder, just good old SQL.<br/>
+                            We like to keep things simple.
+                        </p>
+                        <p>
+                            Besides using the <span class="scode">find()</span> functions, you can also use <b>raw</b> SQL queries:
+                        </p>
+                        <pre class="z-depth-1"><code class="php">$posts = DB::getAll('SELECT * FROM posts WHERE comments &lt; ? ', [ 50 ] );</code></pre>
+                        <h3 class="lv3">Relationships</h3>
+                        <p>
+
+                        </p>
+                        <h3 class="lv3">Alright, freeze!</h3>
+                        <p>
+                            As you have seen, the structure of the database dynamically changes during development. 
+                            This is a very nice feature, but you don't want that to happen on your production server! 
+                            So, when you set your application to production, we freeze the database.
+                        </p>
+                        <p>
+                            Before you deploy, review your database schema.<br/>
+                            Maybe you added a column you no longer use, or you want an extra index. 
+                            Always make sure you review the final database schema before you put it on a production server!<br/>
+                            After freezing the database, your database structure will no longer be changed, 
+                            so you have the best of both worlds.<br/>
+                            NoSQL-like flexibility during development and a reliable schema on your production server!
+                        </p>
+                        <p>
+                            This was just a quick tour, showcasing some basic usage of Liteframe Database with RedBeanPHP.<br/>
+                            For more details please explore the documentation on 
+                            <a href="https://redbeanphp.com/crud" target="_blank">RedBeanPHP website</a>
+                        </p>
                     </section>
                     <section>
                         <h2 id="Libraries" class="lv2">Working with Libraries</h2>

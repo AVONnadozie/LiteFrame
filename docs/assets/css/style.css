@@ -188,7 +188,7 @@ p.comment::before{
 }
 
 
-.scode {
+.code {
     font-family: 'Source Code Pro', monospace;
     color: #d14;
     background-color: #f8f8f8;
@@ -212,22 +212,22 @@ p.comment::before{
 
 }
 
-section .lv1 {
+section h1 {
     font-size: 50px;
     color: #74828e !important;
 }
 
-section .lv2 {
+section h2 {
     font-size: 40px;
     color: #74828e !important;
 }
 
-section .lv3 {
+section h3 {
     font-size: 30px;
     color: #74828e !important;
 }
 
-section .lv4 {
+section h4 {
     font-size: 20px;
     font-weight: bold;
 }

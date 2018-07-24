@@ -110,6 +110,12 @@
                         <a href="#Database">Database</a>
                         <ul class="lilv2">
                             <li><a href="#GettingStartedDbase">Getting Started</a></li>
+                            <li><a href="#CreatingRecords">Creating Records</a></li>
+                            <li><a href="#ModelvsOODBean">Model vs OODBean</a></li>
+                            <li><a href="#DBvsR">DB vs R</a></li>
+                            <li><a href="#FindingRecords">Finding Records</a></li>
+                            <li><a href="#Relationships">Relationships</a></li>
+                            <li><a href="#DBFreeze">Alright, freeze!</a></li>
                         </ul>
                     </li>
                     <li class="divider"></li>
@@ -699,12 +705,12 @@ class SampleModel extends Model
                             If you're not familiar with RedBeanPHP, we're sorry, it's still the same piece of cake for you.<br/>
                             Summary, you do not need to know how to use RedBeanPHP to understand LiteFrame Database.
                         </p>
-                        <h4>Requirements</h4>
+                        <h4 class="lv4">Requirements</h4>
                         <ul class="browser-default">
                             <li>PDO, plus the driver you wish to use for your database</li>
                             <li>Multibyte String Support</li>
                         </ul>
-                        <h3 class="lv3">Creating Records</h3>
+                        <h3 id="CreatingRecords" class="lv3">Creating Records</h3>
                         <p>
                             Now you're ready to start using Database. <br/>
                             Liteframe Database makes it really easy to store stuff in the database. 
@@ -721,7 +727,7 @@ $id = $post->save();
                             which we capture in the variable $id.<br/>
                             The table and columns will be created automatically if they do not already exist. 
                         </p>
-                        <h3 class="lv3">Model vs OODBean</h3>
+                        <h3 id="ModelvsOODBean" class="lv3">Model vs OODBean</h3>
                         <p>
                             An OODBean or bean is an object mapping of a record in your database.<br/>
                             A model is a bean with some more functions.<br/>
@@ -741,12 +747,12 @@ DB::store($post);
                             Both examples above creates a new bean object, sets it's title to 'My holiday' and saves it to the database.<br/>
                             Note that a model can be used in place of a bean wherever applicable
                         </p>
-                        <h3 class="lv3">DB vs R</h3>
+                        <h3 id="DBvsR" class="lv3">DB vs R</h3>
                         <p>
                             <span class="scode">R</span> is the standard class by ReadBeanPHP for manipulating beans<br/>
                             <span class="scode">DB</span> is an <span class="scode">R</span> with more functions
                         </p>
-                        <h3 class="lv3">Finding Records</h3>
+                        <h3 id="FindingRecords" class="lv3">Finding Records</h3>
                         <p>
                             Finding stuff in the database is easy:
                         </p>
@@ -755,7 +761,7 @@ DB::store($post);
                         <p>
                             This will get the post with the id of 3
                         </p>
-                        <pre class="z-depth-1"><code class="php">$posts = Post::find(' title LIKE ?', [ 'holiday' ] );
+                        <pre class="z-depth-1"><code class="php">$posts = Post::find('title LIKE ?', [ 'holiday' ] );
 </code></pre>
                         <p>
                             This will search for all posts having the word 'holiday' in the title and will return an collection containing all the relevant beans as a result. As you see, we don't use a fancy query builder, just good old SQL.<br/>
@@ -765,11 +771,43 @@ DB::store($post);
                             Besides using the <span class="scode">find()</span> functions, you can also use <b>raw</b> SQL queries:
                         </p>
                         <pre class="z-depth-1"><code class="php">$posts = DB::getAll('SELECT * FROM posts WHERE comments &lt; ? ', [ 50 ] );</code></pre>
-                        <h3 class="lv3">Relationships</h3>
+                        <h3 id="Relationships" class="lv3">Relationships</h3>
                         <p>
-
+                            RedBeanPHP also makes it easy to manage relations. For instance, if we like to add some photos to our holiday post we do this:
                         </p>
-                        <h3 class="lv3">Alright, freeze!</h3>
+                        <pre class="z-depth-1"><code class="php">$post->ownPhotoList[] = $photo1;
+$post->ownPhotoList[] = $photo2;
+$post->save();
+</code></pre>
+                        <p>
+                            Here, <span class="scode">$photo1</span> and <span class="scode">$photo2</span> are also beans (but of type 'photo'). <br/>
+                            After storing the post, these photos will be associated with the blog post. <br/>
+                            To associate a bean you simply add it to a list. The name of the list must match the name of the related bean type. 
+                        </p>
+                        <p>
+                            So photo beans go in:<br/>
+                            <span class="scode">$post->ownPhotoList</span> <br/>
+                            <br/>
+                            comments go in: <br/>
+                            <span class="scode">$post->ownCommentList</span> <br/>
+                            <br/>
+                            and notes go in: <br/>
+                            <span class="scode">$post->ownNoteList</span> <br/>
+                            <br/>
+                            See? It's that simple!<br/>
+                        </p>
+                        <p>
+                            To retrieve associated beans, just access the corresponding list:
+                        </p>
+                        <pre class="z-depth-1"><code class="php">$post = Post::load($id );
+$firstPhoto = reset( $post->ownPhotoList );
+</code></pre>
+                        <p>
+                            In the example above, we load the blog post and then access the list. The moment we access the <span class="scode">ownPhotoList</span> property, the relation will be loaded automatically, this is often called lazy loading, because RedBeanPHP only loads the beans when you really need them.<br/>
+                            <br/>
+                            To get the first element of the photo list, we simply used PHP's native <span class="scode">reset()</span> function
+                        </p>
+                        <h3 id="DBFreeze" class="lv3">Alright, freeze!</h3>
                         <p>
                             As you have seen, the structure of the database dynamically changes during development. 
                             This is a very nice feature, but you don't want that to happen on your production server! 

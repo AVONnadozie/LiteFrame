@@ -38,7 +38,7 @@ return [
      * | containing inline javascript comments.
      * | Only turn this on if you know what you are doing.
      */
-    'compress_output' => true,
+    'compress_output' => false,
     /*
      * ----------------------------
      *  Assets Folder Name

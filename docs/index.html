@@ -6,22 +6,16 @@
         <!-- Favicon -->
         <link rel="icon" href="assets/img/logo.ico" type="image/x-icon" />
         <link rel="shortcut icon" type="image/x-icon" href='assets/img/logo.ico' />
-
         <!-- Materialize -->
         <link rel="stylesheet" type="text/css" href="assets/css/materialize.css">
-
         <!--Icon Font-->
         <link rel="stylesheet" media="screen" href="assets/fonts/font-awesome/font-awesome.min.css" />
-        <!--Exo font -->
-        <link href="https://fonts.googleapis.com/css?family=Exo:100,200,300,400" rel="stylesheet">
-        <!-- Lato -->
-        <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel="stylesheet">
         <!--Highlight.js css-->
         <link href="assets/highlightjs/styles/github.css" rel="stylesheet" type="text/css"/>
         <!-- Main Style -->
         <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
-        <title>LiteFrame</title>
+        <title>LiteFrame Documentation</title>
     </head>
 
     <body>
@@ -158,32 +152,31 @@
 
             <!-- Nav Menu Section -->
             <div class = "row" style = "width: 100%; margin-bottom: 0px; background-color: #74828e">
-                <div class = "exo">
-                    <nav role = "navigation" class="">
-                        <div class = "nav-wrapper container2">
-                            <a href = "../" class = "brand-logo white-text">
-                                <h1 class="mob-head hide-on-large-only">LiteFrame</h1>
-                            </a>
-                            <ul id="nav-mobile" class="right lato hide-on-med-and-down">
-                                <li class="">
-                                    <a href = "../">
-                                        <i style="display: inline" class="fa fa-home" aria-hidden = "true"></i> Home
-                                    </a>
-                                </li>
-                                <li class="">
-                                    <a href = "https://github.com/AVONnadozie/LiteFrame" target="_blank">
-                                        <i style="display: inline" class="fa fa-github" aria-hidden = "true"></i> View on GitHub
-                                    </a>
-                                </li>
-                            </ul>
+                <nav role = "navigation" class="">
+                    <div class = "nav-wrapper container2">
+                        <a href = "../" class = "brand-logo white-text">
+                            <h1 class="mob-head hide-on-large-only">LiteFrame</h1>
+                        </a>
+                        <ul id="nav-mobile" class="right hide-on-med-and-down">
+                            <li class="">
+                                <a href = "../">
+                                    <i style="display: inline" class="fa fa-home" aria-hidden = "true"></i> Home
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href = "https://github.com/AVONnadozie/LiteFrame" target="_blank">
+                                    <i style="display: inline" class="fa fa-github" aria-hidden = "true"></i> View on GitHub
+                                </a>
+                            </li>
+                        </ul>
 
-                            <a href="#" data-activates="slide-out" class="button-collapse hide-on-large-only">
-                                <i class="fa fa-bars"></i>
-                            </a>
+                        <a href="#" data-activates="slide-out" class="button-collapse hide-on-large-only">
+                            <i class="fa fa-bars"></i>
+                        </a>
 
-                        </div>
-                    </nav>
-                </div>
+                    </div>
+                </nav>
+
             </div>
             <!-- Nav Menu Section End -->
 
@@ -207,7 +200,7 @@
                         <p>Download the latest release  <a href="https://github.com/AVONnadozie/LiteFrame/releases">here</a> and unzip. That's all!
                             <!--or use the <a class="blue-text" href="#">downloader file</a></p>-->
                         <p>
-                            Ensure the <span class="code">storage</span> is writable, preferably <span class="code">777</span>.
+                            Ensure the <code>storage</code> is writable, preferably <code>777</code>.
                         </p>
                         On UNIX systems, you can do this with the command 
                         <pre class="z-depth-1"><code class="bash">#!/bin/bash
@@ -229,7 +222,7 @@ composer create-project avonnadozie/liteframe
                         </p>
                         <p>
                             <b>On Local</b><br/>
-                            Run the cli <span class="code">serve</span> command to start the local server and optionally specify a port
+                            Run the cli <code>serve</code> command to start the local server and optionally specify a port
                         </p>
                         <pre class="z-depth-1"><code class="bash">#!/bin/bash
 
@@ -244,17 +237,17 @@ php cli serve --port=500
                         <h4 id="RequestLifecycle">Request Lifecycle:</h4>
                         <p>This part of the document aims to give you an overall view on how the framework works to help you understand the framework better. If you find some terms strange, it's okay, you will understand them and get familiar as you read on.</p>
                         <p>
-                            Like most PHP applications, all requests to the framework is directed to the <span class="code">index.php</span> file. The <span class="code">index.php</span> file does not contain much. Rather, it is a starting point for loading the rest of the framework.
+                            Like most PHP applications, all requests to the framework is directed to the <code>index.php</code> file. The <code>index.php</code> file does not contain much. Rather, it is a starting point for loading the rest of the framework.
                         </p>
                         <p>
-                            The <span class="code">index.php</span> file loads all files required by the framework (including Composer files if present) and then creates a <span class="code">\LiteFrame\Kernel</span> object to handle the request.
+                            The <code>index.php</code> file loads all files required by the framework (including Composer files if present) and then creates a <code>\LiteFrame\Kernel</code> object to handle the request.
                         </p>
                         <p>
-                            The Kernel instance gets the <span class="code">LiteFrame\Http\Request</span> 
-                            and <span class="code">LiteFrame\Http\Routing\Route</span> objects for the current request, 
+                            The Kernel instance gets the <code>LiteFrame\Http\Request</code> 
+                            and <code>LiteFrame\Http\Routing\Route</code> objects for the current request, 
                             and obtains the target Closure or Controller from the Route object. 
                             See <a href="#Routing">this section</a> on how to define routes using 
-                            <span class="code">LiteFrame\Http\Routing\Router</span>.
+                            <code>LiteFrame\Http\Routing\Router</code>.
                         </p>
                         <p>                         
                             All Middlewares attached to the target (if any) are then executed before executing the target, and the Kernel finally terminates the framework.
@@ -299,13 +292,13 @@ index.php //Entry point for HTTP requests</code></pre>
                         <h3 id="Routing">Routing</h3>
                         <h4 id="BasicsRouting">Basics:</h4>
                         <p>All routes are defined in your route files, which are located in the 
-                            <span class="code">app/Routes</span> directory. 
+                            <code>app/Routes</code> directory. 
                             These files are automatically loaded by the framework. 
-                            The <span class="code">app/Routes/web.php</span> file defines 
+                            The <code>app/Routes/web.php</code> file defines 
                             routes that are for your web interface.
-                            The routes in <span class="code">app/Routes/api.php</span> 
+                            The routes in <code>app/Routes/api.php</code> 
                             are stateless and are suited for API calls, while 
-                            <span class="code">app/Routes/cli.php</span> are for commands.
+                            <code>app/Routes/cli.php</code> are for commands.
                         </p>
                         <p>The simpler method for web and api routes accepts just a URI and a Closure</p>
 
@@ -340,8 +333,8 @@ Router::patch($route, $target);
 Router::delete($route, $target);
 </code></pre>                      
 
-                        <p>Sometimes you may need to register a route that responds to multiple HTTP verbs. You can do so using the <span class="code">Router::anyOf</span> method. </p>
-                        <p>Or, you may even register a route that responds to all HTTP verbs using the  <span class="code">Router::all</span> method:
+                        <p>Sometimes you may need to register a route that responds to multiple HTTP verbs. You can do so using the <code>Router::anyOf</code> method. </p>
+                        <p>Or, you may even register a route that responds to all HTTP verbs using the  <code>Router::all</code> method:
                         </p>
 
                         <pre class="z-depth-1"><code class="php">//Match any of the request method specified
@@ -378,13 +371,13 @@ Router::all($route, $target);
                         <br/>
                         <b>Parameters</b>
                         <p>
-                            <span class="code">$method</span> | string<br/>
+                            <code>$method</code> | string<br/>
                             This is a pipe-delimited string of the accepted HTTP requests methods.
                             <br/>
-                            Example: <span class="code">GET|POST|PATCH|PUT|DELETE</span>
+                            Example: <code>GET|POST|PATCH|PUT|DELETE</code>
                         </p>
                         <p>
-                            <span class="code">$route</span> | string<br/>
+                            <code>$route</code> | string<br/>
                             This is the route pattern to match against. This can be a plain string, one of the predefined regex filters or a custom regex. Custom regexes must start with @. 
                         </p>
                         Examples:<br/>
@@ -413,7 +406,7 @@ Router::all($route, $target);
                         </div>
 
                         <p>
-                            <span class="code">$target</span> | mixed<br/>
+                            <code>$target</code> | mixed<br/>
                             This can be either a function callback or a Controller@action string.
                         </p>
                         <p>
@@ -427,7 +420,7 @@ Router::all($route, $target);
                         </p>
                         <pre class="z-depth-1"><code class="php">Router::get('user/profile', 'UserController@showProfile');</code></pre>
 
-                        Interestingly, we can also match multiple routes at once by supplying an array of routes to the <span class="code">Router::matchAll</span> method. For example,
+                        Interestingly, we can also match multiple routes at once by supplying an array of routes to the <code>Router::matchAll</code> method. For example,
                         <pre class="z-depth-1"><code class="php">Router::matchAll(array(
     array('POST|PUT', 'profile/create', 'ProfileController@create'),
     array('GET', 'profile', 'ProfileController@show'),
@@ -467,7 +460,7 @@ Router::all($route, $target);
                         <p>
                             If you want to use reversed routing, 
                             Named routes allow you to conveniently specify a name parameter so you can later generate URL's using this route. 
-                            You may specify a name for a route by chaining the <span class="code">setName</span> method onto the router:
+                            You may specify a name for a route by chaining the <code>setName</code> method onto the router:
                         </p>
 
                         <pre class="z-depth-1"><code class="php">Router::get('user/profile', function () {
@@ -483,11 +476,11 @@ Router::anyOf('GET|POST','user/profile', 'AppController@showProfile','profile');
 Router::get('user/profile', 'AppController@showProfile','profile');
 </code></pre>
                         <br />
-                        To reverse a route, use the <span class="code">route($routeName, $params);</span> helper with optional parameters
+                        To reverse a route, use the <code>route($routeName, $params);</code> helper with optional parameters
                         <p>
                             <b>Parameters</b><br/>
-                            <span class="code">$routeName</span> | string - Name of route<br/>
-                            <span class="code">$params</span> | array - Optional parameters to build the URL with<br/>
+                            <code>$routeName</code> | string - Name of route<br/>
+                            <code>$params</code> | array - Optional parameters to build the URL with<br/>
                             <br />
                         </p>
 
@@ -496,12 +489,12 @@ Router::get('user/profile', 'AppController@showProfile','profile');
                         <p><b>Redirecting to a route:</b></p>
 
                         <pre class="z-depth-1"><code class="php">Router::redirect($route, 'another-route-name');</code></pre>
-                        <p>This route will redirect to the route named <span class="code">another-route-name</span></p>
+                        <p>This route will redirect to the route named <code>another-route-name</code></p>
 
                         <p><b>Redirecting to a url:</b></p>
 
                         <pre class="z-depth-1"><code class="php">Router::redirect($route, 'https://example.com');</code></pre>
-                        <p>This route will redirect to the URL <span class="code">http://example.com</span></p>
+                        <p>This route will redirect to the URL <code>http://example.com</code></p>
 
                         <br />
                         <h4 id="view-route">View Route:</h4>
@@ -509,14 +502,30 @@ Router::get('user/profile', 'AppController@showProfile','profile');
 
                         <pre class="z-depth-1"><code class="php">Router::view($route, 'view-name');
 </code></pre>
-                        <p>Where  <span class="code">view-name</span> is the name of the view.<br/>
+                        <p>Where  <code>view-name</code> is the name of the view.<br/>
                             Additionally, you can pass data to the view as such.  
                         <pre class="z-depth-1"><code class="php">$data = array('name'=>'John Doe');
 Router::view($route, 'view-name', $data);</code></pre>
                         <br />
 
                         <h3 id="Requests">Requests</h3>
-                        <p class="comment"> Explain the <span class="code">LiteFrame\Http\Request</span> object.</p>
+                        <p> 
+                            Each http request is represented by a <code>LiteFrame\Http\Request</code> object.<br/>
+                            The current Request object is passed to the request target controller or closure as the first parameter,
+                            from which you can access information for the current request through the object.<br/>
+                        </p>
+                        <p>
+                            For example, given a request object <code>$request</code> and a GET or POST request parameter 
+                            <code>id</code>, 
+                            to access the parameter you can simple call <code>$request->input('id')</code> or conveniently access it as a property of the <code>$request</code> object as <code>$request->id</code>
+                        </p>
+                        <p>
+                            Alternatively, you can access the request object using <code>Request::getInstance()</code>
+                        </p>
+                        <p>Code Sample:</p>
+                        <pre class="z-depth-1"><code class="php">Router::get('/post/[:id]', function (Request $request) {
+    return 'Post id is ' . $request->id;
+});</code></pre>
 
                         <h3 id="Middleware">Middleware</h3>
 
@@ -528,8 +537,8 @@ Router::view($route, 'view-name', $data);</code></pre>
                         </p>
 
                         <p>
-                            All of these middleware are located in the <span class="code">app/Middlewares</span> 
-                            directory and should extend <span class="code">Middlewares/Middleware</span> class in the same directory.
+                            All of these middleware are located in the <code>app/Middlewares</code> 
+                            directory and should extend <code>Middlewares/Middleware</code> class in the same directory.
                         </p>
 
                         <pre class="z-depth-1"><code class="php">&lt;?php
@@ -556,9 +565,9 @@ class MySampleMiddleware extends Middleware
 
                         <p>
                             For the framework to run your middleware, you have to register it in the 
-                            <span class="code">components/config/middleware.php</span> file.
-                            Simply add your middleware class to the <span class="code">before_core</span> or 
-                            <span class="code">after_core</span> key of the array.
+                            <code>components/config/middleware.php</code> file.
+                            Simply add your middleware class to the <code>before_core</code> or 
+                            <code>after_core</code> key of the array.
                         </p>
 
                         <pre class="z-depth-1"><code class="php">return [
@@ -597,7 +606,7 @@ class MySampleMiddleware extends Middleware
                         <pre class="z-depth-1"><code class="php">Router::get('user/profile', 'AppController@showProfile')
         ->setMiddlewares("sample");</code></pre>
 
-                        <p>To juice things up, the <span class="code">setMiddlewares</span> method can accept multiple middleware names:</p>
+                        <p>To juice things up, the <code>setMiddlewares</code> method can accept multiple middleware names:</p>
 
                         <pre class="z-depth-1"><code class="php">Router::get('user/profile', 'AppController@showProfile')
         ->setMiddlewares("sample1", "sample2");</code></pre>
@@ -612,8 +621,8 @@ class MySampleMiddleware extends Middleware
                         <p>Instead of defining all of your request handling logic as Closures in route files, 
                             you may wish to organize this behavior using Controller classes. 
                             Controllers can group related request handling logic into a single class. 
-                            Controllers are stored in the <span class="code">app/Controllers</span> directory and extends the 
-                            <span class="code">Controllers/Controller</span> class.
+                            Controllers are stored in the <code>app/Controllers</code> directory and extends the 
+                            <code>Controllers/Controller</code> class.
                         </p>
 
                         <h4 id="RoutingToController">Routing to a controller action/method:</h4>
@@ -629,7 +638,7 @@ class MySampleMiddleware extends Middleware
 
                         <p>
                             However, if you need to bind all or most of the function of a controller to a middleware, it will be more convenient to specify the middleware within your controller's constructor and optionally supply a list of whitelist functions. 
-                            Using the <span class="code">middleware</span> method from the controller's constructor:
+                            Using the <code>middleware</code> method from the controller's constructor:
                         </p>
 
                         <pre class="z-depth-1"><code class="php">class AppController extends Controller
@@ -640,7 +649,7 @@ class MySampleMiddleware extends Middleware
         $this->middleware('sample', ['index']);
     }
 }</code></pre>
-                        This will apply the <span class="code">sample</span> middleware to all controller functions in this class except the <span class="code">index</span> function.
+                        This will apply the <code>sample</code> middleware to all controller functions in this class except the <code>index</code> function.
 
                         <h3 id="Models">Models</h3>
                         <p>
@@ -648,14 +657,14 @@ class MySampleMiddleware extends Middleware
                             Models allow you to query for data in your tables, as well as insert new records into the table.
                         </p>
                         <p>
-                            Be sure to configure a database connection in <span class="code">components/config/database.php</span>
+                            Be sure to configure a database connection in <code>components/config/database.php</code>
                         </p>
                         <p>
-                            To make a model, simply create a class in <span class="code">app/Models</span> and extend 
-                            <span class="code">Models\Model</span>.<br/>
+                            To make a model, simply create a class in <code>app/Models</code> and extend 
+                            <code>Models\Model</code>.<br/>
                             The class name of a model will be automatically used to create and access it's table. 
                             if you wish to use a different table name from your model class name simple 
-                            override the <span class="code">$table</span> property.
+                            override the <code>$table</code> property.
                         </p>
                         For example:
                         <pre class="z-depth-1"><code class="php">&lt;?php
@@ -668,13 +677,13 @@ class SampleModel extends Model
 }
 </code></pre>
                         <p>
-                            Here, the <span class="code">SampleModel</span> class is now set to be accessing and manipulating the posts table. This will be used in other examples on this documentation.
+                            Here, the <code>SampleModel</code> class is now set to be accessing and manipulating the posts table. This will be used in other examples on this documentation.
                         </p>
                         <h3 id="Views">Views</h3>
                         <p class="comment"> Explain how to create views.</p>
 
                         <h3 id="Response">Response</h3>
-                        <p class="comment"> Explain the <span class="code">LiteFrame\Http\Response</span> object.</p>
+                        <p class="comment"> Explain the <code>LiteFrame\Http\Response</code> object.</p>
 
                         <h3 id="Commands">Commands</h3>
                         <h4 id="CommandBasics">Basics:</h4>
@@ -751,8 +760,8 @@ DB::store($post);
                         </p>
                         <h3 id="DBvsR">DB vs R</h3>
                         <p>
-                            <span class="code">R</span> is the standard class by ReadBeanPHP for manipulating beans<br/>
-                            <span class="code">DB</span> is an <span class="code">R</span> with more functions
+                            <code>R</code> is the standard class by ReadBeanPHP for manipulating beans<br/>
+                            <code>DB</code> is an <code>R</code> with more functions
                         </p>
                         <h3 id="FindingRecords">Finding Records</h3>
                         <p>
@@ -770,7 +779,7 @@ DB::store($post);
                             We like to keep things simple.
                         </p>
                         <p>
-                            Besides using the <span class="code">find()</span> functions, you can also use <b>raw</b> SQL queries:
+                            Besides using the <code>find()</code> functions, you can also use <b>raw</b> SQL queries:
                         </p>
                         <pre class="z-depth-1"><code class="php">$posts = DB::getAll('SELECT * FROM posts WHERE comments &lt; ? ', [ 50 ] );</code></pre>
                         <h3 id="Relationships">Relationships</h3>
@@ -782,19 +791,19 @@ $post->ownPhotoList[] = $photo2;
 $post->save();
 </code></pre>
                         <p>
-                            Here, <span class="code">$photo1</span> and <span class="code">$photo2</span> are also beans (but of type 'photo'). <br/>
+                            Here, <code>$photo1</code> and <code>$photo2</code> are also beans (but of type 'photo'). <br/>
                             After storing the post, these photos will be associated with the blog post. <br/>
                             To associate a bean you simply add it to a list. The name of the list must match the name of the related bean type. 
                         </p>
                         <p>
                             So photo beans go in:<br/>
-                            <span class="code">$post->ownPhotoList</span> <br/>
+                            <code>$post->ownPhotoList</code> <br/>
                             <br/>
                             comments go in: <br/>
-                            <span class="code">$post->ownCommentList</span> <br/>
+                            <code>$post->ownCommentList</code> <br/>
                             <br/>
                             and notes go in: <br/>
-                            <span class="code">$post->ownNoteList</span> <br/>
+                            <code>$post->ownNoteList</code> <br/>
                             <br/>
                             See? It's that simple!<br/>
                         </p>
@@ -805,9 +814,9 @@ $post->save();
 $firstPhoto = reset( $post->ownPhotoList );
 </code></pre>
                         <p>
-                            In the example above, we load the blog post and then access the list. The moment we access the <span class="code">ownPhotoList</span> property, the relation will be loaded automatically, this is often called lazy loading, because RedBeanPHP only loads the beans when you really need them.<br/>
+                            In the example above, we load the blog post and then access the list. The moment we access the <code>ownPhotoList</code> property, the relation will be loaded automatically, this is often called lazy loading, because RedBeanPHP only loads the beans when you really need them.<br/>
                             <br/>
-                            To get the first element of the photo list, we simply used PHP's native <span class="code">reset()</span> function
+                            To get the first element of the photo list, we simply used PHP's native <code>reset()</code> function
                         </p>
                         <h3 id="DBFreeze">Alright, freeze!</h3>
                         <p>
@@ -838,7 +847,8 @@ $firstPhoto = reset( $post->ownPhotoList );
                         <p class="comment">Explain how to autoload 3rd party libraries.</p>
                         <h3 id="Composer">Composer</h3>
                         <p>In as much as we "really" avoided the need for commands, we couldn't help supporting composer.
-                            Composer files are autoloaded by the framework if available but we changed the vendor directory to <span class="code">components/composer</span> for security reasons.
+                            Composer files are auto-detected by the framework if available 
+                            but we changed the vendor directory to <code>components/composer</code> for security reasons.
                         </p>
                     </section>
                     <section>
@@ -849,9 +859,9 @@ $firstPhoto = reset( $post->ownPhotoList );
                         <h3 id="htaccess">Use of .htaccess</h3>
                         <p class="comment">Explain strategic .htaccess files</p>
                         <h3 id="RequestValidation">Request Validation</h3>
-                        <p class="comment">Explain <span class="code">Validator</span></p>
+                        <p class="comment">Explain <code>Validator</code></p>
                         <h3 id="FilteringOutput">Filtering Output</h3>
-                        <p class="comment">Explain output filtering using <span class="code">e()</span></p>
+                        <p class="comment">Explain output filtering using <code>e()</code></p>
                     </section>
                     <section>
                         <h2 id="Testing">Testing</h2>

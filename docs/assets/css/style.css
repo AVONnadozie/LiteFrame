@@ -188,7 +188,7 @@ p.comment::before{
 }
 
 
-.code {
+code, .code {
     font-family: 'Source Code Pro', monospace;
     color: #d14;
     background-color: #f8f8f8;

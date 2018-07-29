@@ -4,6 +4,7 @@ namespace LiteFrame\Http;
 
 use LiteFrame\Exception\ErrorBag;
 use LiteFrame\Http\Response\FileResponse;
+use LiteFrame\Http\Response\ViewResponse;
 use LiteFrame\View\View;
 
 /**
@@ -17,11 +18,13 @@ class Response
     protected $content = '';
     protected $json;
     protected $status;
+    protected $request;
     protected static $instance;
 
     
     protected function __construct()
     {
+        $this->request = Request::getInstance();
     }
 
     
@@ -34,7 +37,6 @@ class Response
     {
         if (empty(static::$instance)) {
             static::$instance = new static();
-            static::$instance->request = Request::getInstance();
         }
 
         return static::$instance;
@@ -50,13 +52,7 @@ class Response
      */
     public function view($path, $data = [])
     {
-        $view = new View();
-        $content = $view->fetch($path, $data);
-        $this->appendContent($content);
-
-        $this->toHTML();
-        
-        return $this;
+        return new ViewResponse($path, $data);
     }
 
     /**
@@ -260,7 +256,6 @@ class Response
         }
         $this->headers = [];
 
-        $view = new View();
         if (is_array($message)) {
             if (empty($message['code'])) {
                 $message['code'] = $code;
@@ -272,6 +267,7 @@ class Response
             $bag = new ErrorBag($code);
             $bag->setTitle($message);
         }
+        $view = new View();
         $this->content = $view->getErrorPage($bag);
 
         die($this->output());

@@ -15,7 +15,7 @@ class SimpleCURLTest extends TestCase
         $this->assertTrue(is_string($response1) !== FALSE);
         //Bad URL
         $response2 = SimpleCURL::post('');
-        $this->assertFalse($response2);
+        $this->assertFalse(!!$response2);
     }
     
     public function testGET()
@@ -25,7 +25,7 @@ class SimpleCURLTest extends TestCase
         $this->assertTrue(strpos($response1, 'Example') !== FALSE);
         //Bad URL
         $response2 = SimpleCURL::get('');
-        $this->assertFalse($response2);
+        $this->assertFalse(!!$response2);
     }
 
     public function testUpdateURLWithParameters() {

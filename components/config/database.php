@@ -20,9 +20,9 @@ return [
     'mysql' => [
         'host' => appEnv('MYSQL_HOST', 'localhost'),
         'port' => appEnv('MYSQL_PORT', 3306),
-        'dbname' => appEnv('MYSQL_DB_NAME', 'liteframe'),
-        'dbuser' => appEnv('MYSQL_DB_USER', 'root'),
-        'dbpassword' => appEnv('MYSQL_DB_PASSWORD', '')
+        'dbname' => appEnv('MYSQL_DATABASE', 'liteframe'),
+        'dbuser' => appEnv('MYSQL_USER', 'root'),
+        'dbpassword' => appEnv('MYSQL_PASSWORD', '')
     ],
     /**
      * PostgreSQL database configurations
@@ -30,9 +30,9 @@ return [
     'pgsql' => [
         'host' => appEnv('PGSQL_HOST', 'localhost'),
         'port' => appEnv('PGSQL_PORT', 3306),
-        'dbname' => appEnv('PGSQL_DB_NAME', 'liteframe'),
-        'dbuser' => appEnv('PGSQL_DB_USER', 'root'),
-        'dbpassword' => appEnv('PGSQL_DB_PASSWORD', '')
+        'dbname' => appEnv('PGSQL_DATABASE', 'liteframe'),
+        'dbuser' => appEnv('PGSQL_USER', 'root'),
+        'dbpassword' => appEnv('PGSQL_PASSWORD', '')
     ],
     /**
      * Cubrid database configurations
@@ -40,9 +40,9 @@ return [
     'cubrid' => [
         'host' => appEnv('CUBRID_HOST', 'localhost'),
         'port' => appEnv('CUBRID_PORT', 3306),
-        'dbname' => appEnv('CUBRID_DB_NAME', 'liteframe'),
-        'dbuser' => appEnv('CUBRID_DB_USER', 'root'),
-        'dbpassword' => appEnv('CUBRID_DB_PASSWORD', '')
+        'dbname' => appEnv('CUBRID_DATABASE', 'liteframe'),
+        'dbuser' => appEnv('CUBRID_USER', 'root'),
+        'dbpassword' => appEnv('CUBRID_PASSWORD', '')
     ],
     /**
      * SQLite database configuration

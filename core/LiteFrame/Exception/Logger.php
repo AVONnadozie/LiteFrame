@@ -2,8 +2,9 @@
 
 namespace LiteFrame\Exception;
 
-use Error;
 use Exception;
+use LiteFrame\Exception\Exceptions\HttpException;
+use LiteFrame\View\View;
 
 /**
  * Description of Logger.
@@ -12,6 +13,7 @@ use Exception;
  */
 class Logger
 {
+
     /**
      * Output Medium constants.
      */
@@ -30,8 +32,13 @@ class Logger
     private $exception;
     private $logFileFormat;
 
-    public function __construct($exception, $outputMedium = self::MEDIUM_STDOUT_FILE)
+    public function __construct($exception, $outputMedium = null)
     {
+        if (empty($outputMedium)) {
+            $outputMedium = $exception instanceof HttpException ?
+                    Logger::MEDIUM_STDOUT :
+                    Logger::MEDIUM_STDOUT_FILE;
+        }
         $this->outputMedium = $outputMedium;
         $this->exception = $exception;
     }
@@ -77,7 +84,7 @@ class Logger
      */
     public function getException()
     {
-        if (!$this->exception instanceof Exception) {
+        if (is_string($this->exception)) {
             return new Exception($this->exception);
         }
 
@@ -123,57 +130,40 @@ class Logger
         if (isCLI()) {
             $message = $this->getContentForFile();
             $this->writeToLogFile($message);
-            echo $message;
+            return $message;
         } else {
             if ($this->outputMedium !== static::MEDIUM_STDOUT) {
                 $this->writeToLogFile($this->getContentForFile());
             }
-
-            abort(500, $this->getContentForView());
-        }
-    }
-
-    private function getContentForView()
-    {
-        $content = ['trace' => ''];
-        if ($this->exception instanceof \Exception ||
-                $this->exception instanceof Error) {
-            $file = $this->exception->getFile();
-            $line = $this->exception->getLine();
-            $title = $this->exception->getMessage();
-            $content['code'] = $this->exception->getCode();
-            $content['title'] = "$title at $file line $line";
-            $content['content'] = $content['title'];
+            
             if ($this->outputMedium !== static::MEDIUM_FILE) {
-                $content['trace'] = $this->exception->getTraceAsString();
+                $exception = $this->getException();
+                $bag = new ErrorBag($exception);
+                if (!appIsOnDebugMode()) {
+                    $bag->setTrace('');
+                }
 
-                $content['content'] = $content['title'].PHP_EOL;
-                $content['content'] .= 'Stack trace:'.PHP_EOL;
-                $content['content'] .= $content['trace'].PHP_EOL;
+                $content = View::getErrorPage($bag);
+                return response($content, $bag->getCode());
             }
-        } else {
-            $content['title'] = $this->exception;
-            $content['content'] = $this->exception;
         }
-
-        return $content;
     }
 
     private function getContentForFile()
     {
         $content = '';
         if ($this->exception instanceof Exception) {
-            $content = $this->exception->getMessage().PHP_EOL;
+            $content = $this->exception->getMessage() . PHP_EOL;
             if ($this->outputMedium !== static::MEDIUM_STDOUT) {
                 $date = date('Y-m-d H:i:s');
                 $file = $this->exception->getFile();
                 $line = $this->exception->getLine();
                 $code = $this->exception->getCode();
-                $content = "Exception: (code $code) [$date] at $file line $line".PHP_EOL
-                        .$content;
+                $content = "Exception: (code $code) [$date] at $file line $line" . PHP_EOL
+                        . $content;
 
-                $content .= 'Stack trace:'.PHP_EOL;
-                $content .= $this->exception->getTraceAsString().PHP_EOL;
+                $content .= 'Stack trace:' . PHP_EOL;
+                $content .= $this->exception->getTraceAsString() . PHP_EOL;
             }
         } else {
             $content = $this->exception . PHP_EOL;
@@ -186,10 +176,10 @@ class Logger
     {
         switch ($this->logFileFormat ?: config('app.log', 'daily')) {
             case static::LOG_FILE_FORMAT_DAILY:
-                $filename = 'liteframe-'.date('d-m-Y').'.log';
+                $filename = 'liteframe-' . date('d-m-Y') . '.log';
                 break;
             case static::LOG_FILE_FORMAT_WEEKLY:
-                $filename = 'liteframe-'.date('W-Y').'.log';
+                $filename = 'liteframe-' . date('W-Y') . '.log';
                 break;
             default:
                 $filename = 'liteframe.log';
@@ -201,11 +191,11 @@ class Logger
             mkdir($dir, 0775);
 
             //Ignore files
-            $handle = fopen($dir.DS.'.gitignore', 'w');
+            $handle = fopen($dir . DS . '.gitignore', 'w');
             fwrite($handle, "*\n!.gitignore\n!.htaccess");
             fclose($handle);
         }
 
-        error_log($content.PHP_EOL, 3, nPath($dir, $filename));
+        error_log($content . PHP_EOL, 3, nPath($dir, $filename));
     }
 }

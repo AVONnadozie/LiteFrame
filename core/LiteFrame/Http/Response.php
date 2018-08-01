@@ -2,10 +2,8 @@
 
 namespace LiteFrame\Http;
 
-use LiteFrame\Exception\ErrorBag;
 use LiteFrame\Http\Response\FileResponse;
 use LiteFrame\Http\Response\ViewResponse;
-use LiteFrame\View\View;
 
 /**
  * Description of Response.
@@ -17,7 +15,7 @@ class Response
     protected $headers = [];
     protected $content = '';
     protected $json;
-    protected $status;
+    protected $statusCode;
     protected $request;
     protected static $instance;
 
@@ -66,7 +64,7 @@ class Response
     public function setContent($content, $code = 200)
     {
         $this->content = $content ? $content : '';
-        $this->code = $code;
+        $this->statusCode = $code;
         if (!is_scalar($content)) {
             $this->toJson();
         }
@@ -233,7 +231,7 @@ class Response
      */
     public function redirect($url, $code = 302)
     {
-        $this->status = $code;
+        $this->statusCode = $code;
 
         return $this->header('Location', $url);
     }
@@ -241,36 +239,6 @@ class Response
     public function __toString()
     {
         return $this->output();
-    }
-
-    /**
-     * Aborts the application.
-     *
-     * @param type $code
-     * @param type $message
-     */
-    public function abort($code, $message = null)
-    {
-        if (ob_get_contents()) {
-            ob_clean();
-        }
-        $this->headers = [];
-
-        if (is_array($message)) {
-            if (empty($message['code'])) {
-                $message['code'] = $code;
-            }
-            $this->status = $message['code'];
-            $bag = new ErrorBag($message);
-        } else {
-            $this->status = $code;
-            $bag = new ErrorBag($code);
-            $bag->setTitle($message);
-        }
-        $view = new View();
-        $this->content = $view->getErrorPage($bag);
-
-        die($this->output());
     }
 
     /**
@@ -337,7 +305,12 @@ class Response
      */
     public function getStatusCode()
     {
-        return $this->status;
+        return $this->statusCode;
+    }
+
+    public function setStatusCode($code) {
+        $this->statusCode = $code;
+        return $this;
     }
 
     /**
@@ -347,7 +320,7 @@ class Response
      */
     protected function getStatusText()
     {
-        $code = $this->status;
+        $code = $this->statusCode;
         if (empty($code)) {
             $code = 200;
         }

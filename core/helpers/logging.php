@@ -7,31 +7,27 @@ use LiteFrame\Exception\Logger;
  *
  * @param type $exception
  */
-function logger($exception)
+function logger($exception, $block = false)
 {
-    (new Logger($exception, Logger::MEDIUM_FILE))->log();
+    if ($block) {
+        $log = (new Logger($exception))->log();
+        die($log);
+    } else {
+        (new Logger($exception, Logger::MEDIUM_FILE))->log();
+    }
 }
 
 function exceptionHandler($exception)
 {
-    $outputMedium = config('app.env') === 'local' ?
-            Logger::MEDIUM_STDOUT_FILE :
-            Logger::MEDIUM_FILE;
-    //Log
-    (new Logger($exception, $outputMedium))->log();
+    logger($exception, true);
 }
 
 function errorHandler($errno, $errstr, $errfile, $errline)
 {
     if ($errno && error_reporting()) {
         $date = date('Y-m-d H:i:s');
-        $message = "Error ($errno): [$date] $errfile line $errline\n"
-                .$errstr.PHP_EOL;
-        logger($message);
-
-        if (config('app.env') === 'local') {
-            echo nl2br("$errstr at $errfile line $errline\n");
-        }
+        $message = "Error ($errno) [$date]: $errstr at $errfile($errline)\n";
+        logger($message, true);
     }
 }
 
@@ -58,13 +54,8 @@ function shutdownHandler()
     }
 
     $date = date('Y-m-d H:i:s');
-    $message = "Shutdown Error: [$date] {$err['file']} line {$err['line']}\n"
-            .$err['message'].PHP_EOL;
-    logger($message);
-
-    if (!headers_sent()) {
-        abort(500);
-    }
+    $message = "Shutdown Error [$date]: {$err['message']} at {$err['file']}({$err['line']})";
+    logger($message, true);
 }
 
 function getErrorName($errno)

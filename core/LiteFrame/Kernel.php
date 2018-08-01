@@ -8,6 +8,7 @@ use LiteFrame\CLI\Args;
 use LiteFrame\CLI\Command;
 use LiteFrame\CLI\Output;
 use LiteFrame\CLI\Routing\Router as CLIRouter;
+use LiteFrame\Exception\Logger;
 use LiteFrame\Http\Controller;
 use LiteFrame\Http\Middlewares\CompressResponse;
 use LiteFrame\Http\Request;
@@ -57,10 +58,13 @@ final class Kernel
      */
     public function handleRequest()
     {
-        list($route, $target) = $this->bootForRequest();
+        try {
+            list($route, $target) = $this->bootForRequest();
 
-        $response = $this->runForRequest($route, $target);
-
+            $response = $this->runForRequest($route, $target);
+        } catch (Exception $exception) {
+            $response = (new Logger($exception))->log();
+        }
         $this->terminateRequest($response);
     }
 
@@ -166,13 +170,13 @@ final class Kernel
         register_shutdown_function('shutdownHandler');
 
         if (!$cli) {
-            $local = config('app.env') === 'local';
-            ini_set('display_errors', $local ? 1 : 0);
-            ini_set('display_startup_errors', $local ? 1 : 0);
+            $isDebug = appIsOnDebugMode();
+            ini_set('display_errors', $isDebug ? 1 : 0);
+            ini_set('display_startup_errors', $isDebug ? 1 : 0);
             ini_set('log_errors', 1);
             ini_set('expose_php', 0);
 //        ini_set('error_log', '');
-            ini_set('log_errors_max_length', $local ? 1024 : 0);
+            ini_set('log_errors_max_length', $isDebug ? 1024 : 0);
         }
     }
 

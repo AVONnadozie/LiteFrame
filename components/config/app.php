@@ -23,6 +23,7 @@ return [
      * | Accepted values are single, daily and weekly
      */
     'log' => appEnv('APP_LOG', 'daily'),
+    'debug' => appEnv('APP_DEBUG', false),
     /*
      * ----------------------------
      *  Application Environment

@@ -1,5 +1,6 @@
 <?php
 
+use LiteFrame\Exception\Exceptions\HttpException;
 use LiteFrame\Http\Request;
 use LiteFrame\Http\Response;
 use LiteFrame\Http\Routing\Router;
@@ -108,8 +109,7 @@ function view($path, $data = [])
  */
 function abort($code, $message = '')
 {
-    Response::getInstance()
-            ->abort($code, $message);
+    throw new HttpException($code, $message);
 }
 
 /**
@@ -270,7 +270,8 @@ function d()
 /**
  * Alias for d()
  */
-function dd() {
+function dd()
+{
     call_user_func_array('d', func_get_args());
 }
 
@@ -558,6 +559,11 @@ function isCLI()
 function appIsLocal()
 {
     return appEnv('APP_ENV', 'production') === 'local';
+}
+
+function appIsOnDebugMode()
+{
+    return appEnv('APP_DEBUG', true);
 }
 
 /**

@@ -32,15 +32,15 @@ class View
         return $file;
     }
 
-    public function getErrorPage(ErrorBag $errorBag)
-    {
+    public static function getErrorPage(ErrorBag $errorBag) {
         $code = $errorBag->getCode();
+        $view = new View;
         //Fetch user error page for the error code
-        $file = $this->getViewFile("errors/$code");
+        $file = $view->getViewFile("errors/$code");
 
         //If page does not exist, fetch default error page
         if (!file_exists($file)) {
-            $file = $this->getViewFile("errors/default");
+            $file = $view->getViewFile("errors/default");
 
             //We are left with no choose but to use our default error pages
             if (!file_exists($file)) {
@@ -51,7 +51,7 @@ class View
             }
         }
 
-        return $this->getContent($file, ['bag' => $errorBag, 'errorBag' => $errorBag]);
+        return $view->getContent($file, ['bag' => $errorBag, 'errorBag' => $errorBag]);
     }
 
     private function getContent($file, $data = [])

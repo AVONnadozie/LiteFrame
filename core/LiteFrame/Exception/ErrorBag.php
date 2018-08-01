@@ -3,6 +3,7 @@
 namespace LiteFrame\Exception;
 
 use Exception;
+use LiteFrame\Exception\Exceptions\HttpException;
 
 /**
  * Describes an error
@@ -29,7 +30,10 @@ class ErrorBag
      */
     public function __construct($code, $title = null, $content = null, $trace = null, $file = null, $line = null)
     {
-        if ($code instanceof Exception) {
+        if (version_compare(PHP_VERSION, '7.0', '>') &&
+                $code instanceof \Throwable) {
+            $this->setThrowable($code);
+        } elseif ($code instanceof Exception) {
             $this->setException($code);
         } elseif (is_array($code)) {
             $this->setFromArray($code);
@@ -80,12 +84,21 @@ class ErrorBag
 
     private function setException(Exception $exception)
     {
-        $this->code = $exception->getCode();
-        $this->file = $exception->getFile();
-        $this->line = $exception->getLine();
-        $this->title = $exception->getMessage();
-        $this->content = $exception->getMessage();
-        $this->trace = $exception->getTraceAsString();
+        $this->setThrowable($exception);
+    }
+
+    private function setThrowable($throwable)
+    {
+        if ($throwable instanceof HttpException) {
+            $this->code = $throwable->getHttpCode();
+        } else {
+            $this->code = 500;
+        }
+        $this->file = $throwable->getFile();
+        $this->line = $throwable->getLine();
+        $this->title = $throwable->getMessage();
+        $this->content = $throwable->getMessage();
+        $this->trace = $this->getTraceAsString($throwable);
     }
 
     private function setFromArray(array $error)
@@ -96,6 +109,56 @@ class ErrorBag
         $this->trace = isset($error['trace']) ? $error['trace'] : null;
         $this->file = isset($error['file']) ? $error['file'] : null;
         $this->line = isset($error['line']) ? $error['line'] : null;
+    }
+
+    private function getTraceAsString($throwable)
+    {
+//        return $throwable->getTraceAsString();
+        $trace = $throwable->getTrace();
+        $content = '';
+        $count = 0;
+        foreach ($trace as $line) {
+            $content .= "#$count ";
+            if (isset($line['file'])) {
+                $content .= $line['file'];
+            }
+            if (isset($line['line'])) {
+                $content .= "({$line['line']}): ";
+            }
+            if (isset($line['class'])) {
+                $content .= $line['class'];
+            }
+            if (isset($line['type'])) {
+                $content .= $line['type'];
+            }
+            if (empty($line['file'])) {
+                $content .= '[internal function] ';
+            }
+            $content .= $line['function'];
+            $content .= "(" . $this->getTraceArgs($line['args']) . ");";
+            $count++;
+            $content .= PHP_EOL;
+        }
+        $content .= "#$count {main}" . PHP_EOL;
+        return $content;
+    }
+
+    private function getTraceArgs(array $args) {
+        $content = '';
+        for ($index = 0; $index < count($args); $index++) {
+            if (is_object($args[$index])) {
+                $content .= '(object) ' . get_class($args[$index]);
+            } else if (is_numeric($args[$index])) {
+                $content .= $args[$index];
+            } else if (is_array($args[$index])) {
+                $content .= 'Array';
+            } else {
+                $content .= "'{$args[$index]}'";
+            }
+            $content .= ', ';
+        }
+        $content = rtrim($content, ', ');
+        return $content;
     }
 
     public function setTitle($title)

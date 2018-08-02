@@ -2,6 +2,7 @@
 
 namespace LiteFrame\Http\Routing;
 
+use Closure;
 use Exception;
 use LiteFrame\Http\Request;
 use Traversable;
@@ -38,7 +39,18 @@ class Router
     );
     
     public static $namespace = "Controllers";
-    
+
+    /**
+     * Route group properties
+     * @var array
+     */
+    public static $groupsProps = [
+        'prefix' => [],
+        'namespace' => [],
+        'name' => [],
+        'middlewares' => []
+    ];
+
     const TARGET_REGEX = '/^\S+@\w+$/';
 
     /**
@@ -124,12 +136,12 @@ class Router
      *
      * @return Route Route object
      */
-    protected function map($method, $route, $target, $name = null, $middleware = null)
-    {
+    protected function map($method, $route, $target, $name = null, $middlewares = null) {
+        
         $routeObj = new Route($route, $target);
-        $routeObj->setMethod($method);
         $routeObj->setName($name);
-        $routeObj->setMiddlewares($middleware);
+        $routeObj->setMiddlewares($middlewares);
+        $routeObj->setHttpMethod($method);
 
         $this->routes[] = $routeObj;
 
@@ -224,7 +236,7 @@ class Router
         $params = array();
         $match = false;
         foreach ($this->routes as $handler) {
-            $methods = $handler->getMethod();
+            $methods = $handler->getHttpMethod();
             $route = $handler->getRouteURI();
 
             $method_match = (stripos($methods, $requestMethod) !== false);
@@ -487,8 +499,28 @@ class Router
         return static::all($route, $target, $name, $middleware);
     }
 
-//    public static function group($options, $closure)
-//    {
+    public static function group(array $options, Closure $closure) {
+        $hash = uniqid('prop_');
+        //Add options
+        if (isset($options['prefix'])) {
+            static::$groupsProps['prefix'][$hash] = $options['prefix'];
+        }
+        if (isset($options['namespace'])) {
+            static::$groupsProps['namespace'][$hash] = $options['namespace'];
+        }
+        if (isset($options['name'])) {
+            static::$groupsProps['name'][$hash] = $options['name'];
+        }
+        if (isset($options['middlewares'])) {
+            static::$groupsProps['middlewares'][$hash] = (array) $options['middlewares'];
+        }
+        //Run closure
+        $closure();
+        //Remove options
+        unset(static::$groupsProps['prefix'][$hash]);
+        unset(static::$groupsProps['namespace'][$hash]);
+        unset(static::$groupsProps['name'][$hash]);
+        unset(static::$groupsProps['middlewares'][$hash]);
+    }
 
-//    }
 }

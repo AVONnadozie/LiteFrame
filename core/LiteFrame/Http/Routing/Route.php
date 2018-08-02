@@ -13,7 +13,7 @@ use Exception;
 class Route
 {
     private $name;
-    private $method = 'GET';
+    private $httpMethod = 'GET';
     private $routeURI = '/';
     private $target;
     private $middlewares = array();
@@ -31,9 +31,8 @@ class Route
         return $this->name;
     }
 
-    public function getMethod()
-    {
-        return $this->method;
+    public function getHttpMethod() {
+        return $this->httpMethod;
     }
 
     public function getRouteURI()
@@ -80,6 +79,14 @@ class Route
 
     public function setRouteURI($routeURI)
     {
+        //Add group prefix if any
+        $groupPrefix = implode('/', Router::$groupsProps['prefix']);
+        if ($groupPrefix) {
+            //Remove duplicate forward slashes in prefix
+            $prefixed = trim(preg_replace('/\/+/', '/', $groupPrefix), '/');
+            $routeURI = $prefixed . '/' . trim($routeURI, '/');
+        }
+
         if ($routeURI) {
             $this->routeURI = $routeURI === '/' ? $routeURI : trim($routeURI, '/');
         }
@@ -89,6 +96,12 @@ class Route
 
     public function setTarget($target)
     {
+        //Add to route group if any
+        if (!$target instanceof \Closure) {
+            $groupNamespace = implode('\\', Router::$groupsProps['namespace']);
+            $target = $groupNamespace ? "$groupNamespace\\$target" : $target;
+        }
+
         if (!$target instanceof Closure &&
                 !preg_match(Router::TARGET_REGEX, $target)) {
             throw new Exception("Invalid target string $target");
@@ -115,20 +128,26 @@ class Route
             throw new Exception('Route cannot be modified');
         }
 
-        $this->name = $name;
+        if (empty($name)) {
+            return $name;
+        }
+
+        //Add group name if any
+        $groupName = implode('', Router::$groupsProps['name']);
+        $this->name = $groupName . $name;
+
         //Register
         Router::getInstance()->registerNamedRoute($this);
 
         return $this;
     }
 
-    public function setMethod($method)
-    {
+    public function setHttpMethod($method) {
         if ($this->lock) {
             throw new Exception('Route cannot be modified');
         }
 
-        $this->method = $method;
+        $this->httpMethod = $method;
 
         return $this;
     }
@@ -150,6 +169,10 @@ class Route
                 }
             }
         }
+
+        //Add group middlewares if any
+        $groupMiddlewares = Router::$groupsProps['middlewares'];
+        $this->middlewares = $groupMiddlewares + $this->middlewares;
 
         return $this;
     }

@@ -13,6 +13,9 @@ class ViewResponse extends Response
         $this->path = $path;
         $this->data = $data;
         $this->statusCode = $code;
+
+        $content = View::fetch($path, $data);
+        $this->setContent($content, $code);
     }
 
     public function getPath()
@@ -44,12 +47,7 @@ class ViewResponse extends Response
      */
     public function getContent()
     {
-        if (!$this->content) {
-            $view = new View();
-            $content = $view->fetch($this->getPath(), $this->getData());
-            $this->setContent($content, $this->getStatusCode());
-        }
-
+        $this->toHTML();
         return $this->content;
     }
 
@@ -57,7 +55,6 @@ class ViewResponse extends Response
     {
         $this->content = $content ? $content : '';
         $this->statusCode = $code;
-        $this->toHTML();
 
         return $this;
     }

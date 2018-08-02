@@ -7,9 +7,9 @@ use LiteFrame\Exception\Logger;
  *
  * @param type $exception
  */
-function logger($exception, $block = false)
+function logger($exception, $abort = false)
 {
-    if ($block) {
+    if ($abort) {
         $log = (new Logger($exception))->log();
         die($log);
     } else {
@@ -54,7 +54,7 @@ function shutdownHandler()
     }
 
     $date = date('Y-m-d H:i:s');
-    $message = "Shutdown Error [$date]: {$err['message']} at {$err['file']}({$err['line']})";
+    $message = "Fatal Error [$date]: {$err['message']} at {$err['file']}({$err['line']})";
     logger($message, true);
 }
 

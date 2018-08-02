@@ -77,10 +77,8 @@ function config($key, $default = null)
  * @return string
  */
 function includeView($path, $data = [], $return = false)
-{
-    $view = new View();
-
-    $content = $view->fetch($path, $data);
+ {
+    $content = View::fetch($path, $data);
     if ($return) {
         return $content;
     } else {

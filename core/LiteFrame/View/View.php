@@ -6,22 +6,32 @@ use Exception;
 use LiteFrame\Exception\ErrorBag;
 
 class View
-{
-    public function fetch($path, $data = [])
-    {
-        $file = $this->getViewFile($path);
+ {
 
-        return $this->getContent($file, $data);
+    /**
+     * Fetch content of a view
+     * @param string $view View file
+     * @param array $data Data to be passed to view
+     * @return string
+     */
+    public static function fetch($view, $data = []) {
+        $file = static::getFilePath($view);
+
+        return static::getContent($file, $data);
     }
 
-    private function getViewFile($path)
-    {
+    /**
+     * Get full path to view file
+     * @param string $view View file
+     * @return string|null
+     */
+    public static function getFilePath($view) {
         $paths = config('view.path');
         if (empty($paths)) {
             $paths = [appPath('Views')];
         }
 
-        $filename = trim($path, '/') . '.php';
+        $filename = trim($view, '/') . '.php';
         $file = null;
         foreach ($paths as $dir) {
             $file = nPath($dir, $filename);
@@ -32,15 +42,19 @@ class View
         return $file;
     }
 
+    /**
+     * Return error page content for the given ErrorBag
+     * @param ErrorBag $errorBag
+     * @return string
+     */
     public static function getErrorPage(ErrorBag $errorBag) {
         $code = $errorBag->getCode();
-        $view = new View;
         //Fetch user error page for the error code
-        $file = $view->getViewFile("errors/$code");
+        $file = static::getFilePath("errors/$code");
 
         //If page does not exist, fetch default error page
         if (!file_exists($file)) {
-            $file = $view->getViewFile("errors/default");
+            $file = static::getFilePath("errors/default");
 
             //We are left with no choose but to use our default error pages
             if (!file_exists($file)) {
@@ -51,11 +65,17 @@ class View
             }
         }
 
-        return $view->getContent($file, ['bag' => $errorBag, 'errorBag' => $errorBag]);
+        return static::getContent($file, ['bag' => $errorBag, 'errorBag' => $errorBag]);
     }
 
-    private function getContent($file, $data = [])
-    {
+    /**
+     * Get view content for the given file 
+     * @param string $file absolute path to file
+     * @param array $data data
+     * @return string|false
+     * @throws Exception
+     */
+    private static function getContent($file, $data = []) {
         $path = fixPath($file);
         $content = false;
         if (file_exists($path)) {
@@ -73,4 +93,14 @@ class View
 
         return $content;
     }
+
+    /**
+     * Check if view file exists
+     * @param string $view View file
+     * @return boolean
+     */
+    public static function exists($view) {
+        return file_exists(static::getFilePath($view));
+    }
+
 }

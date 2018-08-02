@@ -153,7 +153,8 @@ class ErrorBag
             } else if (is_array($args[$index])) {
                 $content .= 'Array';
             } else {
-                $content .= "'{$args[$index]}'";
+                $string = strlen($args[$index]) > 30 ? (substr($args[$index], 0, 30) . '...') : $args[$index];
+                $content .= "'$string'";
             }
             $content .= ', ';
         }

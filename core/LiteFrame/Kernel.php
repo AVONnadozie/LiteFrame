@@ -171,7 +171,7 @@ final class Kernel
 
         if (!$cli) {
             $isDebug = appIsOnDebugMode();
-            ini_set('display_errors', $isDebug ? 1 : 0);
+            ini_set('display_errors', 0);
             ini_set('display_startup_errors', $isDebug ? 1 : 0);
             ini_set('log_errors', 1);
             ini_set('expose_php', 0);

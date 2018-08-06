@@ -158,21 +158,26 @@ class Route
             throw new Exception('Route cannot be modified');
         }
 
+        $curMiddlewares = [];
         if (is_array($middleware)) {
-            $this->middlewares = $middleware;
+            $curMiddlewares = $middleware;
         } else {
             $args = func_get_args();
-            $this->middlewares = array();
             foreach ($args as $arg) {
                 if (is_string($arg)) {
-                    $this->middlewares[] = $arg;
+                    $curMiddlewares[] = $arg;
                 }
             }
         }
 
         //Add group middlewares if any
-        $groupMiddlewares = Router::$groupsProps['middlewares'];
-        $this->middlewares = $groupMiddlewares + $this->middlewares;
+        $this->middlewares = Router::$groupsProps['middlewares'];
+        foreach ($curMiddlewares as $value) {
+            if (in_array($value, $this->middlewares)) {
+                continue;
+            }
+            $this->middlewares[] = $value;
+        }
 
         return $this;
     }

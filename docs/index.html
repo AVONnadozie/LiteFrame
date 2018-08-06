@@ -61,6 +61,7 @@
                                     <li><a href="#RedirectRoute">Redirect Route</a></li>
                                     <li><a href="#view-route">View Route</a></li>
                                     <!--<li><a href="#SubdomainRoute">Subdomain Route</a></li>-->
+                                    <li><a href="#RouteGrouping">Route Grouping</a></li>
                                 </ul>
                             </li>
                             <li><a href="#Requests">Requests</a></li>
@@ -506,8 +507,47 @@ Router::get('user/profile', 'AppController@showProfile','profile');
                             Additionally, you can pass data to the view as such.  
                         <pre class="z-depth-1"><code class="php">$data = array('name'=>'John Doe');
 Router::view($route, 'view-name', $data);</code></pre>
-                        <br />
+                        <h4 id="RouteGrouping">Route Grouping</h4>
+                        <p>
+                            Route grouping is a feature that allows you to group routes with related properties 
+                            such as route names, URL prefix, middlewares and/or controller namespaces.
+                        </p>
+                        <b>Behaviours to note:</b>
+                        <ul class="browser-default">
+                            <li>Groups can be nested infinitely.</li>
+                            <li>Nested groups and routes inherit the properties of their parent groups.</li>
+                            <li>Name of routes inside a group will be a concatenation of it's 
+                                parent group(s) names and it's assigned name</li>
+                            <li>URI of routes inside a group will be a concatenation of it's 
+                                parent groups prefixes using the character '/'</li>
+                            <li>Namespace of controllers in a group will be a concatenation of it's 
+                                parent groups namespace using the character '\'</li>
+                            <li>Middlewares of a route in group(s) will be a union of it's 
+                                parent group(s) middlewares and it's middlewares</li>
+                        </ul>
+                        <p>Code Sample:</p>
+                        <pre class="z-depth-1"><code class="php">Router::group(['prefix' => 'sample-prefix', 'middlewares' => ['sampleMiddleware']], function() {
 
+    Router::get('/', function (Request $request) {
+        return "Grouped route with name index";
+    })->setName('index');
+
+    //Nested Group to inherit properties of parent group
+    Router::group(['namespace' => 'Nested', 'name' => 'nested.'], function() {
+        Router::get('/nested', 'MyController@index')->setName('index');
+    });
+});                            
+</code></pre>
+                        <p>
+                            This example defines two groups and two routes.<br/>
+                            The first route which inherits the first group will have it's name as <code>index</code>,
+                            middleware as <code>sampleMiddleware</code>, URI as <code>/sample-prefix</code>
+                        </p>
+                        <p>
+                            The second route which inherits properties of the two groups will therefore have it's 
+                            name as <code>nested.index</code>, controller's namespace as <code>Nested\MyController</code>,
+                            middleware as <code>sampleMiddleware</code>, and URI as <code>/sample-prefix/nested</code>
+                        </p>
                         <h3 id="Requests">Requests</h3>
                         <p> 
                             Each http request is represented by a <code>LiteFrame\Http\Request</code> object.<br/>
@@ -517,7 +557,8 @@ Router::view($route, 'view-name', $data);</code></pre>
                         <p>
                             For example, given a request object <code>$request</code> and a GET or POST request parameter 
                             <code>id</code>, 
-                            to access the parameter you can simple call <code>$request->input('id')</code> or conveniently access it as a property of the <code>$request</code> object as <code>$request->id</code>
+                            to access the parameter you can simple call <code>$request->input('id')</code> 
+                            or conveniently access it as a property of the <code>$request</code> object as <code>$request->id</code>
                         </p>
                         <p>
                             Alternatively, you can access the request object using <code>Request::getInstance()</code>

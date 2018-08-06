@@ -571,5 +571,5 @@ function appIsOnDebugMode()
  */
 function e($string)
 {
-    echo htmlspecialchars($string, ENT_QUOTES, 'UTF-8', false);
+    return htmlspecialchars($string, ENT_QUOTES, 'UTF-8', false);
 }

@@ -19,7 +19,7 @@ class Server
      *
      * @return Server
      */
-    public static function getInstance()
+    private static function getInstance()
     {
         if (empty(static::$instance)) {
             static::$instance = new static();
@@ -36,31 +36,35 @@ class Server
     
     public static function isSecure()
     {
-        return static::getInstance()->isHttps();
+        return static::isHttps();
     }
     
-    public function getServerValue($key, $default = null)
+    private function getServerValue($key, $default = null)
     {
         return isset($this->values[$key]) ? $this->values[$key] : $default;
     }
     
-    
-    public function getProtocol()
+    public static function getProtocol()
     {
         return  static::get('REQUEST_SCHEME', 'http');
     }
 
-    public function getHostname()
+    public static function getHostname()
     {
         return static::get('HTTP_HOST');
     }
 
-    public function getMethod()
+    public static function getMethod()
     {
         return static::get('REQUEST_METHOD', 'GET');
     }
-    
-    public function isHttps()
+
+    public static function getPreviousURL()
+    {
+        return static::get('HTTP_REFERER');
+    }
+
+    public static function isHttps()
     {
         $value = static::get('HTTPS', 'off');
         //Translate

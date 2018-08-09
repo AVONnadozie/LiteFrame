@@ -18,7 +18,18 @@ class UploadedFile
     }
     
     /**
-     *
+     * Save uploaded file publicly to the path
+     * @param type $path
+     * @param type $name
+     * @return type
+     */
+    public function savePublicly($path = '', $name = '')
+    {
+        return $this->save($path, $name, true);
+    }
+
+    /**
+     * 
      * @param type $path
      * @param type $name
      * @return File
@@ -27,6 +38,9 @@ class UploadedFile
     {
         $folder = $public ? 'public' : 'private';
         if ($path) {
+            if (!file_exists(storagePath($path))) {
+                mkdir(storagePath($path), 0777, true);
+            }
             $savePath = storagePath(nPath($path, $name), $folder);
         } else {
             $savePath = storagePath($this->uploadInfo['name'], $folder);
@@ -41,7 +55,7 @@ class UploadedFile
     
     private function validate()
     {
-        if (empty($_FILES[$this->name]) || !is_uploaded_file($_FILES[$this->name]['tmp_name'])) {
+        if (!request()->hasFile($this->name)) {
             throw new Exception("File '$this->name' was not received");
         }
         
@@ -51,7 +65,12 @@ class UploadedFile
         }
         //Check mime type, file size, etc.
     }
-    
+
+    public function ext() {
+        $dots = explode('.', $this->uploadInfo['name']);
+        return array_pop($dots);
+    }
+
     private function getUploadErrorMessage($code)
     {
         switch ($code) {

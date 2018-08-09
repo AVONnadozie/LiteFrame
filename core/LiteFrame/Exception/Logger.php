@@ -4,7 +4,15 @@ namespace LiteFrame\Exception;
 
 use Exception;
 use LiteFrame\Exception\Exceptions\HttpException;
+use LiteFrame\Http\Request;
 use LiteFrame\View\View;
+use const DS;
+use function appIsOnDebugMode;
+use function config;
+use function isCLI;
+use function nPath;
+use function response;
+use function storagePath;
 
 /**
  * Description of Logger.
@@ -137,16 +145,30 @@ class Logger
             }
             
             if ($this->outputMedium !== static::MEDIUM_FILE) {
-                $exception = $this->getException();
-                $bag = new ErrorBag($exception);
-                if (!appIsOnDebugMode()) {
-                    $bag->setTrace('');
-                }
-
-                $content = View::getErrorPage($bag);
-                return response($content, $bag->getCode());
+                return $this->getResponse();
             }
         }
+    }
+
+    private function getResponse() {
+        $exception = $this->getException();
+        $bag = new ErrorBag($exception);
+        if (!appIsOnDebugMode()) {
+            $bag->setTrace('');
+        }
+        //Clean buffer
+        ob_get_clean();
+
+        $request = Request::getInstance();
+        if ($request->wantsJson()) {
+            $content = [
+                'message' => $exception->getMessage(),
+                'trace' => $exception->getTrace()
+            ];
+        } else {
+            $content = View::getErrorPage($bag);
+        }
+        return response($content, $bag->getCode());
     }
 
     private function getContentForFile()

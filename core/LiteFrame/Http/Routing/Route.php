@@ -4,6 +4,7 @@ namespace LiteFrame\Http\Routing;
 
 use Closure;
 use Exception;
+use LiteFrame\Utility\Collection;
 
 /**
  * Description of Route.
@@ -171,7 +172,8 @@ class Route
         }
 
         //Add group middlewares if any
-        $this->middlewares = Router::$groupsProps['middlewares'];
+        $this->middlewares = (new Collection(Router::$groupsProps['middlewares']))
+                        ->flatten()->toArray();
         foreach ($curMiddlewares as $value) {
             if (in_array($value, $this->middlewares)) {
                 continue;

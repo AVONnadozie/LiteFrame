@@ -4,17 +4,13 @@ namespace LiteFrame\Utility;
 
 class Collection implements \Iterator, \ArrayAccess, \Countable
 {
-    protected $current = 0;
     protected $items = [];
-    protected $keys = [];
     protected $maps = [];
     protected $mapped = [];
 
     public function __construct(array $items)
     {
-        $this->current = 0;
         $this->items = $items;
-        $this->keys = array_keys($items);
     }
 
     public function all()
@@ -24,16 +20,17 @@ class Collection implements \Iterator, \ArrayAccess, \Countable
     
     public function keys()
     {
-        return $this->keys;
+        return array_keys($this->items);
     }
     
     /**
      * Apply a callable on all values and replace values with result
      * @param \LiteFrame\Utility\callable $callable
-     * @param boolean $lazy set true to run mapping during access (recommended) 
+     * @param boolean $lazy set true to run mapping during access (recommended)
      * else set false to apply immediately
      */
-    public function map(callable $callable) {
+    public function map(callable $callable)
+    {
         $this->maps[] = $callable;
     }
 
@@ -48,7 +45,7 @@ class Collection implements \Iterator, \ArrayAccess, \Countable
             if (!empty($this->maps) && !in_array($key, $this->mapped)) {
                 foreach ($this->maps as $map) {
                     $this->items[$key] = $map($this->items[$key]);
-                    $this->mapped = $key;
+                    $this->mapped[] = $key;
                 }
             }
             return $this->items[$key];
@@ -58,38 +55,34 @@ class Collection implements \Iterator, \ArrayAccess, \Countable
 
     public function current()
     {
-        return $this->get($this->current);
+        return $this->get($this->key());
     }
 
     public function key()
     {
-        return $this->current;
+        return key($this->items);
     }
 
     public function next()
     {
-        ++$this->current;
+        return next($this->items);
     }
 
     public function rewind()
     {
-        $this->current = 0;
+        reset($this->items);
     }
 
     public function valid()
     {
-        return isset($this->items[$this->current]);
+        $key = $this->key();
+        return ($key !== null && $key !== false);
     }
 
     
     public function offsetExists($offset)
     {
-        if (!isset($this->keys[$offset])) {
-            return false;
-        }
-
-        $key = $this->keys[$offset];
-        return isset($this->items[$key]);
+        return isset($this->items[$offset]);
     }
 
     public function offsetGet($offset)
@@ -99,15 +92,12 @@ class Collection implements \Iterator, \ArrayAccess, \Countable
 
     public function offsetSet($offset, $value)
     {
-        $this->items[$this->keys[$offset]] = $value;
+        $this->items[$offset] = $value;
     }
 
     public function offsetUnset($offset)
     {
-        if ($this->offsetExists($offset)) {
-            unset($this->items[$this->keys[$offset]]);
-            unset($this->keys[$offset]);
-        }
+        unset($this->items[$offset]);
     }
 
     public function count()
@@ -139,9 +129,33 @@ class Collection implements \Iterator, \ArrayAccess, \Countable
      */
     public function first()
     {
-        return isset($this->keys[0]) ? $this->items[$this->keys[0]] : null;
+        foreach ($this->items as $value) {
+            return $value;
+        }
     }
-    
+
+    public function flatten()
+    {
+        $this->items = static::flatten_list($this);
+        return $this;
+    }
+
+    private static function flatten_list($array, $result = array())
+    {
+        if ($array instanceof Collection) {
+            $array = $array->toArray();
+        }
+
+        foreach ($array as $value) {
+            if (is_array($value)) {
+                $result = static::flatten_list($value, $result);
+            } else {
+                $result[] = $value;
+            }
+        }
+        return $result;
+    }
+
     public function toArray()
     {
         return $this->items;

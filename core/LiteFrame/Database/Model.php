@@ -9,9 +9,10 @@ use RedBeanPHP\OODBBean;
 
 class Model extends OODBBean
 {
-    protected static $table;
+    protected $table;
     protected $updateTimestamps = true;
-    
+    protected $fillable = [];
+
     public function __construct(OODBBean $bean = null)
     {
         if ($bean) {
@@ -21,15 +22,16 @@ class Model extends OODBBean
     
     public static function getTable()
     {
-        if (empty(static::$table)) {
+        $model = new static;
+        if (empty($model->table)) {
             $classname = get_called_class();
             $split = explode('\\', $classname);
             $name = array_pop($split);
             //Generate table name
             //static::$table = Inflector::tableize($name);
-            static::$table = Inflector::pluralize(strtolower($name));
+            $model->table = Inflector::pluralize(strtolower($name));
         }
-        return static::$table;
+        return $model->table;
     }
     
     /**
@@ -69,11 +71,12 @@ class Model extends OODBBean
     /**
      * Returns the model with the id.
      *
-     * @param int $id Item id 
+     * @param int $id Item id
      *
      * @return Model|NULL
      */
-    public static function withId($id) {
+    public static function withId($id)
+    {
         return static::findOne('id = ?', [$id]);
     }
 
@@ -89,7 +92,8 @@ class Model extends OODBBean
      *
      * @return Collection
      */
-    public static function find($sql = null, $bindings = []) {
+    public static function find($sql = null, $bindings = [])
+    {
         $items = DB::find(static::getTable(), $sql, $bindings);
         return static::createFromBean($items);
     }
@@ -459,4 +463,83 @@ class Model extends OODBBean
         return DB::hunt($this->getTable(), $sqlSnippet, $bindings);
     }
 
+    /**
+     * Counts the number of beans of this model.
+     * This method accepts a first argument to modify the count-query.
+     * A second argument can be used to provide bindings for the SQL snippet.
+     *
+     * @param string $addSQL   additional SQL snippet
+     * @param array  $bindings parameters to bind to SQL
+     *
+     * @return integer
+     */
+    public static function countAll($addSQL = '', $bindings = array())
+    {
+        return DB::count(static::getTable(), $addSQL, $bindings);
+    }
+
+    /**
+     * Auto fill bean columns.<br/>
+     * Note that only column names specified as fillable will be filled.
+     * @param array $data column-value pair to fill
+     */
+    public function fill(array $data)
+    {
+        foreach ($data as $key => $value) {
+            if (in_array($key, $this->fillable)) {
+                $this->{$key} = $value;
+            }
+        }
+    }
+
+
+    /**
+     * Chainable method to cast a certain ID to a model; for instance:
+     * $person = $club->fetchAs(Person::class)->member;
+     * This will load a bean of model Person using member_id as ID.
+     *
+     * @return OODBBean
+     */
+    public function fetchAs($model) {
+        $bean = new $model;
+        return parent::fetchAs($bean->getTable());
+    }
+
+    /**
+     * Create one-to-many relationship
+     * @param \LiteFrame\Database\Model $related
+     */
+    public function owns(Model $related)
+    {
+        $table = ucfirst($related->getTable());
+        $column = "own{$table}List";
+        $this->$column[] = $related;
+    }
+
+    /**
+     * Create many-to-many relationship
+     * @param \LiteFrame\Database\Model $related
+     */
+    public function hasMany(Model $related)
+    {
+        $table = ucfirst($related->getTable());
+        $column = "shared{$table}List";
+        $this->$column[] = $related;
+    }
+
+    /**
+     * Create reverse one-to-many relationship
+     * @param \LiteFrame\Database\Model $related
+     * @param type $foreignKey
+     */
+    public function belongsTo(Model $related, $foreignKey = '')
+    {
+        if (!$foreignKey) {
+            $table = $related->getTable();
+            $column = Inflector::singularize($table);
+        } else {
+            $column = $foreignKey;
+        }
+        $this->$column = $related;
+    }
 }

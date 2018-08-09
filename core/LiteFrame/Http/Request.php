@@ -104,17 +104,17 @@ final class Request
 
     public function getProtocol()
     {
-        return Server::getInstance()->getProtocol();
+        return Server::getProtocol();
     }
 
     public function getHostname()
     {
-        return Server::getInstance()->getHostname();
+        return Server::getHostname();
     }
 
     public function getMethod()
     {
-        return Server::getInstance()->getMethod();
+        return Server::getMethod();
     }
 
     /**
@@ -175,6 +175,18 @@ final class Request
         return $_REQUEST;
     }
     
+    /**
+     * Check if uploaded file exists
+     * @param string $name
+     * @return boolean
+     */
+    public function hasFile($name)
+    {
+        //See if it makes sense to use dot notation
+        $file = $_FILES[$name];
+        return isset($file['tmp_name']) && file_exists($file['tmp_name']) && is_uploaded_file($file['tmp_name']);
+    }
+
     /**
      * Get uploaded file
      * @param string $name
@@ -255,8 +267,8 @@ final class Request
     {
         $acceptable = Header::get('Accept');
 
-        return isset($acceptable[0]) && (stripos($acceptable[0], '/json') !== false ||
-                stripos($acceptable[0], '+json') !== false);
+        return !empty($acceptable) && (stripos($acceptable, '/json') !== false ||
+                stripos($acceptable, '+json') !== false);
     }
 
     /**

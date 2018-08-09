@@ -2,6 +2,8 @@
 
 namespace LiteFrame\Storage;
 
+use LiteFrame\Utility\Inflector;
+
 class Session
 {
     private static $instance;
@@ -22,13 +24,17 @@ class Session
      *
      * @return Session
      */
-    public static function getInstance()
+    private static function getInstance()
     {
         if (empty(static::$instance)) {
             static::$instance = new static();
         }
 
         return static::$instance;
+    }
+
+    public static function id() {
+        return session_id();
     }
 
     /**
@@ -46,12 +52,12 @@ class Session
     {
         return static::getInstance()->getValue($key, $default);
     }
-    
+
     public static function has($key)
     {
         return static::getInstance()->hasValue($key);
     }
-    
+
     public static function destroy()
     {
         return static::getInstance()->flush();
@@ -61,7 +67,7 @@ class Session
     {
         return isset($_SESSION[$key]) ? $_SESSION[$key] : $default;
     }
-    
+
     public function hasValue($key)
     {
         return isset($_SESSION[$key]);
@@ -80,7 +86,7 @@ class Session
         }
         return $this;
     }
-    
+
     public function flush()
     {
         if ($this->started) {
@@ -92,7 +98,8 @@ class Session
     private function configure()
     {
         //Set name
-        session_name(config('session.name', 'LiteFrame_Session'));
+        $name = Inflector::underscore(config('app.name'));
+        session_name(config('session.name', "{$name}_Session"));
         //Enable cookies for storing session
         ini_set('session.use_cookies', 1);
         //Disabled changing session id through URL like http://example.php?PHPSESSID=<session id>
@@ -101,10 +108,9 @@ class Session
         //Rejects any session ID from user that doesn't match current one and creates new one
         ini_set('session.use_strict_mode', config('session.use_strict_mode', 1));
 
-        $server = Server::getInstance();
-        ini_set('session.cookie_secure', config('session.secure', $server->isHttps()));
+        ini_set('session.cookie_secure', config('session.secure', Server::isHttps()));
         ini_set('session.cookie_httponly', config('session.httponly', true));
-        ini_set('session.cookie_domain', config('session.domain', $server->getHostname()));
+        ini_set('session.cookie_domain', config('session.domain', Server::getHostname()));
         //session lifetime
         ini_set('session.cookie_lifetime', config('session.lifetime', 0));
 //        //Entropy file

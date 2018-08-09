@@ -56,11 +56,11 @@ class Header
             return $first ? $default : array($default);
         }
 
-        if ($first) {
-            return count($this->headers[$key]) ? $this->headers[$key][0] : $default;
+        if ($first && is_array($this->headers[$key])) {
+            return $this->headers[$key][0];
+        } else {
+            return $this->headers[$key];
         }
-
-        return $this->headers[$key];
     }
     
     
@@ -225,7 +225,7 @@ class Header
 
     private function formatKey($key)
     {
-        return str_replace('_', '-', strtolower($key));
+        return str_replace('_', '-', strtoupper($key));
     }
 
     /**

@@ -95,7 +95,7 @@ final class Request
             if (empty($hostname) || empty($protocol)) {
                 $this->appURL = config('app.url');
             } else {
-                $this->appURL = $protocol.'://'.$hostname.'/'.$this->getBaseDir();
+                $this->appURL = $protocol . '://' . $hostname . '/' . $this->getBaseDir();
             }
         }
 
@@ -145,36 +145,36 @@ final class Request
         $post = $this->rawPostContent();
         $get = $this->rawGetContent();
         $routeParams = [];
-        
+
         //Check route parameters
         $route = $this->getRoute();
         if ($route) {
             $routeParams = $route->getParameters();
         }
-        
+
         $inputs = array_merge($get, $post, $routeParams);
         if ($key) {
-            return isset($inputs[$key])?$inputs[$key]:$default;
+            return isset($inputs[$key]) ? $inputs[$key] : $default;
         } else {
             return $inputs;
         }
     }
-    
+
     private function rawGetContent()
     {
         return $_GET;
     }
-    
+
     private function rawPostContent()
     {
         return $_POST;
     }
-    
+
     private function rawRequestContent()
     {
         return $_REQUEST;
     }
-    
+
     /**
      * Check if uploaded file exists
      * @param string $name
@@ -183,8 +183,11 @@ final class Request
     public function hasFile($name)
     {
         //See if it makes sense to use dot notation
-        $file = $_FILES[$name];
-        return isset($file['tmp_name']) && file_exists($file['tmp_name']) && is_uploaded_file($file['tmp_name']);
+        if (isset($_FILES[$name])) {
+            $file = $_FILES[$name];
+            return isset($file['tmp_name']) && file_exists($file['tmp_name']) && is_uploaded_file($file['tmp_name']);
+        }
+        return false;
     }
 
     /**

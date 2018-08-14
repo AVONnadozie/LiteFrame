@@ -6,20 +6,25 @@ use LiteFrame\Utility\Collection;
 use LiteFrame\Utility\Inflector;
 use RedBeanPHP\Finder;
 use RedBeanPHP\OODBBean;
+use RedBeanPHP\SimpleModel;
 
-class Model extends OODBBean
+class Model extends SimpleModel
 {
     protected $table;
     protected $updateTimestamps = true;
     protected $fillable = [];
+    protected $bean;
 
-    public function __construct(OODBBean $bean = null)
+    protected function __construct(OODBBean $bean = null)
     {
-        if ($bean) {
-            cast($this, $bean);
-        }
+        $this->bean = $bean;
     }
     
+    public function getBean()
+    {
+        return $this->bean;
+    }
+
     public static function getTable()
     {
         $model = new static;
@@ -28,12 +33,13 @@ class Model extends OODBBean
             $split = explode('\\', $classname);
             $name = array_pop($split);
             //Generate table name
-            //static::$table = Inflector::tableize($name);
-            $model->table = Inflector::pluralize(strtolower($name));
+            $model->table = Inflector::tableize($name);
+//            $model->table = Inflector::pluralize(strtolower($name));
+//            $model->table = Inflector::underscore($name);
         }
         return $model->table;
     }
-    
+
     /**
      * Converts OODBBean to Model
      * @param OODBBean|array $bean
@@ -66,18 +72,6 @@ class Model extends OODBBean
     {
         $bean = DB::dispense(static::getTable(), $num, $alwaysReturnArray);
         return static::createFromBean($bean);
-    }
-    
-    /**
-     * Returns the model with the id.
-     *
-     * @param int $id Item id
-     *
-     * @return Model|NULL
-     */
-    public static function withId($id)
-    {
-        return static::findOne('id = ?', [$id]);
     }
 
     /**
@@ -116,8 +110,7 @@ class Model extends OODBBean
         $items = DB::findAll(static::getTable(), $sql, $bindings);
         return static::createFromBean($items);
     }
-    
-    
+
     /**
      * Like find() but also exports the beans as an array.
      * This method will perform a find-operation. For every bean
@@ -137,8 +130,7 @@ class Model extends OODBBean
         $items = DB::findAndExport(static::getTable(), $sql, $bindings);
         return static::createFromBean($items);
     }
-    
-    
+
     /**
      * Tries to find beans matching the specified type and
      * criteria set.
@@ -151,13 +143,12 @@ class Model extends OODBBean
      *
      * @return Collection
      */
-    
     public static function findLike($like = [], $sql = '')
     {
-        $items =  DB::findLike(static::getTable(), $like, $sql);
+        $items = DB::findLike(static::getTable(), $like, $sql);
         return static::createFromBean($items);
     }
-    
+
     /**
      * Like Model::find() but returns the first bean only.
      *
@@ -166,14 +157,12 @@ class Model extends OODBBean
      *
      * @return Model|NULL
      */
-    
     public static function findOne($sql = null, $bindings = [])
     {
-        $bean =  DB::findOne(static::getTable(), $sql, $bindings);
+        $bean = DB::findOne(static::getTable(), $sql, $bindings);
         return static::createFromBean($bean);
     }
-    
-    
+
     /**
      * Finds a BeanCollection using the repository.
      * A bean collection can be used to retrieve one bean at a time using
@@ -185,13 +174,12 @@ class Model extends OODBBean
      *
      * @return BeanCollection
      */
-    
     public static function findCollection($sql = null, $bindings = [])
     {
         $collection = DB::findCollection(static::getTable(), $sql, $bindings);
         return new BeanCollection($collection);
     }
-    
+
     /**
      * Returns a collection of beans. Pass a series of ids and
      * this method will bring you the corresponding beans.
@@ -205,13 +193,12 @@ class Model extends OODBBean
      *
      * @return Collection
      */
-    
     public static function batch(array $ids)
     {
         $items = DB::batch(static::getTable(), $ids);
         return static::createFromBean($items);
     }
-    
+
     /**
      * Loads a bean from the object database.
      * It searches for this bean Object in the
@@ -236,7 +223,7 @@ class Model extends OODBBean
      * $post->title = 'my post';
      * $id = $post->save();
      * $post = SampleModel::load( $id );
-     * $post->delete( $post );
+     * $post->trash( $post );
      * </code>
      *
      * In the example above, we create a new bean of SampleModel.
@@ -255,7 +242,7 @@ class Model extends OODBBean
         $bean = DB::load(static::getTable(), $id, $snippet);
         return static::createFromBean($bean);
     }
-    
+
     /**
      * Alias for batch().
      *
@@ -265,10 +252,10 @@ class Model extends OODBBean
      */
     public function loadAll($ids)
     {
-        $items = DB::loadAll($this->getTable(), $ids);
+        $items = DB::loadAll(static::getTable(), $ids);
         return static::createFromBean($items);
     }
-    
+
     /**
      * Same as load, but selects the bean for update, thus locking the bean.
      * This equals an SQL query like 'SELECT ... FROM ... FOR UPDATE'.
@@ -289,12 +276,10 @@ class Model extends OODBBean
      */
     public function loadForUpdate($id)
     {
-        $bean = DB::loadForUpdate($this->getTable(), $id);
+        $bean = DB::loadForUpdate(static::getTable(), $id);
         return static::createFromBean($bean);
     }
-    
-    
-    
+
     /**
      * MatchUp is a powerful productivity boosting method that can replace simple control
      * scripts with a single RedBeanPHP command. Typically, matchUp() is used to
@@ -326,82 +311,13 @@ class Model extends OODBBean
      */
     public static function matchUp($sql, $bindings = array(), $onFoundDo = null, $onNotFoundDo = null, &$model = null)
     {
-        $result = DB::matchUp($this->getTable(), $sql, $bindings, $onFoundDo, $onNotFoundDo, $bean);
+        $result = DB::matchUp(static::getTable(), $sql, $bindings, $onFoundDo, $onNotFoundDo, $bean);
         if ($model) {
             $model = static::createFromBean($bean);
         }
         return $result;
     }
-    
-    /**
-     * Stores a bean in the database. If the database schema is not compatible
-     * with this bean and RedBean runs in fluid mode the schema
-     * will be altered to store the bean correctly.
-     * If the database schema is not compatible with this bean and
-     * RedBean runs in frozen mode it will throw an exception.
-     * This function returns the primary key ID of the inserted
-     * bean.
-     *
-     * The return value is an integer if possible. If it is not possible to
-     * represent the value as an integer a string will be returned.
-     *
-     * Usage:
-     *
-     * <code>
-     * $post = SampleModel::instance();
-     * $post->title = 'my post';
-     * $id = $post->save();
-     * $post = SampleModel::load( $id );
-     * $post->delete( $post );
-     * </code>
-     *
-     * In the example above, we create a new bean of SampleModel.
-     * We then set the title of the bean to 'my post' and we
-     * store the bean. The save() method will return the primary
-     * key ID $id assigned by the database. We can now use this
-     * ID to load the bean from the database again and delete it.
-     *
-     *
-     * @return integer|string
-     */
-    public function save()
-    {
-        if ($this->updateTimestamps) {
-            if (!$this->id && !$this->created_at) {
-                $this->created_at = date('Y-m-d H:i:s');
-            }
-            $this->updated_at = date('Y-m-d H:i:s');
-        }
-        return DB::store($this);
-    }
-    
-    /**
-     * Removes this bean from the database.
-     *
-     * Usage:
-     *
-     * <code>
-     * $post = SampleModel::instance();
-     * $post->title = 'my post';
-     * $id = $post->save();
-     * $post = SampleModel::load( $id );
-     * $post->delete( $post );
-     * </code>
-     *
-     * In the example above, we create a new bean of SampleModel.
-     * We then set the title of the bean to 'my post' and we
-     * store the bean. The save() method will return the primary
-     * key ID $id assigned by the database. We can now use this
-     * ID to load the bean from the database again and delete it.
-     *
-     * @return void
-     */
-    public function delete()
-    {
-        return DB::trash($this);
-    }
-    
-    
+
     /**
      * Calculates a diff between this bean and another bean (or arrays of beans).
      * The result of this method is an array describing the differences of the second bean compared to
@@ -433,11 +349,12 @@ class Model extends OODBBean
      *
      * @return array
      */
-    public function diff($other, $filters = array( 'created', 'modified' ), $pattern = '%s.%s.%s')
+    public function diff($other, $filters = array('created', 'modified'), $pattern = '%s.%s.%s')
     {
-        return DB::diff($this, $other, $filters, $pattern);
+        $other = $other instanceof Model ? $other->bean : $other;
+        return DB::diff($this->bean, $other, $filters, $pattern);
     }
-    
+
     /**
      * Short hand function to find and trash beans.
      * This function combines trashAll and find.
@@ -460,7 +377,100 @@ class Model extends OODBBean
      */
     public function hunt($sqlSnippet, $bindings = [])
     {
-        return DB::hunt($this->getTable(), $sqlSnippet, $bindings);
+        return DB::hunt(static::getTable(), $sqlSnippet, $bindings);
+    }
+
+    /**
+     * Returns the model with the id.
+     *
+     * @param int $id Item id
+     *
+     * @return $this|NULL
+     */
+    public static function withId($id)
+    {
+        return static::createFromBean(static::findOne('id = ?', [$id]));
+    }
+
+    
+    /**
+     * Stores a bean in the database. If the database schema is not compatible
+     * with this bean and RedBean runs in fluid mode the schema
+     * will be altered to store the bean correctly.
+     * If the database schema is not compatible with this bean and
+     * RedBean runs in frozen mode it will throw an exception.
+     * This function returns the primary key ID of the inserted
+     * bean.
+     *
+     * The return value is an integer if possible. If it is not possible to
+     * represent the value as an integer a string will be returned.
+     *
+     * Usage:
+     *
+     * <code>
+     * $post = SampleModel::instance();
+     * $post->title = 'my post';
+     * $id = $post->save();
+     * $post = SampleModel::load( $id );
+     * $post->trash( $post );
+     * </code>
+     *
+     * In the example above, we create a new bean of SampleModel.
+     * We then set the title of the bean to 'my post' and we
+     * store the bean. The save() method will return the primary
+     * key ID $id assigned by the database. We can now use this
+     * ID to load the bean from the database again and delete it.
+     *
+     *
+     * @return integer|string|boolean
+     */
+    public function save()
+    {
+        if ($this->updateTimestamps) {
+            if (!$this->bean->id && !$this->bean->created_at) {
+                $this->bean->created_at = date('Y-m-d H:i:s');
+            }
+            $this->bean->updated_at = date('Y-m-d H:i:s');
+        }
+        if ($this->beforeSave($this->bean)) {
+            $result = DB::store($this->bean);
+            $this->afterSave($result);
+            return $result;
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     * Removes this bean from the database.
+     *
+     * Usage:
+     *
+     * <code>
+     * $post = SampleModel::instance();
+     * $post->title = 'my post';
+     * $id = $post->save();
+     * $post = SampleModel::load( $id );
+     * $post->trash( $post );
+     * </code>
+     *
+     * In the example above, we create a new bean of SampleModel.
+     * We then set the title of the bean to 'my post' and we
+     * store the bean. The save() method will return the primary
+     * key ID $id assigned by the database. We can now use this
+     * ID to load the bean from the database again and delete it.
+     *
+     * @return boolean true if trash was successful, else false
+     */
+    public function trash()
+    {
+        if ($this->beforeTrash($this->bean)) {
+            $result = DB::trash($this->bean);
+            $this->afterTrash($result);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -492,7 +502,7 @@ class Model extends OODBBean
         }
     }
 
-
+    
     /**
      * Chainable method to cast a certain ID to a model; for instance:
      * $person = $club->fetchAs(Person::class)->member;
@@ -500,46 +510,142 @@ class Model extends OODBBean
      *
      * @return OODBBean
      */
-    public function fetchAs($model) {
-        $bean = new $model;
-        return parent::fetchAs($bean->getTable());
+    public function fetchAs($relatedClass)
+    {
+        $related = new $relatedClass;
+        return $this->bean->fetchAs($related->getTable());
     }
 
     /**
      * Create one-to-many relationship
-     * @param \LiteFrame\Database\Model $related
+     * @param Model $related
      */
-    public function owns(Model $related)
+    public function owns($related, $exclusive = true)
     {
-        $table = ucfirst($related->getTable());
+        $table = ucfirst($related::getTable());
+        $column = ($exclusive ? 'x' : '') . "own{$table}List";
+        $this->bean->$column[] = $related->getBean();
+    }
+
+    /**
+     * Create one-to-many relationship
+     * @param Model $related
+     */
+    public function getOwned($relatedClass)
+    {
+        $table = ucfirst($relatedClass::getTable());
         $column = "own{$table}List";
-        $this->$column[] = $related;
+        return static::createFromBean($this->bean->$column);
     }
 
     /**
      * Create many-to-many relationship
-     * @param \LiteFrame\Database\Model $related
+     * @param Model $related
      */
     public function hasMany(Model $related)
     {
         $table = ucfirst($related->getTable());
         $column = "shared{$table}List";
-        $this->$column[] = $related;
+        $this->bean->$column[] = $related->getBean();
+    }
+
+    /**
+     * Get many-to-many relationship
+     * @param Model $related
+     */
+    public function getMany($relatedClass)
+    {
+        $table = ucfirst($relatedClass::getTable());
+        $column = "shared{$table}List";
+        return static::createFromBean($this->bean->$column);
     }
 
     /**
      * Create reverse one-to-many relationship
-     * @param \LiteFrame\Database\Model $related
+     * @param Model $related
      * @param type $foreignKey
      */
     public function belongsTo(Model $related, $foreignKey = '')
     {
         if (!$foreignKey) {
-            $table = $related->getTable();
-            $column = Inflector::singularize($table);
+            $column = $related->getTable();
         } else {
             $column = $foreignKey;
         }
-        $this->$column = $related;
+        $this->bean->$column = $related->getBean();
+    }
+
+    /**
+     * Get one-to-many relationship
+     * @param Model $relatedClass
+     * @param type $foreignKey
+     */
+    public function getOwner($relatedClass, $foreignKey = '')
+    {
+        if (!$foreignKey) {
+            $column = $relatedClass::getTable();
+        } else {
+            $column = $foreignKey;
+        }
+        return static::createFromBean($this->fetchAs($relatedClass)->$column);
+    }
+
+    /**
+     * Called before a model is saved
+     * @return boolean true if the application should continue with the save process, else false
+     */
+    protected function beforeSave()
+    {
+        return true;
+    }
+
+    /**
+     * Called after a model is saved
+     * @param type $result result of the save or update action
+     */
+    protected function afterSave($result)
+    {
+    }
+
+    /**
+     * Called before a model is trashed
+     * @return boolean true if the application should continue with the trash process, else false
+     */
+    protected function beforeTrash()
+    {
+        return true;
+    }
+
+    /**
+     * Called after a model is trashed
+     * @param type $result result of the save or update action
+     */
+    protected function afterTrash($result)
+    {
+    }
+
+    public function __get($property)
+    {
+        return $this->bean->$property;
+    }
+
+    public function __isset($property)
+    {
+        return isset($this->bean->$property);
+    }
+
+    public function __set($property, $value)
+    {
+        $this->bean->$property = $value;
+    }
+
+    public function __toString()
+    {
+        return strval($this->bean);
+    }
+
+    public function __unset($property)
+    {
+        unset($this->bean->$property);
     }
 }

@@ -22,6 +22,8 @@ if (empty($GLOBALS['__rbloaded'])) {
 
 //    R::setAutoResolve(true);
     
+    //with namespace Model
+//    define('REDBEAN_MODEL_PREFIX', '\\Models\\');
     //Freeze if auto and on production
     $freezeState = config('database.freeze', 'auto');
     if ($freezeState === 'auto') {

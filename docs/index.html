@@ -782,22 +782,23 @@ $id = $post->save();
                         <h3 id="ModelvsOODBean">Model vs OODBean</h3>
                         <p>
                             An OODBean or bean is an object mapping of a record in your database.<br/>
-                            A model is a bean with some more functions.<br/>
+                            The Model is a wrapper around a bean, that provides more functions that makes it easier to manipulate bean objects.<br/>
+                            You can call <code>Model->getBean()</code> to get the underlying bean
                         </p>
                         <p><b>Code Difference</b></p>
                         Using Model (The Liteframe Way)
-                        <pre class="z-depth-1"><code class="php">$post = SampleModel::instance();
+                        <pre class="z-depth-1"><code class="php">$post = Post::instance();
 $post->title = 'My holiday';
 $id = $post->save();
 </code></pre>
                         Using OODBean (The RedBeanPHP Way)
-                        <pre class="z-depth-1"><code class="php">$post = DB::dispense('posts');
+                        <pre class="z-depth-1"><code class="php">$post = R::dispense('posts');
 $post->title = 'My holiday';
-DB::store($post);
+R::store($post);
 </code></pre>
                         <p>
-                            Both examples above creates a new bean object, sets it's title to 'My holiday' and saves it to the database.<br/>
-                            Note that a model can be used in place of a bean wherever applicable
+                            Both examples above creates a new bean, sets it's title to 'My holiday' and saves it to the database.<br/>
+                            Whichever method you prefer to use is fine.
                         </p>
                         <h3 id="DBvsR">DB vs R</h3>
                         <p>

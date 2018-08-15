@@ -191,7 +191,7 @@ p.comment::before{
 code, .code {
     font-family: 'Source Code Pro', monospace;
     color: #d14;
-    background-color: #f8f8f8;
+    background-color: #f5ebeb;
     padding: 0 3px;
     border-radius: 5px;
 }

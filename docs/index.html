@@ -79,9 +79,13 @@
                                     <li><a href="#ControllerMiddleware">Controller Middleware</a></li>
                                 </ul>
                             </li>
-                            <li><a href="#Models">Models</a></li>
-                            <li><a href="#Views">Views</a></li>
-                            <li><a href="#Response">Response</a></li>
+                            <li>
+                                <a href="#Response">Response</a>
+                                <ul class="lilv3">
+                                    <li><a href="#ResponseBasics">Basics</a></li>
+                                    <li><a href="#Views">Views</a></li>
+                                </ul>
+                            </li>
                             <li>
                                 <a href="#Commands">Commands</a>
                                 <ul class="lilv3">
@@ -105,6 +109,7 @@
                         <a href="#Database">Database</a>
                         <ul class="lilv2">
                             <li><a href="#GettingStartedDbase">Getting Started</a></li>
+                            <li><a href="#Models">Models</a></li>
                             <li><a href="#CreatingRecords">Creating Records</a></li>
                             <li><a href="#ModelvsOODBean">Model vs OODBean</a></li>
                             <li><a href="#DBvsR">DB vs R</a></li>
@@ -692,44 +697,16 @@ class MySampleMiddleware extends Middleware
 }</code></pre>
                         This will apply the <code>sample</code> middleware to all controller functions in this class except the <code>index</code> function.
 
-                        <h3 id="Models">Models</h3>
-                        <p>
-                            Each database table has a corresponding "Model" which is used to interact with that table. 
-                            Models allow you to query for data in your tables, as well as insert new records into the table.
-                        </p>
-                        <p>
-                            Be sure to configure a database connection in <code>components/config/database.php</code>
-                        </p>
-                        <p>
-                            To make a model, simply create a class in <code>app/Models</code> and extend 
-                            <code>Models\Model</code>.<br/>
-                            The class name of a model will be automatically used to create and access it's table. 
-                            if you wish to use a different table name from your model class name simple 
-                            override the <code>$table</code> property.
-                        </p>
-                        For example:
-                        <pre class="z-depth-1"><code class="php">&lt;?php
-
-namespace Models;
-
-class SampleModel extends Model
-{
-    protected static $table = 'posts';
-}
-</code></pre>
-                        <p>
-                            Here, the <code>SampleModel</code> class is now set to be accessing and manipulating the posts table. This will be used in other examples on this documentation.
-                        </p>
-                        <h3 id="Views">Views</h3>
-                        <p class="comment"> Explain how to create views.</p>
-
                         <h3 id="Response">Response</h3>
+                        <h4 id="ResponseBasics">Basics:</h4>
                         <p class="comment"> Explain the <code>LiteFrame\Http\Response</code> object.</p>
+                        <h4 id="Views">Views</h4>
+                        <p class="comment"> Explain how to create views.</p>
 
                         <h3 id="Commands">Commands</h3>
                         <h4 id="CommandBasics">Basics:</h4>
                         <p class="comment"> Explain the basics in creating commands.</p>
-                        <h3 id="Scheduling">Scheduling</h3>
+                        <h4 id="Scheduling">Scheduling</h4>
                         <p class="comment"> Explain scheduling.</p>
 
                         <h3 id="ErrorsAndLogging">Errors & Logging</h3>
@@ -755,13 +732,41 @@ class SampleModel extends Model
                         <p>
                             If you're already familiar with RedBeanPHP, this should be a piece of cake for you.<br/>
                             If you're not familiar with RedBeanPHP, we're sorry, it's still the same piece of cake for you.<br/>
-                            Summary, you do not need to know how to use RedBeanPHP to understand LiteFrame Database.
+                            Summary, you do not need to know how to use RedBeanPHP to understand how to use LiteFrame Database.
+                        </p>
+                        <p>
+                            Remember to update <code>components/config/database.php</code> with details of your database connection.
                         </p>
                         <h4>Requirements</h4>
                         <ul class="browser-default">
                             <li>PDO, plus the driver you wish to use for your database</li>
                             <li>Multibyte String Support</li>
                         </ul>
+                        <h3 id="Models">Models</h3>
+                        <p>
+                            Models are classes corresponding to database tables which is used to interact with that table. 
+                            Models allow you to query for data in your tables, as well as insert new records into the table.
+                        </p>
+                        <p>
+                            To make a model, simply create a class in <code>app/Models</code> and extend 
+                            <code>Models\Model</code>.<br/>
+                            The class name of a model will be automatically used to create and access it's table. 
+                            if you wish to use a different table name from your model class name simple 
+                            override the <code>$table</code> property.
+                        </p>
+                        For example:
+                        <pre class="z-depth-1"><code class="php">&lt;?php
+
+namespace Models;
+
+class SampleModel extends Model
+{
+    protected static $table = 'posts';
+}
+</code></pre>
+                        <p>
+                            Here, the <code>SampleModel</code> class is now set to be accessing and manipulating the posts table. This will be used in other examples on this documentation.
+                        </p>
                         <h3 id="CreatingRecords">Creating Records</h3>
                         <p>
                             Now you're ready to start using Database. <br/>
@@ -775,19 +780,20 @@ $id = $post->save();
                         <p>
                             Now, a table called post and a column called title, 
                             big enough to hold your text will be created for you in the database.<br/>
-                            The save() function will also return the primary key ID of the record, 
-                            which we capture in the variable $id.<br/>
+                            The <code>save()</code> function will also return the primary key ID of the record, 
+                            which we capture in the variable <code>$id</code>.<br/>
                             The table and columns will be created automatically if they do not already exist. 
                         </p>
                         <h3 id="ModelvsOODBean">Model vs OODBean</h3>
                         <p>
                             An OODBean or bean is an object mapping of a record in your database.<br/>
-                            The Model is a wrapper around a bean, that provides more functions that makes it easier to manipulate bean objects.<br/>
+                            Models internally wraps a bean, and provides more functions that makes 
+                            it easier to manipulate bean objects.<br/>
                             You can call <code>Model->getBean()</code> to get the underlying bean
                         </p>
                         <p><b>Code Difference</b></p>
                         Using Model (The Liteframe Way)
-                        <pre class="z-depth-1"><code class="php">$post = Post::instance();
+                        <pre class="z-depth-1"><code class="php">$post = SampleModel::instance();
 $post->title = 'My holiday';
 $id = $post->save();
 </code></pre>

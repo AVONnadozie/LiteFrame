@@ -163,6 +163,6 @@ class Collection implements \Iterator, \ArrayAccess, \Countable
     
     public function __toString()
     {
-        return strval($this->items);
+        return json_encode($this->toArray());
     }
 }

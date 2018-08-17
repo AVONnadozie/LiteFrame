@@ -4,6 +4,7 @@ namespace LiteFrame\Http;
 
 use LiteFrame\Http\Response\FileResponse;
 use LiteFrame\Http\Response\ViewResponse;
+use LiteFrame\Utility\Collection;
 
 /**
  * Description of Response.
@@ -282,7 +283,11 @@ class Response
         }
 
         if (($this->json || $this->request->wantsJson()) && !is_scalar($this->content)) {
-            return json_encode($this->content);
+            if ($this->content instanceof Collection) {
+                return json_encode($this->content->toArray());
+            } else {
+                return json_encode((array) $this->content);
+            }
         } else {
             return $this->content;
         }

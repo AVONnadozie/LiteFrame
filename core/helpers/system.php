@@ -194,7 +194,7 @@ function request($key = null, $default = null)
 {
     $request = Request::getInstance();
     if (!empty($key)) {
-        $request->input($key, $default);
+        return $request->input($key, $default);
     }
 
     return $request;

@@ -14,6 +14,7 @@ class Model extends SimpleModel
     protected $updateTimestamps = true;
     protected $fillable = [];
     protected $bean;
+    protected $dates = [];
 
     protected function __construct(OODBBean $bean = null)
     {
@@ -41,24 +42,30 @@ class Model extends SimpleModel
     }
 
     /**
-     * Converts OODBBean to Model
+     * Converts an OODBBean to Model
+     *
      * @param OODBBean|array $bean
+     * @param string $modelClass
      * @return \static|Collection
      */
-    public static function createFromBean($bean)
+    public static function wrap($bean, $modelClass = null)
     {
         if (is_array($bean)) {
             $collection = new Collection($bean);
-            $collection->map(function ($item) {
-                return static::createFromBean($item);
+            $collection->map(function ($item) use ($modelClass) {
+                if ($modelClass) {
+                    return new $modelClass($item);
+                } else {
+                    return new static($item);
+                }
             });
             return $collection;
-        }
-        
-        if ($bean instanceof OODBBean) {
-            //$cast = new static;
-            //return cast($cast, $bean);
-            return new static($bean);
+        } elseif ($bean instanceof OODBBean) {
+            if ($modelClass) {
+                return new $modelClass($bean);
+            } else {
+                return new static($bean);
+            }
         } else {
             return $bean;
         }
@@ -71,7 +78,7 @@ class Model extends SimpleModel
     public static function instance($num = 1, $alwaysReturnArray = false)
     {
         $bean = DB::dispense(static::getTable(), $num, $alwaysReturnArray);
-        return static::createFromBean($bean);
+        return static::wrap($bean);
     }
 
     /**
@@ -89,7 +96,7 @@ class Model extends SimpleModel
     public static function find($sql = null, $bindings = [])
     {
         $items = DB::find(static::getTable(), $sql, $bindings);
-        return static::createFromBean($items);
+        return static::wrap($items);
     }
 
     /**
@@ -108,7 +115,7 @@ class Model extends SimpleModel
     public static function findAll($sql = null, $bindings = [])
     {
         $items = DB::findAll(static::getTable(), $sql, $bindings);
-        return static::createFromBean($items);
+        return static::wrap($items);
     }
 
     /**
@@ -128,7 +135,7 @@ class Model extends SimpleModel
     public static function findAndExport($sql = null, $bindings = [])
     {
         $items = DB::findAndExport(static::getTable(), $sql, $bindings);
-        return static::createFromBean($items);
+        return static::wrap($items);
     }
 
     /**
@@ -146,7 +153,7 @@ class Model extends SimpleModel
     public static function findLike($like = [], $sql = '')
     {
         $items = DB::findLike(static::getTable(), $like, $sql);
-        return static::createFromBean($items);
+        return static::wrap($items);
     }
 
     /**
@@ -160,7 +167,7 @@ class Model extends SimpleModel
     public static function findOne($sql = null, $bindings = [])
     {
         $bean = DB::findOne(static::getTable(), $sql, $bindings);
-        return static::createFromBean($bean);
+        return static::wrap($bean);
     }
 
     /**
@@ -196,7 +203,7 @@ class Model extends SimpleModel
     public static function batch(array $ids)
     {
         $items = DB::batch(static::getTable(), $ids);
-        return static::createFromBean($items);
+        return static::wrap($items);
     }
 
     /**
@@ -204,9 +211,7 @@ class Model extends SimpleModel
      * It searches for this bean Object in the
      * database. It does not matter how this bean has been stored.
      * RedBean uses the primary key ID $id and the string $type
-     * to find the bean. The $type specifies what kind of bean you
-     * are looking for; this is the same type as used with the
-     * instance() function. If RedBean finds the bean it will return
+     * to find the bean. If RedBean finds the bean it will return
      * the Bean object; if it cannot find the bean
      * RedBean will return a new bean with
      * primary key ID 0. In the latter case it acts basically the
@@ -240,7 +245,7 @@ class Model extends SimpleModel
     public static function load($id, $snippet = null)
     {
         $bean = DB::load(static::getTable(), $id, $snippet);
-        return static::createFromBean($bean);
+        return static::wrap($bean);
     }
 
     /**
@@ -253,7 +258,7 @@ class Model extends SimpleModel
     public function loadAll($ids)
     {
         $items = DB::loadAll(static::getTable(), $ids);
-        return static::createFromBean($items);
+        return static::wrap($items);
     }
 
     /**
@@ -277,7 +282,7 @@ class Model extends SimpleModel
     public function loadForUpdate($id)
     {
         $bean = DB::loadForUpdate(static::getTable(), $id);
-        return static::createFromBean($bean);
+        return static::wrap($bean);
     }
 
     /**
@@ -287,7 +292,7 @@ class Model extends SimpleModel
      * The MatchUp method takes an SQL query snippet (starting at the WHERE clause),
      * SQL bindings, a pair of task arrays and a bean reference.
      *
-     * If the first 3 parameters match a bean, the first task list will be considered,
+     * If the first 2 parameters match a bean, the first task list will be considered,
      * otherwise the second one will be considered. On consideration, each task list,
      * an array of keys and values will be executed. Every key in the task list should
      * correspond to a bean property while every value can either be an expression to
@@ -313,7 +318,7 @@ class Model extends SimpleModel
     {
         $result = DB::matchUp(static::getTable(), $sql, $bindings, $onFoundDo, $onNotFoundDo, $bean);
         if ($model) {
-            $model = static::createFromBean($bean);
+            $model = static::wrap($bean);
         }
         return $result;
     }
@@ -375,7 +380,7 @@ class Model extends SimpleModel
      *
      * @return array
      */
-    public function hunt($sqlSnippet, $bindings = [])
+    public static function hunt($sqlSnippet, $bindings = [])
     {
         return DB::hunt(static::getTable(), $sqlSnippet, $bindings);
     }
@@ -389,7 +394,7 @@ class Model extends SimpleModel
      */
     public static function withId($id)
     {
-        return static::createFromBean(static::findOne('id = ?', [$id]));
+        return static::wrap(static::findOne('id = ?', [$id]));
     }
 
     
@@ -502,7 +507,11 @@ class Model extends SimpleModel
         }
     }
 
-    
+    public function exists()
+    {
+        return !!$this->id;
+    }
+
     /**
      * Chainable method to cast a certain ID to a model; for instance:
      * $person = $club->fetchAs(Person::class)->member;
@@ -535,7 +544,7 @@ class Model extends SimpleModel
     {
         $table = ucfirst($relatedClass::getTable());
         $column = "own{$table}List";
-        return static::createFromBean($this->bean->$column);
+        return static::wrap($this->bean->$column, $relatedClass);
     }
 
     /**
@@ -557,7 +566,7 @@ class Model extends SimpleModel
     {
         $table = ucfirst($relatedClass::getTable());
         $column = "shared{$table}List";
-        return static::createFromBean($this->bean->$column);
+        return static::wrap($this->bean->$column, $relatedClass);
     }
 
     /**
@@ -565,14 +574,21 @@ class Model extends SimpleModel
      * @param Model $related
      * @param type $foreignKey
      */
-    public function belongsTo(Model $related, $foreignKey = '')
+    public function belongsTo($related, $foreignKey = '')
     {
-        if (!$foreignKey) {
+        if (!$foreignKey && $related instanceof Model) {
             $column = $related->getTable();
         } else {
             $column = $foreignKey;
         }
-        $this->bean->$column = $related->getBean();
+
+        if (empty($related)) {
+            unset($this->bean->$column);
+        } elseif ($related instanceof Model) {
+            $this->bean->$column = $related->getBean();
+        } else {
+            $this->bean->$column = $related;
+        }
     }
 
     /**
@@ -587,14 +603,14 @@ class Model extends SimpleModel
         } else {
             $column = $foreignKey;
         }
-        return static::createFromBean($this->fetchAs($relatedClass)->$column);
+        return static::wrap($this->fetchAs($relatedClass)->$column, $relatedClass);
     }
 
     /**
      * Called before a model is saved
      * @return boolean true if the application should continue with the save process, else false
      */
-    protected function beforeSave()
+    protected function beforeSave($bean)
     {
         return true;
     }
@@ -626,17 +642,31 @@ class Model extends SimpleModel
 
     public function __get($property)
     {
-        return $this->bean->$property;
+        $data = $this->bean->$property;
+
+        //Check for getProperty methods
+        $method = "getProperty" . Inflector::camelize($property);
+        if (method_exists($this, $method)) {
+            return $method($data);
+        }
+
+        return $data;
+    }
+
+    public function __set($property, $value)
+    {
+        //Check for setProperty methods
+        $method = "setProperty" . Inflector::camelize($property);
+        if (method_exists($this, $method)) {
+            $value = $method($value);
+        }
+
+        $this->bean->$property = $value;
     }
 
     public function __isset($property)
     {
         return isset($this->bean->$property);
-    }
-
-    public function __set($property, $value)
-    {
-        $this->bean->$property = $value;
     }
 
     public function __toString()

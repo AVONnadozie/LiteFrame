@@ -26,7 +26,7 @@ class BeanCollection extends RCollection
         if ($row) {
             $beans = $this->repository->convertToBeans($this->type, array( $row ));
             $bean = array_shift($beans);
-            return Model::createFromBean($bean);
+            return Model::wrap($bean);
         }
         return null;
     }

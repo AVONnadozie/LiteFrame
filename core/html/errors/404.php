@@ -19,7 +19,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <style>
-            @import url(https://fonts.googleapis.com/css?family=opensans:500);
+            /*@import url(https://fonts.googleapis.com/css?family=opensans:500);*/
             body{
                 background: #222826;
                 color:#fff;

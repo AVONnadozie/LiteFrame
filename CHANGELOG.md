@@ -6,18 +6,27 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
-- Optimise for API calls
-- Handle uploaded files in Request object
 - Validators for Controllers
 - Full Documentation
-- Good and robust ORM/Query Builder. should be light, support migration, relationships and also secure.
-- Whoops Support
-- Route grouping
-- Theming and Theme Inheritance
+- Optional Whoops Support
 - Modular
 - Mailing (other than php mail)
 - Dependency injection
-- Auto sitemap generation
+
+
+## [0.2.0] - 2018-08-17
+### Added
+- RedBeanPHP support for database
+- Route Grouping
+- setProperty* and getProperty* functionality to models
+
+### Fixed
+- Issue with converting Collection to json in response
+- Error logging issues
+- Request->file issues
+
+### Removed
+- Irrelevant packages from composer
 
 
 ## [0.1.3] - 2018-06-21
@@ -49,7 +58,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.1.0] - 2018-01-29
 - Initial release
 
-[Unreleased]: https://github.com/avonnadozie/LiteFrame/compare/v0.1.3...HEAD
+[Unreleased]: https://github.com/avonnadozie/LiteFrame/compare/v0.2.0...HEAD
 [0.1.1]: https://github.com/avonnadozie/LiteFrame/compare/v0.1.0...v0.1.1
 [0.1.2]: https://github.com/avonnadozie/LiteFrame/compare/v0.1.1...v0.1.2
 [0.1.3]: https://github.com/avonnadozie/LiteFrame/compare/v0.1.2...v0.1.3
+[0.2.0]: https://github.com/avonnadozie/LiteFrame/compare/v0.1.3...v0.2.0

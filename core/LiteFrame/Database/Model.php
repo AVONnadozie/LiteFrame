@@ -10,11 +10,56 @@ use RedBeanPHP\SimpleModel;
 
 class Model extends SimpleModel
 {
+
+    /**
+     * Table name. If specified, will be used instead of classname
+     * @var string
+     */
     protected $table;
+
+    /**
+     * Allow LiteFrame to manage created_at and updated_at properties
+     * @var boolean
+     */
     protected $updateTimestamps = true;
+
+    /**
+     * Properties that are fillable
+     * @var array
+     */
     protected $fillable = [];
+
+    /**
+     * Underlying bean object
+     * @var OODBBean
+     */
     protected $bean;
+
+    /**
+     * Model properties to cast to DateTime
+     * @var array
+     */
     protected $dates = [];
+
+    /**
+     * Default values for model properties, these will be auto created if a value
+     * does not exists for the property
+     * @var array
+     */
+    protected $defaults = [];
+
+    /**
+     * Model event handlers
+     * @var array
+     */
+    protected $handlers = [
+        'beforeCreate' => [],
+        'afterCreate' => [],
+        'beforeUpdate' => [],
+        'afterUpdate' => [],
+        'beforeDelete' => [],
+        'afterDelete' => []
+    ];
 
     protected function __construct(OODBBean $bean = null)
     {
@@ -75,10 +120,19 @@ class Model extends SimpleModel
      * Dispenses this bean
      * @return $this
      */
-    public static function instance($num = 1, $alwaysReturnArray = false)
+    public static function dispense($num = 1, $alwaysReturnArray = false)
     {
         $bean = DB::dispense(static::getTable(), $num, $alwaysReturnArray);
-        return static::wrap($bean);
+        $model = static::wrap($bean);
+        $model->boot();
+        return $model;
+    }
+
+    /**
+     * User Initializations
+     */
+    protected function boot()
+    {
     }
 
     /**
@@ -431,13 +485,13 @@ class Model extends SimpleModel
      */
     public function save()
     {
-        if ($this->updateTimestamps) {
-            if (!$this->bean->id && !$this->bean->created_at) {
-                $this->bean->created_at = date('Y-m-d H:i:s');
-            }
-            $this->bean->updated_at = date('Y-m-d H:i:s');
-        }
         if ($this->beforeSave($this->bean)) {
+            //Set Defaults
+            $this->setDefaultProperties();
+
+            //Update timestamps
+            $this->updateTimestamps();
+
             $result = DB::store($this->bean);
             $this->afterSave($result);
             return $result;
@@ -445,7 +499,26 @@ class Model extends SimpleModel
             return false;
         }
     }
-    
+
+    private function setDefaultProperties()
+    {
+        foreach ($this->defaults as $key => $value) {
+            if (!isset($this->bean->$key)) {
+                $this->bean->$key = $value;
+            }
+        }
+    }
+
+    private function updateTimestamps()
+    {
+        if ($this->updateTimestamps) {
+            if (!$this->exists() && !$this->bean->created_at) {
+                $this->bean->created_at = date('Y-m-d H:i:s');
+            }
+            $this->bean->updated_at = date('Y-m-d H:i:s');
+        }
+    }
+
     /**
      * Removes this bean from the database.
      *
@@ -509,7 +582,7 @@ class Model extends SimpleModel
 
     public function exists()
     {
-        return !!$this->id;
+        return !!$this->bean->id;
     }
 
     /**

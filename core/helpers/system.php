@@ -581,21 +581,22 @@ function csrf_field()
 }
 
 function csrf_token()
-{
-    //generate and store in session for 1hr if not exist
-    $time = Session::get('_token_expire');
-    $tokenTime = new DateTime($time);
-    $now = new DateTime;
-
-    if ($now->diff($tokenTime)->format('%R') == '+') {
-        $token = md5(uniqid());
-        Session::set('_token', $token);
-        $hours = 1;
-        $now->add(new \DateInterval("PT{$hours}H"));
-        //Expire in 1hr
-        Session::set('_token_expire', $now);
-    } else {
-        $token = Session::get('_token');
-    }
-    return $token;
+ {
+    return '';
+    // //generate and store in session for 1hr if not exist
+    // $time = Session::get('_token_expire');
+    // $tokenTime = new DateTime($time);
+    // $now = new DateTime;
+    // 
+    // if ($now->diff($tokenTime)->format('%R') == '+') {
+    //     $token = md5(uniqid());
+    //     Session::set('_token', $token);
+    //     $hours = 1;
+    //     $now->add(new \DateInterval("PT{$hours}H"));
+    //     //Expire in 1hr
+    //     Session::set('_token_expire', $now);
+    // } else {
+    //     $token = Session::get('_token');
+    // }
+    // return $token;
 }

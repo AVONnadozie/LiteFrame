@@ -4,9 +4,11 @@ namespace LiteFrame\Database;
 
 use LiteFrame\Utility\Collection;
 use LiteFrame\Utility\Inflector;
+use LiteFrame\Utility\Paginator;
 use RedBeanPHP\Finder;
 use RedBeanPHP\OODBBean;
 use RedBeanPHP\SimpleModel;
+use function request;
 
 class Model extends SimpleModel
 {
@@ -57,8 +59,8 @@ class Model extends SimpleModel
         'afterCreate' => [],
         'beforeUpdate' => [],
         'afterUpdate' => [],
-        'beforeDelete' => [],
-        'afterDelete' => []
+        'beforeTrash' => [],
+        'afterTrash' => []
     ];
 
     protected function __construct(OODBBean $bean = null)
@@ -128,11 +130,29 @@ class Model extends SimpleModel
         return $model;
     }
 
-    /**
-     * User Initializations
-     */
+    
     protected function boot()
     {
+        $this->bootModel();
+        $this->bootTraits();
+    }
+
+    /**
+     * User Initializations, override this
+     */
+    protected function bootModel()
+    {
+    }
+
+    protected function bootTraits()
+    {
+        $traits = class_uses($this);
+        foreach ($traits as $trait) {
+            $method = "boot$trait";
+            if (method_exists($this, $method)) {
+                $method();
+            }
+        }
     }
 
     /**
@@ -580,13 +600,39 @@ class Model extends SimpleModel
         }
     }
 
+    /**
+     * Checks if model bean exists in database
+     * @return boolean true if bean exists in database else false
+     */
     public function exists()
     {
         return !!$this->bean->id;
     }
 
     /**
-     * Chainable method to cast a certain ID to a model; for instance:
+     * Paginate result using <code>page</code> parameter in request
+     * @param int $limit Number of results to return per page
+     * @param string $sql Additional sql
+     * @param array $binding sql bindings
+     * @return Collection
+     */
+    public static function paginate($limit = 10, $sql = '', $binding = [])
+    {
+        $page = request('page', 1);
+        if (!is_numeric($page)) {
+            $page = 1;
+        }
+
+        $offset = ($page - 1) * $limit;
+        $sql .= " limit $limit offset $offset";
+        $items = static::findAll($sql, $binding);
+        $total = static::countAll($sql, $binding);
+
+        return new Paginator($items, $page, $limit, $total);
+    }
+
+    /**
+     * Chain-able method to cast a certain ID to a model; for instance:
      * $person = $club->fetchAs(Person::class)->member;
      * This will load a bean of model Person using member_id as ID.
      *
@@ -697,6 +743,23 @@ class Model extends SimpleModel
     }
 
     /**
+     * Called before a model is updated
+     * @return boolean true if the application should continue with the update process, else false
+     */
+    protected function beforeUpdate($bean)
+    {
+        return true;
+    }
+
+    /**
+     * Called after a model is update
+     * @param type $result result of the save or update action
+     */
+    protected function afterUpdate($result)
+    {
+    }
+
+    /**
      * Called before a model is trashed
      * @return boolean true if the application should continue with the trash process, else false
      */
@@ -718,9 +781,10 @@ class Model extends SimpleModel
         $data = $this->bean->$property;
 
         //Check for getProperty methods
-        $method = "getProperty" . Inflector::camelize($property);
+        $prop = Inflector::camelize($property);
+        $method = "get{$prop}Property";
         if (method_exists($this, $method)) {
-            return $method($data);
+            return $this->$method($data);
         }
 
         return $data;
@@ -729,12 +793,13 @@ class Model extends SimpleModel
     public function __set($property, $value)
     {
         //Check for setProperty methods
-        $method = "setProperty" . Inflector::camelize($property);
+        $prop = Inflector::camelize($property);
+        $method = "set{$prop}Property";
         if (method_exists($this, $method)) {
-            $value = $method($value);
+            $this->$method($value);
+        } else {
+            $this->bean->$property = $value;
         }
-
-        $this->bean->$property = $value;
     }
 
     public function __isset($property)

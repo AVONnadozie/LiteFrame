@@ -282,13 +282,13 @@ function dd()
  * @return string
  */
 function url($path = '/')
-{
+ {
     $request = Request::getInstance();
     $host = rtrim($request->getAppURL(), '/');
     if (empty($path) || $path === '/') {
         return $host;
     } else {
-        return $host . '/' . trim($path, '/');
+        return fixUrl($host . '/' . trim($path, '/'));
     }
 }
 
@@ -583,6 +583,7 @@ function csrf_field()
 function csrf_token()
  {
     return '';
+
     // //generate and store in session for 1hr if not exist
     // $time = Session::get('_token_expire');
     // $tokenTime = new DateTime($time);

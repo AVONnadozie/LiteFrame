@@ -8,9 +8,34 @@ class Collection implements \Iterator, \ArrayAccess, \Countable
     protected $maps = [];
     protected $mapped = [];
 
-    public function __construct(array $items)
+    public function __construct($items)
     {
-        $this->items = $items;
+        $this->setItems($items);
+    }
+
+    public function setItems($items)
+    {
+        if ($items instanceof self) {
+            $this->copy($items, true);
+        } else {
+            $this->items = $items;
+        }
+    }
+
+    private function createChildCollection(array $items)
+    {
+        $collection = new self($items);
+        $collection->copy($this);
+        return $collection;
+    }
+
+    private function copy($original, $withItems = false)
+    {
+        if ($withItems) {
+            $this->items = $original->items;
+        }
+        $this->maps = $original->maps;
+        $this->mapped = $original->mapped;
     }
 
     public function all()
@@ -42,6 +67,11 @@ class Collection implements \Iterator, \ArrayAccess, \Countable
     public function get($key)
     {
         if (isset($this->items[$key])) {
+            $item = $this->items[$key];
+            if (is_array($item)) {
+                return $this->createChildCollection($item);
+            }
+
             if (!empty($this->maps) && !in_array($key, $this->mapped)) {
                 foreach ($this->maps as $map) {
                     $this->items[$key] = $map($this->items[$key]);
@@ -120,7 +150,7 @@ class Collection implements \Iterator, \ArrayAccess, \Countable
 
         $collection = $this->all();
         $newItems = array_slice($collection, $offset, $perPage, true);
-        return new self($newItems);
+        return $this->createChildCollection($newItems);
     }
 
     /**
@@ -142,7 +172,7 @@ class Collection implements \Iterator, \ArrayAccess, \Countable
 
     private static function flatten_list($array, $result = array())
     {
-        if ($array instanceof Collection) {
+        if ($array instanceof self) {
             $array = $array->toArray();
         }
 
@@ -154,6 +184,12 @@ class Collection implements \Iterator, \ArrayAccess, \Countable
             }
         }
         return $result;
+    }
+
+    public function chunk($size, $preservKeys = false)
+    {
+        $chunk = array_chunk($this->items, $size, $preservKeys);
+        return $this->createChildCollection($chunk);
     }
 
     public function toArray()

@@ -4,20 +4,23 @@
 [![Build Status](https://travis-ci.org/AVONnadozie/LiteFrame.svg?branch=master)](https://travis-ci.org/AVONnadozie/LiteFrame)
 [![License](https://poser.pugx.org/avonnadozie/liteframe/license)](https://packagist.org/packages/avonnadozie/liteframe)
 
-So many amazing PHP frameworks out there but somehow we still wanted **something light**, fast, easy to setup with no requirement for shell/commands and still has the functionalities of a modern MVC framework; something shared hosting users will clap for.
+So many amazing PHP frameworks out there but somehow we still wanted something light, fast, easy to setup
+with no requirement for shell/commands and still has the functionalities of a modern MVC framework; 
+something users of shared hosting services will clap for.
 
 LiteFrame is a lightweight PHP framework designed to earn the claps.
 
 ## Target Features
-- [x] Fast
+- [x] Fast and lightweight
 - [x] Easy setup (no shell commands required)
-- [x] Routing
-- [x] Middleware
-- [ ] Improved filtering and Validation functionality
-- [ ] Security
-- [x] Job Scheduling
+- [x] Easy Routing
+- [x] Zero Config ORM; automatically builds your database schema on the fly
+- [x] Middleware Support
+- [x] Easy Job Scheduling
 - [x] Error Logging
-- [x] Testing
+- [x] Unit Testing Support
+- [ ] Improved filtering and Validation functionality
+- [ ] Improved Security
 - [ ] Modular
 
 ## Requirements

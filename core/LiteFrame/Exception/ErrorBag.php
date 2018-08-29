@@ -135,7 +135,7 @@ class ErrorBag
                 $content .= '[internal function] ';
             }
             $content .= $line['function'];
-            $content .= "(" . $this->getTraceArgs($line['args']) . ");";
+            $content .= "(" . $this->getTraceArgs(isset($line['args']) ? $line['args'] : null) . ");";
             $count++;
             $content .= PHP_EOL;
         }
@@ -143,8 +143,9 @@ class ErrorBag
         return $content;
     }
 
-    private function getTraceArgs(array $args) {
+    private function getTraceArgs($arg) {
         $content = '';
+        $args = (array) $arg;
         for ($index = 0; $index < count($args); $index++) {
             if (is_object($args[$index])) {
                 $content .= '(object) ' . get_class($args[$index]);

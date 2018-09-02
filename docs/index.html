@@ -773,7 +773,7 @@ class SampleModel extends Model
                             Liteframe Database makes it really easy to store stuff in the database. 
                             For instance, to store a blog post in the database you write:
                         </p>
-                        <pre class="z-depth-1"><code class="php">$post = SampleModel::instance();
+                        <pre class="z-depth-1"><code class="php">$post = SampleModel::dispense();
 $post->title = 'My holiday';
 $id = $post->save();
 </code></pre>
@@ -793,11 +793,11 @@ $id = $post->save();
                         </p>
                         <p><b>Code Difference</b></p>
                         Using Model (The Liteframe Way)
-                        <pre class="z-depth-1"><code class="php">$post = SampleModel::instance();
+                        <pre class="z-depth-1"><code class="php">$post = SampleModel::dispense();
 $post->title = 'My holiday';
 $id = $post->save();
 </code></pre>
-                        Using OODBean (The RedBeanPHP Way)
+                        Using RedBeanPHP's R (The RedBeanPHP Way)
                         <pre class="z-depth-1"><code class="php">$post = R::dispense('posts');
 $post->title = 'My holiday';
 R::store($post);
@@ -866,6 +866,10 @@ $firstPhoto = reset( $post->ownPhotoList );
                             <br/>
                             To get the first element of the photo list, we simply used PHP's native <code>reset()</code> function
                         </p>
+                        <h3 id="ModelEvents">Model Events</h3>
+                        <p></p>
+                        <h3 id="ModelSetGet">setProperty* and getProperty* functions</h3>
+                        <p></p>
                         <h3 id="DBFreeze">Alright, freeze!</h3>
                         <p>
                             As you have seen, the structure of the database dynamically changes during development. 

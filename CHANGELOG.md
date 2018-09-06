@@ -6,13 +6,35 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
-- Validators for Controllers
+### Pre-release
+- Validators
+- Improved Security for Session and Cookie
+- Mailing (other than php mail)
 - Full Documentation
+### Future release
 - Optional Whoops Support
 - Modular
-- Mailing (other than php mail)
 - Dependency injection
+- Multi ORM support
 
+
+## [0.2.0] - 2018-MM-DD
+### Added
+
+### Changed
+- 
+
+### Fixed
+- 
+
+### Removed
+- 
+
+### Deprecated
+- 
+
+### Security
+- 
 
 ## [0.2.0] - 2018-08-17
 ### Added

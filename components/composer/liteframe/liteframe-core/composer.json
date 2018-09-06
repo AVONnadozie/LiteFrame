@@ -1,0 +1,34 @@
+{
+    "name": "liteframe/liteframe-core",
+    "description": "LiteFrame core files",
+    "homepage": "https://github.com/avonnadozie/LiteFrame",
+    "keywords": [
+        "framework",
+        "liteframe",
+        "lightweight", 
+        "microframework"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Victor Anuebunwa",
+            "email": "hello@victoranuebunwa.com",
+            "homepage": "https://victoranuebunwa.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.5",
+        "peppeocchi/php-cron-scheduler": "^2.3",
+        "avonnadozie/liteonion": "^2.0",
+        "symfony/var-dumper": "^4.1"
+    },
+    "autoload": {
+        "classmap": [
+            "src/libraries"
+        ],
+        "psr-4": {
+            "LiteFrame\\": "src/liteframe"
+        }
+    }
+}

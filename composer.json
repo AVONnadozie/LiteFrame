@@ -20,10 +20,16 @@
     ],
     "require": {
         "php": ">=5.5",
-        "liteframe/liteframe-core": "dev-master"
+        "liteframe/liteframe-core": "^0.1.0"
     },
     "require-dev": {
         "phpunit/phpunit": ">=4.0"
+    },
+    "autoload": {
+        "classmap": [
+            "app",
+            "components/libraries"
+        ]
     },
     "config": {
         "vendor-dir": "components/composer"

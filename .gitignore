@@ -1,7 +1,7 @@
 nbproject/
-components/composer
-# components/composer/**/.git
+components/composer/**/.git
 components/env.php
 php-cs-fixer.phar
 .php_cs.cache
 /.idea/
+/components/composer/

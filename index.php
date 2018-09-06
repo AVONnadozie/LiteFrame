@@ -2,11 +2,14 @@
 
 /*
   |--------------------------------------------------------------------------
-  | Register files
+  | Bootstrap Application
   |--------------------------------------------------------------------------
-  | This will include every file required for this application to run
+  |
+  |
  */
-require_once './core/bootstrap/autoload.php';
+
+$composer_files = __DIR__ . '/components/bootstrap/autoload.php';
+require_once $composer_files;
 
 /*
   |--------------------------------------------------------------------------

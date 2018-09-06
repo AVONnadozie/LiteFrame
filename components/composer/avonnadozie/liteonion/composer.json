@@ -1,0 +1,17 @@
+{
+    "name": "avonnadozie/liteonion",
+    "autoload": {
+        "psr-4": {
+            "LiteOnion\\": "src/"
+        }
+    },
+    "require": {
+    },
+    "require-dev": {
+        "mockery/mockery": "0.9.*",
+        "orchestra/testbench": "~3.1",
+        "phpunit/phpunit": "~4.7",
+        "satooshi/php-coveralls": "dev-master@dev"
+    },
+    "license": "MIT"
+}

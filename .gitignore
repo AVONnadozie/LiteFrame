@@ -4,4 +4,3 @@ components/env.php
 php-cs-fixer.phar
 .php_cs.cache
 /.idea/
-/components/composer/

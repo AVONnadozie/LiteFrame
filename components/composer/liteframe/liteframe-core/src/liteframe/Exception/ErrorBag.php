@@ -143,15 +143,16 @@ class ErrorBag
         return $content;
     }
 
-    private function getTraceArgs($arg) {
+    private function getTraceArgs($arg)
+    {
         $content = '';
         $args = (array) $arg;
         for ($index = 0; $index < count($args); $index++) {
             if (is_object($args[$index])) {
                 $content .= '(object) ' . get_class($args[$index]);
-            } else if (is_numeric($args[$index])) {
+            } elseif (is_numeric($args[$index])) {
                 $content .= $args[$index];
-            } else if (is_array($args[$index])) {
+            } elseif (is_array($args[$index])) {
                 $content .= 'Array';
             } else {
                 $string = strlen($args[$index]) > 30 ? (substr($args[$index], 0, 30) . '...') : $args[$index];

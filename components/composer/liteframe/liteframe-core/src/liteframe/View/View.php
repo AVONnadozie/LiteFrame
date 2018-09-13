@@ -6,7 +6,7 @@ use Exception;
 use LiteFrame\Exception\ErrorBag;
 
 class View
- {
+{
 
     /**
      * Fetch content of a view
@@ -14,7 +14,8 @@ class View
      * @param array $data Data to be passed to view
      * @return string
      */
-    public static function fetch($view, $data = []) {
+    public static function fetch($view, $data = [])
+    {
         $file = static::getFilePath($view);
 
         return static::getContent($file, $data);
@@ -25,7 +26,8 @@ class View
      * @param string $view View file
      * @return string|null
      */
-    public static function getFilePath($view) {
+    public static function getFilePath($view)
+    {
         $paths = config('view.path');
         if (empty($paths)) {
             $paths = [appPath('Views')];
@@ -47,7 +49,8 @@ class View
      * @param ErrorBag $errorBag
      * @return string
      */
-    public static function getErrorPage(ErrorBag $errorBag) {
+    public static function getErrorPage(ErrorBag $errorBag)
+    {
         $code = $errorBag->getCode();
         //Fetch user error page for the error code
         $file = static::getFilePath("errors/$code");
@@ -69,13 +72,14 @@ class View
     }
 
     /**
-     * Get view content for the given file 
+     * Get view content for the given file
      * @param string $file absolute path to file
      * @param array $data data
      * @return string|false
      * @throws Exception
      */
-    private static function getContent($file, $data = []) {
+    private static function getContent($file, $data = [])
+    {
         $path = fixPath($file);
         $content = false;
         if (file_exists($path)) {
@@ -99,8 +103,8 @@ class View
      * @param string $view View file
      * @return boolean
      */
-    public static function exists($view) {
+    public static function exists($view)
+    {
         return file_exists(static::getFilePath($view));
     }
-
 }

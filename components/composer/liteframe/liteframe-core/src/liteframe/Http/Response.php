@@ -20,13 +20,11 @@ class Response
     protected $request;
     protected static $instance;
 
-    
     protected function __construct()
     {
         $this->request = Request::getInstance();
     }
 
-    
     /**
      * Return singleton class instance.
      *
@@ -164,7 +162,7 @@ class Response
 
         return $this;
     }
-    
+
     /**
      * Return file as response
      * @param type $path
@@ -173,7 +171,7 @@ class Response
     {
         return new FileResponse($path);
     }
-    
+
     /**
      * Force download of file
      * @param type $path
@@ -205,7 +203,7 @@ class Response
         $this->json = false;
         return $this;
     }
-    
+
     /**
      * Force response to return as html
      * @return $this
@@ -216,10 +214,23 @@ class Response
         $this->json = false;
         return $this;
     }
-    
+
     public function isJson()
     {
         return $this->json;
+    }
+
+    /**
+     * Redirect to route.
+     *
+     * @param type $name
+     * @param type $code
+     *
+     * @return type
+     */
+    public function redirectToRoute($name, $code = 302)
+    {
+        return $this->redirect(route($name), $code);
     }
 
     /**
@@ -313,7 +324,8 @@ class Response
         return $this->statusCode;
     }
 
-    public function setStatusCode($code) {
+    public function setStatusCode($code)
+    {
         $this->statusCode = $code;
         return $this;
     }

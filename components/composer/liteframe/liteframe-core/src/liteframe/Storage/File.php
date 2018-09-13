@@ -2,7 +2,11 @@
 
 namespace LiteFrame\Storage;
 
-class File
+use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
+use function basePath;
+use function config;
+
+class File extends SymfonyFile
 {
     protected $absolutePath;
     protected $relativePath;
@@ -11,10 +15,11 @@ class File
      * Create file object
      * @param type $path relative path to project directory
      */
-    public function __construct($path)
+    public function __construct($path, $checkPath = true)
     {
-        $this->absolutePath = $path ? basePath($path) : null;
-        $this->relativePath = $this->resolveRelativePath($path);
+        parent::__construct($path, $checkPath);
+        $this->absolutePath = $this->getPathname();
+        $this->relativePath = $this->resolveRelativePath($this->absolutePath);
     }
 
     private function resolveRelativePath($path)
@@ -50,14 +55,6 @@ class File
     public function name()
     {
         return basename($this->absolutePath);
-    }
-
-    public function getMimeType()
-    {
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $mime_type = finfo_file($finfo, $this->absolutePath);
-        finfo_close($finfo);
-        return $mime_type;
     }
 
     /**
@@ -143,35 +140,6 @@ class File
     }
 
     /**
-     * Gets file group
-     *
-     * @param string $filename <p>
-     * Path to the file.
-     * </p>
-     * @return int the group ID of the file, or <b>FALSE</b> if
-     * an error occurs. The group ID is returned in numerical format, use
-     * <b>posix_getgrgid</b> to resolve it to a group name.
-     * Upon failure, <b>FALSE</b> is returned.
-     */
-    public function getGroup()
-    {
-        return filegroup($this->getAbsolutePath());
-    }
-
-    /**
-     * Gets file inode
-     *
-     * @param string $filename <p>
-     * Path to the file.
-     * </p>
-     * @return int the inode number of the file, or <b>FALSE</b> on failure.
-     */
-    public function getInode()
-    {
-        return fileinode($this->getAbsolutePath());
-    }
-
-    /**
      * Gets file modification time
      *
      * @param string $filename <p>
@@ -184,21 +152,6 @@ class File
     public function getModificationTime()
     {
         return filemtime($this->getAbsolutePath());
-    }
-
-    /**
-     * Gets file owner
-     *
-     * @param string $filename <p>
-     * Path to the file.
-     * </p>
-     * @return int the user ID of the owner of the file, or <b>FALSE</b> on failure.
-     * The user ID is returned in numerical format, use
-     * <b>posix_getpwuid</b> to resolve it to a username.
-     */
-    public function getOwner()
-    {
-        return fileowner($this->getAbsolutePath());
     }
 
     /**
@@ -225,38 +178,5 @@ class File
     public function getPermissions()
     {
         return fileperms($this->getAbsolutePath());
-    }
-
-    /**
-     * Gets file size
-     *
-     * @param string $filename <p>
-     * Path to the file.
-     * </p>
-     * @return int the size of the file in bytes, or <b>FALSE</b> (and generates an error
-     * of level <b>E_WARNING</b>) in case of an error.
-     */
-    public function getSize()
-    {
-        return filesize($this->getAbsolutePath());
-    }
-
-    /**
-     * Gets file type
-     *
-     * @param string $filename <p>
-     * Path to the file.
-     * </p>
-     * @return string the type of the file. Possible values are fifo, char,
-     * dir, block, link, file, socket and unknown.
-     * </p>
-     * <p>
-     * Returns <b>FALSE</b> if an error occurs. <b>filetype</b> will also
-     * produce an <b>E_NOTICE</b> message if the stat call fails
-     * or if the file type is unknown.
-     */
-    public function getType()
-    {
-        return filetype($this->getAbsolutePath());
     }
 }

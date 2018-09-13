@@ -32,7 +32,8 @@ class Route
         return $this->name;
     }
 
-    public function getHttpMethod() {
+    public function getHttpMethod()
+    {
         return $this->httpMethod;
     }
 
@@ -143,7 +144,8 @@ class Route
         return $this;
     }
 
-    public function setHttpMethod($method) {
+    public function setHttpMethod($method)
+    {
         if ($this->lock) {
             throw new Exception('Route cannot be modified');
         }

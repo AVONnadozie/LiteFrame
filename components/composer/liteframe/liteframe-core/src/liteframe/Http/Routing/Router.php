@@ -136,8 +136,8 @@ class Router
      *
      * @return Route Route object
      */
-    protected function map($method, $route, $target, $name = null, $middlewares = null) {
-        
+    protected function map($method, $route, $target, $name = null, $middlewares = null)
+    {
         $routeObj = new Route($route, $target);
         $routeObj->setName($name);
         $routeObj->setMiddlewares($middlewares);
@@ -499,7 +499,8 @@ class Router
         return static::all($route, $target, $name, $middleware);
     }
 
-    public static function group(array $options, Closure $closure) {
+    public static function group(array $options, Closure $closure)
+    {
         $hash = uniqid('prop_');
         //Add options
         if (isset($options['prefix'])) {
@@ -522,5 +523,4 @@ class Router
         unset(static::$groupsProps['name'][$hash]);
         unset(static::$groupsProps['middlewares'][$hash]);
     }
-
 }

@@ -1,7 +1,7 @@
 <?php
 
 if (empty($GLOBALS['__rbloaded'])) {
-    require_once _corePath('libraries/RedBeanPHP5_1_0/rb.php');
+    require_once __DIR__ . '/RedBeanPHP5_1_0/rb.php';
 
     //RedBean setup
     $driver = config('database.driver');

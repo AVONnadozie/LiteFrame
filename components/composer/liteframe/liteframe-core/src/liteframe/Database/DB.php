@@ -2,7 +2,7 @@
 namespace LiteFrame\Database;
 
 class DB extends \R
- {
+{
     /**
      * Makes a deep copy of a bean. This method makes a deep copy
      * of the bean.The copy will have the following:
@@ -27,7 +27,8 @@ class DB extends \R
      *
      * @return array
      */
-    public static function duplicate($bean, $filters = array()) {
+    public static function duplicate($bean, $filters = array())
+    {
         if ($bean instanceof Model) {
             $origBean = $bean->getBean();
         } else {
@@ -43,5 +44,4 @@ class DB extends \R
             return $dub;
         }
     }
-
 }

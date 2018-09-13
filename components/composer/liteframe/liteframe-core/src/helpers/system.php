@@ -2,14 +2,10 @@
 
 use LiteFrame\Exception\Exceptions\HttpException;
 use LiteFrame\Http\Request;
+use LiteFrame\Http\Request\Session;
 use LiteFrame\Http\Response;
 use LiteFrame\Http\Routing\Router;
-use LiteFrame\Storage\Session;
 use LiteFrame\View\View;
-use Symfony\Component\VarDumper\Cloner\VarCloner;
-use Symfony\Component\VarDumper\Dumper\CliDumper;
-use Symfony\Component\VarDumper\Dumper\HtmlDumper;
-use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Get environment setting.
@@ -218,60 +214,15 @@ function response($content = null, $code = 200)
     return $response;
 }
 
-/**
- * Dump data.
- *
- * @param type $data
- */
-function d()
-{
-    $args = func_get_args();
-    $cutomStyles = array(
-        'default' => 'background-color:#fff; '
-        . 'border:lightgray solid thin; '
-        . 'color:#757575; '
-        . 'line-height:1.2em; font:12px Menlo, Monaco, Consolas, monospace; '
-        . 'word-wrap: break-word; '
-        . 'white-space: pre-wrap; '
-        . 'position:relative; z-index:99999; '
-        . 'word-break: break-all',
-        'num' => 'font-weight:bold; color:#e67231',
-        'const' => 'font-weight:bold',
-        'str' => 'font-weight:bold; color:#e67231',
-        'note' => 'color:#1299DA',
-        'ref' => 'color:#A0A0A0',
-        'public' => 'color:#795da3',
-        'protected' => 'color:#6f6767',
-        'private' => 'color:#7da0b1',
-        'meta' => 'color:#B729D9',
-        'key' => 'color:#1299DA',
-        'index' => 'color:#1299DA',
-        'ellipsis' => 'color:#FF8400',
-    );
 
-    VarDumper::setHandler(function ($var) use ($cutomStyles) {
-        $cloner = new VarCloner();
-        if ('cli' === PHP_SAPI) {
-            $dumper = new CliDumper();
-        } else {
-            $dumper = new HtmlDumper();
-            $dumper->setStyles($cutomStyles);
-        }
-        $dumper->dump($cloner->cloneVar($var));
-    });
-
-    foreach ($args as $value) {
-        VarDumper::dump($value);
+if (!function_exists('d')) {
+    /**
+     * Alias for dd()
+     */
+    function d()
+    {
+        call_user_func_array('dd', func_get_args());
     }
-    exit;
-}
-
-/**
- * Alias for d()
- */
-function dd()
-{
-    call_user_func_array('d', func_get_args());
 }
 
 /**
@@ -282,7 +233,7 @@ function dd()
  * @return string
  */
 function url($path = '/')
- {
+{
     $request = Request::getInstance();
     $host = rtrim($request->getAppURL(), '/');
     if (empty($path) || $path === '/') {
@@ -357,7 +308,8 @@ function basePath($path = '')
  * @param string $path
  * @return string
  */
-function _corePath($path = '') {
+function _corePath($path = '')
+{
     return nPath(CORE_DIR, $path);
 }
 
@@ -581,27 +533,11 @@ function e($string)
 
 function csrf_field()
 {
-    echo "<input name='__token' value='" . csrf_token() . "' hidden>";
+    $key = \Middlewares\ValidateCSRFToken::$tokenKey;
+    return "<input name='{$key}' value='" . csrf_token() . "' hidden>";
 }
 
 function csrf_token()
- {
-    return '';
-
-    // //generate and store in session for 1hr if not exist
-    // $time = Session::get('_token_expire');
-    // $tokenTime = new DateTime($time);
-    // $now = new DateTime;
-    // 
-    // if ($now->diff($tokenTime)->format('%R') == '+') {
-    //     $token = md5(uniqid());
-    //     Session::set('_token', $token);
-    //     $hours = 1;
-    //     $now->add(new \DateInterval("PT{$hours}H"));
-    //     //Expire in 1hr
-    //     Session::set('_token_expire', $now);
-    // } else {
-    //     $token = Session::get('_token');
-    // }
-    // return $token;
+{
+    return \Middlewares\ValidateCSRFToken::getSessionToken();
 }

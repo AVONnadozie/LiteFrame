@@ -29,20 +29,13 @@ return [
      * ----------------------------
      * Files to find namespaces (Not recommended)
      * ----------------------------
-     * | This is for including files with multiple classes, it maps a file to multiple namespaces.
-     * | This is not a recommeneded way to autoload file but was added with RedBeanPHP in mind
-     * | and only available as a core functionality
+     * | This allows you to configure setup files for namespaces.
+     * | This is not a recommeneded way to autoload files but was added with RedBeanPHP in mind
+     * | and only available as a core functionality.
+     * | This allows us to load and run RedBeanPHP classes only when necessary
      */
     "boot" => [
         'RedBeanPHP' => 'liteframe/Database/DBSetup.php',
         'R' => 'liteframe/Database/DBSetup.php'
-    ],
-    /*
-     * ----------------------------
-     *  Files to autoload (auto include)
-     * ----------------------------
-     * |
-     */
-    "files" => [
     ]
 ];

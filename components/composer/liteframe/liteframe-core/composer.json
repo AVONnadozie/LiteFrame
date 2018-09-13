@@ -21,7 +21,8 @@
         "php": ">=5.5",
         "peppeocchi/php-cron-scheduler": "^2.3",
         "avonnadozie/liteonion": "^2.0",
-        "symfony/var-dumper": "^4.1"
+        "symfony/var-dumper": "^4.1",
+        "symfony/http-foundation": "^4.1"
     },
     "autoload": {
         "classmap": [

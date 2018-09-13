@@ -9,7 +9,8 @@ class ViewResponse extends Response
     protected $path;
     protected $data;
 
-    public function __construct($path = null, $data = [], $code = 200) {
+    public function __construct($path = null, $data = [], $code = 200)
+    {
         $this->path = $path;
         $this->data = $data;
         $this->statusCode = $code;

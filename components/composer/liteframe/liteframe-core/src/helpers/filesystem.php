@@ -1,7 +1,5 @@
 <?php
 
-use LiteFrame\Http\Request;
-
 /**
  * Credits: http://php.net/manual/en/function.filesize.php.
  *

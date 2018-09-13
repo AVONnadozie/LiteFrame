@@ -150,7 +150,8 @@ class Logger
         }
     }
 
-    private function getResponse() {
+    private function getResponse()
+    {
         $exception = $this->getException();
         $bag = new ErrorBag($exception);
         if (!appIsOnDebugMode()) {

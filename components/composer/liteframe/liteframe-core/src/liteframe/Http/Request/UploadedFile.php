@@ -4,6 +4,9 @@ namespace LiteFrame\Http\Request;
 
 use Exception;
 use LiteFrame\Storage\File;
+use function nPath;
+use function request;
+use function storagePath;
 
 class UploadedFile
 {
@@ -16,7 +19,7 @@ class UploadedFile
         $this->validate();
         $this->uploadInfo = $_FILES[$this->name];
     }
-    
+
     /**
      * Save uploaded file publicly to the path
      * @param type $path
@@ -29,7 +32,7 @@ class UploadedFile
     }
 
     /**
-     * 
+     *
      * @param type $path
      * @param type $name
      * @return File
@@ -66,7 +69,8 @@ class UploadedFile
         //Check mime type, file size, etc.
     }
 
-    public function ext() {
+    public function ext()
+    {
         $dots = explode('.', $this->uploadInfo['name']);
         return array_pop($dots);
     }

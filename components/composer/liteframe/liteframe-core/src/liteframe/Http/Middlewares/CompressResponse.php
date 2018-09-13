@@ -23,8 +23,8 @@ class CompressResponse extends Middleware
     /**
      * Handle an incoming request.
      *
-     * @param Request  $request
      * @param \Closure $next
+     * @param Request  $request
      *
      * @return mixed
      */

@@ -17,6 +17,6 @@ return [
      * classes are executed.
      */
     'after_core' => [
-//        Middlewares\RunAfterCoreMiddleware::class
+        Middlewares\ValidateCSRFToken::class
     ],
 ];

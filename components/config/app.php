@@ -23,7 +23,6 @@ return [
      * | Accepted values are single, daily and weekly
      */
     'log' => appEnv('APP_LOG', 'daily'),
-    'debug' => appEnv('APP_DEBUG', false),
     /*
      * ----------------------------
      *  Application Environment
@@ -54,5 +53,11 @@ return [
      * | Name of storage folder.
      */
     'storage' => appEnv('APP_STORAGE', 'storage'),
-    
+    /**
+     * ----------------------------
+     *  Token Expire Time in Minutes
+     * ----------------------------
+     * 
+     */
+    'token_expire' => 60,
 ];

@@ -12,7 +12,7 @@ return [
      * Session domain
      * -----------------
      */
-    'domain' => LiteFrame\Storage\Server::get('HTTP_HOST'),
+    'domain' => \LiteFrame\Http\Request\Server::getHttpHost(),
     /*
      * -----------------
      * Session Lifetime
@@ -25,7 +25,7 @@ return [
      * Secure Session
      * ----------------
      */
-    'secure' => LiteFrame\Storage\Server::isSecure(),
+    'secure' => \LiteFrame\Http\Request\Server::isSecure(),
     /*
      * ----------------
      * Strict Mode

@@ -1,8 +1,10 @@
 <?php
 
+use LiteFrame\Testing\TestCase;
 
 class ExampleTest extends TestCase
 {
+
     /**
      * A basic functional test example.
      */

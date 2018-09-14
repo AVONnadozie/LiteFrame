@@ -1,4 +1,10 @@
 # LiteFrame Core
+[![Latest Stable Version](https://poser.pugx.org/liteframe/liteframe-core/v/stable)](https://packagist.org/packages/liteframe/liteframe-core)
+[![Latest Unstable Version](https://poser.pugx.org/liteframe/liteframe-core/v/unstable)](https://packagist.org/packages/liteframe/liteframe-core)
+[![Build Status](https://travis-ci.org/liteframe/liteframe-core.svg?branch=master)](https://travis-ci.org/liteframe/liteframe-core)
+[![License](https://poser.pugx.org/liteframe/liteframe-core/license)](https://packagist.org/packages/liteframe/liteframe-core)
+
+
 Core files for LiteFrame project.
 
 ## Requirements

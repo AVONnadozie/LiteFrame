@@ -1,5 +1,6 @@
 <?php
 
+use LiteFrame\Testing\TestCase;
 use LiteFrame\Utility\Collection;
 
 class CollectionTest extends TestCase

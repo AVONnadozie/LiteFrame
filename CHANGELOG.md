@@ -18,23 +18,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Multi ORM support
 
 
-## [0.2.0] - 2018-MM-DD
+## [0.3.0] - 2018-09-14
 ### Added
+- LiteFrame now uses liteframe/liteframe-core
 
 ### Changed
-- 
+- LiteFrame\Http\Request now inherits Symfony\Component\HttpFoundation\Request
+- composer files
 
 ### Fixed
-- 
+- Issues with session
 
 ### Removed
-- 
+- core folder now exists as a separate package
 
-### Deprecated
-- 
-
-### Security
-- 
 
 ## [0.2.0] - 2018-08-17
 ### Added
@@ -80,8 +77,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.1.0] - 2018-01-29
 - Initial release
 
-[Unreleased]: https://github.com/avonnadozie/LiteFrame/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/avonnadozie/LiteFrame/compare/v0.3.0...HEAD
 [0.1.1]: https://github.com/avonnadozie/LiteFrame/compare/v0.1.0...v0.1.1
 [0.1.2]: https://github.com/avonnadozie/LiteFrame/compare/v0.1.1...v0.1.2
 [0.1.3]: https://github.com/avonnadozie/LiteFrame/compare/v0.1.2...v0.1.3
 [0.2.0]: https://github.com/avonnadozie/LiteFrame/compare/v0.1.3...v0.2.0
+[0.3.0]: https://github.com/avonnadozie/LiteFrame/compare/v0.2.0...v0.3.0

@@ -20,6 +20,11 @@ class ComposerStaticInit3415c2c4388dd0e1e5127b361bb44082
             'Symfony\\Component\\VarDumper\\' => 28,
             'Symfony\\Component\\HttpFoundation\\' => 33,
         ),
+        'M' => 
+        array (
+            'Models\\' => 7,
+            'Middlewares\\' => 12,
+        ),
         'L' => 
         array (
             'LiteOnion\\' => 10,
@@ -32,6 +37,8 @@ class ComposerStaticInit3415c2c4388dd0e1e5127b361bb44082
         'C' => 
         array (
             'Cron\\' => 5,
+            'Controllers\\' => 12,
+            'Commands\\' => 9,
         ),
     );
 
@@ -52,6 +59,14 @@ class ComposerStaticInit3415c2c4388dd0e1e5127b361bb44082
         array (
             0 => __DIR__ . '/..' . '/symfony/http-foundation',
         ),
+        'Models\\' => 
+        array (
+            0 => __DIR__ . '/../../..' . '/app/Models',
+        ),
+        'Middlewares\\' => 
+        array (
+            0 => __DIR__ . '/../../..' . '/app/Middlewares',
+        ),
         'LiteOnion\\' => 
         array (
             0 => __DIR__ . '/..' . '/avonnadozie/liteonion/src',
@@ -68,18 +83,17 @@ class ComposerStaticInit3415c2c4388dd0e1e5127b361bb44082
         array (
             0 => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron',
         ),
+        'Controllers\\' => 
+        array (
+            0 => __DIR__ . '/../../..' . '/app/Controllers',
+        ),
+        'Commands\\' => 
+        array (
+            0 => __DIR__ . '/../../..' . '/app/Commands',
+        ),
     );
 
     public static $classMap = array (
-        'Commands\\Command' => __DIR__ . '/../../..' . '/app/Commands/Command.php',
-        'Commands\\SampleCommand' => __DIR__ . '/../../..' . '/app/Commands/SampleCommand.php',
-        'Controllers\\Controller' => __DIR__ . '/../../..' . '/app/Controllers/Controller.php',
-        'Controllers\\SampleController' => __DIR__ . '/../../..' . '/app/Controllers/SampleController.php',
-        'Middlewares\\Middleware' => __DIR__ . '/../../..' . '/app/Middlewares/Middleware.php',
-        'Middlewares\\SampleMiddleware' => __DIR__ . '/../../..' . '/app/Middlewares/SampleMiddleware.php',
-        'Middlewares\\ValidateCSRFToken' => __DIR__ . '/../../..' . '/app/Middlewares/ValidateCSRFToken.php',
-        'Models\\Model' => __DIR__ . '/../../..' . '/app/Models/Model.php',
-        'Models\\SampleModel' => __DIR__ . '/../../..' . '/app/Models/SampleModel.php',
         'PHPUnit_Framework_TestCase' => __DIR__ . '/..' . '/liteframe/liteframe-core/src/libraries/PHPUnitFill/TestCase.php',
     );
 

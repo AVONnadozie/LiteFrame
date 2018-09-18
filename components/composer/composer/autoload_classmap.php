@@ -6,14 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname(dirname($vendorDir));
 
 return array(
-    'Commands\\Command' => $baseDir . '/app/Commands/Command.php',
-    'Commands\\SampleCommand' => $baseDir . '/app/Commands/SampleCommand.php',
-    'Controllers\\Controller' => $baseDir . '/app/Controllers/Controller.php',
-    'Controllers\\SampleController' => $baseDir . '/app/Controllers/SampleController.php',
-    'Middlewares\\Middleware' => $baseDir . '/app/Middlewares/Middleware.php',
-    'Middlewares\\SampleMiddleware' => $baseDir . '/app/Middlewares/SampleMiddleware.php',
-    'Middlewares\\ValidateCSRFToken' => $baseDir . '/app/Middlewares/ValidateCSRFToken.php',
-    'Models\\Model' => $baseDir . '/app/Models/Model.php',
-    'Models\\SampleModel' => $baseDir . '/app/Models/SampleModel.php',
     'PHPUnit_Framework_TestCase' => $vendorDir . '/liteframe/liteframe-core/src/libraries/PHPUnitFill/TestCase.php',
 );

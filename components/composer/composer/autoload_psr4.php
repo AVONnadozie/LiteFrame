@@ -10,8 +10,12 @@ return array(
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Component\\VarDumper\\' => array($vendorDir . '/symfony/var-dumper'),
     'Symfony\\Component\\HttpFoundation\\' => array($vendorDir . '/symfony/http-foundation'),
+    'Models\\' => array($baseDir . '/app/Models'),
+    'Middlewares\\' => array($baseDir . '/app/Middlewares'),
     'LiteOnion\\' => array($vendorDir . '/avonnadozie/liteonion/src'),
     'LiteFrame\\' => array($vendorDir . '/liteframe/liteframe-core/src/liteframe'),
     'GO\\' => array($vendorDir . '/peppeocchi/php-cron-scheduler/src/GO'),
     'Cron\\' => array($vendorDir . '/mtdowling/cron-expression/src/Cron'),
+    'Controllers\\' => array($baseDir . '/app/Controllers'),
+    'Commands\\' => array($baseDir . '/app/Commands'),
 );

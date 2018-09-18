@@ -6,30 +6,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
-### Pre-release
-- Validators
-- Improved Security for Session and Cookie
-- Mailing (other than php mail)
-- Full Documentation
-### Future release
-- Optional Whoops Support
-- Modular
-- Dependency injection
-- Multi ORM support
 
+- Modularity/ Support for packages
+- Use one namespace App\\ for application controllers, models, middlewares and commands 
 
 ## [0.3.0] - 2018-09-14
 ### Added
+
 - LiteFrame now uses liteframe/liteframe-core
 
 ### Changed
+
 - LiteFrame\Http\Request now inherits Symfony\Component\HttpFoundation\Request
 - composer files
 
 ### Fixed
+
 - Issues with session
 
 ### Removed
+
 - core folder now exists as a separate package
 
 

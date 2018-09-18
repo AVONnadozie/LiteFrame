@@ -6,7 +6,7 @@ return [
      *  Application Name
      * ---------------------------
      */
-    'name' => 'LiteFrame',
+    'name' => appEnv('APP_NAME', 'LiteFrame'),
     /*
      * ---------------------------
      *  Application URL

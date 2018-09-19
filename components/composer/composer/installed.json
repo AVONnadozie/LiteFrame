@@ -60,7 +60,7 @@
         },
         "time": "2018-09-16T19:39:32+00:00",
         "type": "library",
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "classmap": [
                 "src/libraries"

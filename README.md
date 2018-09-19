@@ -31,11 +31,10 @@ Still need it the Composer way?
 composer create-project avonnadozie/liteframe
 ```
 
-Remember to set `components/logs` to be write-able, preferably `755`
 
 ## Documentation
 * [Online documentation](https://avonnadozie.github.io/LiteFrame/) (Recommended)
-* [Download as pdf](#) (Not currently available and not always up to date)
+* [Download as pdf](#) (Not currently available)
 
 ## Feedback
 For bugs, improvements or guide, simply create an [issue](https://github.com/AVONnadozie/LiteFrame/issues). Thanks 👍

@@ -19,7 +19,7 @@
         }
     ],
     "require": {
-        "php": ">=5.5",
+        "php": ">=7.1",
         "liteframe/liteframe-core": "^0.1.2"
     },
     "require-dev": {

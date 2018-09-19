@@ -13,18 +13,14 @@ LiteFrame is a lightweight PHP framework designed to earn the claps.
 ## Target Features
 - [x] Fast and lightweight
 - [x] Easy setup (no shell commands required)
+- [x] Zero Config Database Mapper; automatically builds your database schema on the fly
 - [x] Easy Routing
-- [x] Zero Config ORM; automatically builds your database schema on the fly
 - [x] Middleware Support
-- [x] Easy Job Scheduling
-- [x] Error Logging
+- [x] Job Scheduling Support
 - [x] Unit Testing Support
 - [x] Improved Security
 - [ ] Improved filtering and Validation functionality
 - [ ] Modular
-
-## Requirements
-PHP 5.5 and above
 
 ## Installation
 Download the latest release [here](https://github.com/AVONnadozie/LiteFrame/releases) and unzip it. that's all!

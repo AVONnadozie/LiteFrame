@@ -8,8 +8,8 @@
   |
  */
 
-$composer_files = __DIR__ . '/components/bootstrap/autoload.php';
-require_once $composer_files;
+$autoload_files = __DIR__ . '/components/bootstrap/autoload.php';
+require_once $autoload_files;
 
 /*
   |--------------------------------------------------------------------------

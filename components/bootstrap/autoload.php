@@ -18,9 +18,10 @@ define('WD', getcwd());
   |
  */
 
-$composer_files = WD . '/components/composer/autoload.php';
-file_exists($composer_files) or die('Composer files missing, run composer install');
-require_once $composer_files;
+define('COMPOSER_DIR', WD . '/components/composer');
+
+file_exists(COMPOSER_DIR) or die('Composer files missing, run composer install');
+require_once COMPOSER_DIR . '/autoload.php';
 
 /*
   |--------------------------------------------------------------------------
@@ -29,8 +30,8 @@ require_once $composer_files;
   |
   |
  */
-define('CORE_DIR', realpath(__DIR__ . '/../composer/liteframe/liteframe-core/src'));
-file_exists(CORE_DIR) or die('Could not locate core files, composer files maybe missing. Run composer install');
+define('CORE_DIR', COMPOSER_DIR . '/liteframe/liteframe-core/src');
 
+file_exists(CORE_DIR) or die('Could not locate core files, composer files maybe missing. Run composer install');
 $boot_file = CORE_DIR . '/bootstrap/boot.php';
 require_once $boot_file;

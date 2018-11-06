@@ -223,9 +223,9 @@ composer create-project avonnadozie/liteframe
                         </p>
                         <pre class="z-depth-1"><code class="bash">#!/bin/bash
 
-php cli serve --port=500
+php cli serve --port=5000
 </code></pre>
-                        This will start the local server at address 127.0.0.1:500
+                        This will start the local server at address 127.0.0.1:5000
                     </section>
 
                     <section>
@@ -262,6 +262,7 @@ php cli serve --port=500
   |____ .htaccess //Prevents direct access to files in this folder and subfolders
 assets //(Optional) public assets such as css, images and JavaScript files
 components
+  |____ bootstrap //App bootstrap files
   |____ composer //(Optional) Composer files
   |____ config //Config files
   |____ helpers //Helper files
@@ -269,7 +270,6 @@ components
   |____ env.php //Environment specific configurations (to be created by you)
   |____ env.sample //Sample env.php file
   |____ .htaccess //Prevents direct access to files in this folder and subfolders
-core //Core files, do not modify
 docs //(Optional) Documentation
 storage 
   |____ logs //Error logs

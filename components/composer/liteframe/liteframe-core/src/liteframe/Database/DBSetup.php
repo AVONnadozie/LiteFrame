@@ -4,7 +4,7 @@ if (empty($GLOBALS['__rbloaded'])) {
     require_once __DIR__ . '/RedBeanPHP5_1_0/rb.php';
 
     //RedBean setup
-    $driver = config('database.driver');
+    $driver = config('database.driver', 'sqlite');
     switch ($driver) {
         case 'sqlite':
             $file = config("database.sqlite.file");
@@ -15,8 +15,12 @@ if (empty($GLOBALS['__rbloaded'])) {
             }
             break;
         default:
-            $db = config("database.$driver");
-            R::setup("$driver:host={$db['host']};dbname={$db['dbname']}", $db['dbuser'], $db['dbpassword']);
+            $dbhost = config("database.$driver.host", 'localhost');
+            $dbport = config("database.$driver.port", 3306);
+            $dbname = config("database.$driver.dbname", 'liteframe');
+            $dbuser = config("database.$driver.dbuser", 'root');
+            $dbpassword = config("database.$driver.dbpassword", '');
+            R::setup("$driver:host={$dbhost}:$dbport;dbname={$dbname}", $dbuser, $dbpassword);
             break;
     }
 
@@ -34,10 +38,11 @@ if (empty($GLOBALS['__rbloaded'])) {
         R::freeze($freezeState);
     }
     
+    //Configure prefix extension
     R::ext('xdispense', function ($type) {
         return R::getRedBean()->dispense($type);
     });
-    
+
     /**
      * True is RedBeanPHP has been loaded, else false
      * @global string $GLOBALS['__rbloaded']

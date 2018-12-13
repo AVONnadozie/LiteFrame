@@ -2,6 +2,7 @@
 
 namespace LiteFrame\Database;
 
+use Exception;
 use LiteFrame\Utility\Collection;
 use LiteFrame\Utility\Inflector;
 use LiteFrame\Utility\Paginator;
@@ -55,6 +56,8 @@ class Model extends SimpleModel
      * @var array
      */
     protected $handlers = [
+        'beforeSave' => [],
+        'afterSave' => [],
         'beforeCreate' => [],
         'afterCreate' => [],
         'beforeUpdate' => [],
@@ -66,6 +69,7 @@ class Model extends SimpleModel
     protected function __construct(OODBBean $bean = null)
     {
         $this->bean = $bean;
+        $this->setup();
     }
     
     public function getBean()
@@ -81,9 +85,7 @@ class Model extends SimpleModel
             $split = explode('\\', $classname);
             $name = array_pop($split);
             //Generate table name
-            $model->table = Inflector::tableize($name);
-//            $model->table = Inflector::pluralize(strtolower($name));
-//            $model->table = Inflector::underscore($name);
+            $model->table = Inflector::redbeantable($name);
         }
         return $model->table;
     }
@@ -126,31 +128,32 @@ class Model extends SimpleModel
     {
         $bean = DB::dispense(static::getTable(), $num, $alwaysReturnArray);
         $model = static::wrap($bean);
-        $model->boot();
         return $model;
     }
 
     
-    protected function boot()
+    private function setup()
     {
-        $this->bootModel();
+        $this->boot();
         $this->bootTraits();
     }
 
     /**
      * User Initializations, override this
      */
-    protected function bootModel()
+    protected function boot()
     {
     }
 
-    protected function bootTraits()
+    private function bootTraits()
     {
         $traits = class_uses($this);
         foreach ($traits as $trait) {
-            $method = "boot$trait";
+            $reflect = new \ReflectionClass($trait);
+            $name = $reflect->getShortName();
+            $method = "boot{$name}";
             if (method_exists($this, $method)) {
-                $method();
+                $this->$method();
             }
         }
     }
@@ -390,10 +393,11 @@ class Model extends SimpleModel
      */
     public static function matchUp($sql, $bindings = array(), $onFoundDo = null, $onNotFoundDo = null, &$model = null)
     {
-        $result = DB::matchUp(static::getTable(), $sql, $bindings, $onFoundDo, $onNotFoundDo, $bean);
-        if ($model) {
-            $model = static::wrap($bean);
+        if ($model instanceof Model) {
+            $bean = $model->getBean();
         }
+
+        $result = DB::matchUp(static::getTable(), $sql, $bindings, $onFoundDo, $onNotFoundDo, $bean);
         return $result;
     }
 
@@ -505,19 +509,36 @@ class Model extends SimpleModel
      */
     public function save()
     {
-        if ($this->beforeSave($this->bean)) {
-            //Set Defaults
-            $this->setDefaultProperties();
 
-            //Update timestamps
-            $this->updateTimestamps();
+        //Set Defaults
+        $this->setDefaultProperties();
 
-            $result = DB::store($this->bean);
-            $this->afterSave($result);
-            return $result;
-        } else {
+        //Update timestamps
+        $this->updateTimestamps();
+
+        //Fire "before" events
+        if (!$this->fireBeforeSaveEvent($this)) {
             return false;
         }
+
+        $updating = $this->exists();
+        if ($updating && !$this->fireBeforeUpdateEvent($this)) {
+            return false;
+        } elseif (!$this->fireBeforeCreateEvent($this)) {
+            return false;
+        }
+
+        //Save or update
+        $result = DB::store($this->bean);
+
+        //fire "after" events
+        $this->fireAfterSaveEvent($result);
+        if ($updating) {
+            $this->fireAfterUpdateEvent($result);
+        } else {
+            $this->fireAfterCreateEvent($result);
+        }
+        return $result;
     }
 
     private function setDefaultProperties()
@@ -562,9 +583,9 @@ class Model extends SimpleModel
      */
     public function trash()
     {
-        if ($this->beforeTrash($this->bean)) {
+        if ($this->fireBeforeTrashEvent($this)) {
             $result = DB::trash($this->bean);
-            $this->afterTrash($result);
+            $this->fireAfterTrashEvent($result);
             return true;
         } else {
             return false;
@@ -657,7 +678,7 @@ class Model extends SimpleModel
 
     /**
      * Create one-to-many relationship
-     * @param Model $related
+     * @param Model $relatedClass
      */
     public function getOwned($relatedClass)
     {
@@ -679,7 +700,7 @@ class Model extends SimpleModel
 
     /**
      * Get many-to-many relationship
-     * @param Model $related
+     * @param Model $relatedClass
      */
     public function getMany($relatedClass)
     {
@@ -729,76 +750,251 @@ class Model extends SimpleModel
      * Called before a model is saved
      * @return boolean true if the application should continue with the save process, else false
      */
-    protected function beforeSave($bean)
+    private function fireBeforeSaveEvent($bean)
     {
-        return true;
+        return $this->runHandlers('beforeSave', $bean);
+    }
+
+    /**
+     * Registers a beforeSave handler
+     * @param callable $handler
+     * @return int
+     */
+    public function beforeSave(callable $handler)
+    {
+        return $this->addHandler('beforeSave', $handler);
     }
 
     /**
      * Called after a model is saved
      * @param type $result result of the save or update action
      */
-    protected function afterSave($result)
+    private function fireAfterSaveEvent($result)
     {
+        return $this->runHandlers('afterSave', $result);
+    }
+
+    /**
+     * Registers an afterSave handler
+     * @param callable $handler
+     * @return int
+     */
+    public function afterSave(callable $handler)
+    {
+        return $this->addHandler('afterSave', $handler);
+    }
+
+    /**
+     * Called before a model bean is created
+     * @return boolean true if the application should continue with the update process, else false
+     */
+    private function fireBeforeCreateEvent($bean)
+    {
+        return $this->runHandlers('beforeCreate', $bean);
+    }
+
+    /**
+     * Registers a beforeCreate handler
+     * @param callable $handler
+     * @return int
+     */
+    public function beforeCreate(callable $handler)
+    {
+        return $this->addHandler('beforeCreate', $handler);
     }
 
     /**
      * Called before a model is updated
      * @return boolean true if the application should continue with the update process, else false
      */
-    protected function beforeUpdate($bean)
+    private function fireBeforeUpdateEvent($bean)
     {
-        return true;
+        return $this->runHandlers('beforeUpdate', $bean);
+    }
+
+    /**
+     * Registers a beforeUpdate handler
+     * @param callable $handler
+     * @return int
+     */
+    public function beforeUpdate(callable $handler)
+    {
+        return $this->addHandler('beforeUpdate', $handler);
+    }
+
+    /**
+     * Called after a model bean is create
+     * @param type $result result of the save or update action
+     */
+    private function fireAfterCreateEvent($result)
+    {
+        return $this->runHandlers('afterCreate', $result);
+    }
+
+    /**
+     * Registers an afterCreate handler
+     * @param callable $handler
+     * @return int
+     */
+    public function afterCreate(callable $handler)
+    {
+        return $this->addHandler('afterCreate', $handler);
     }
 
     /**
      * Called after a model is update
      * @param type $result result of the save or update action
      */
-    protected function afterUpdate($result)
+    private function fireAfterUpdateEvent($result)
     {
+        return $this->runHandlers('afterUpdate', $result);
+    }
+
+    /**
+     * Registers an afterUpdate handler
+     * @param callable $handler
+     * @return int
+     */
+    public function afterUpdate(callable $handler)
+    {
+        return $this->addHandler('afterUpdate', $handler);
     }
 
     /**
      * Called before a model is trashed
      * @return boolean true if the application should continue with the trash process, else false
      */
-    protected function beforeTrash()
+    private function fireBeforeTrashEvent($bean)
     {
-        return true;
+        return $this->runHandlers('beforeTrash', $bean);
+    }
+
+    /**
+     * Registers a beforeTrash handler
+     * @param callable $handler
+     * @return int
+     */
+    public function beforeTrash(callable $handler)
+    {
+        return $this->addHandler('beforeTrash', $handler);
     }
 
     /**
      * Called after a model is trashed
      * @param type $result result of the save or update action
      */
-    protected function afterTrash($result)
+    private function fireAfterTrashEvent($result)
     {
+        return $this->runHandlers('afterTrash', $result);
+    }
+
+    /**
+     * Registers an afterTrash handler
+     * @param callable $handler
+     * @return int
+     */
+    public function afterTrash(callable $handler)
+    {
+        return $this->addHandler('afterTrash', $handler);
+    }
+
+    /**
+     * Runs the handlers for the given event
+     * @param string $event
+     * @param type $data
+     * @return boolean
+     */
+    private function runHandlers($event, $data = null)
+    {
+        foreach ($this->handlers[$event] as $handler) {
+            if (!is_callable($handler)) {
+                return false;
+            }
+
+            if (!$handler($data)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Adds a handler for the given event
+     * @param string $event
+     * @param callable $handler
+     * @return int Key of the newly added handler
+     * @throws Exception
+     */
+    protected function addHandler($event, callable $handler)
+    {
+        if (!isset($this->handlers[$event])) {
+            throw new Exception("No such event '$event'");
+        }
+
+        if (!is_callable($handler)) {
+            throw new Exception("Event handlers must be callable");
+        }
+
+        $this->handlers[$event][] = $handler;
+
+        //Return last key
+        return count($this->handlers[$event]) - 1;
+    }
+
+    /**
+     * Checks if a handler with the given event key exists
+     * @param string $event
+     * @param int $key
+     * @return boolean
+     */
+    protected function hasHandler($event, $key)
+    {
+        return isset($this->handlers[$event][$key]);
+    }
+
+    /**
+     * Removes the handle with the given event key
+     * @param string $event
+     * @param int $key
+     */
+    protected function removeHandler($event, $key)
+    {
+        if ($this->hasHandler($event, $key)) {
+            unset($this->handlers[$event][$key]);
+        }
     }
 
     public function __get($property)
     {
-        $data = $this->bean->$property;
+        try {
+            $data = $this->bean->$property;
+        } catch (Exception $e) {
+            $data = null;
+        }
 
         //Check for getProperty methods
-        $prop = Inflector::camelize($property);
+        $prop = ucfirst($property);
         $method = "get{$prop}Property";
         if (method_exists($this, $method)) {
             return $this->$method($data);
+        } else {
+            return $data;
         }
-
-        return $data;
     }
 
     public function __set($property, $value)
     {
         //Check for setProperty methods
-        $prop = Inflector::camelize($property);
+        $prop = ucfirst($property);
         $method = "set{$prop}Property";
         if (method_exists($this, $method)) {
             $this->$method($value);
         } else {
-            $this->bean->$property = $value;
+            if ($this->bean) {
+                $this->bean->$property = $value;
+            } else {
+                throw new Exception("No bean exists for this model, intialize model using the dispense() instead");
+            }
         }
     }
 

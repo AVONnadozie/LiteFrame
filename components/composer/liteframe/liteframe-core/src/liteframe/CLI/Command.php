@@ -55,7 +55,8 @@ abstract class Command implements Runnable
             $q = $question ?: 'Are you sure?';
             $answer = $this->ask("$q [y/n]");
             $key = trim($answer);
-        } while (!isset(Args::$booleanMap[$key])); //Repeat while answer is not a valid yes/no response
+            $value = Args::booleanValue($key);
+        } while (!isset($value)); //Repeat while answer is not a valid yes/no response
         return $key;
     }
 

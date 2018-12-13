@@ -44,4 +44,10 @@ class DB extends \R
             return $dub;
         }
     }
+
+    public static function now()
+    {
+        return date('Y-m-d H:i:s');
+    }
+
 }

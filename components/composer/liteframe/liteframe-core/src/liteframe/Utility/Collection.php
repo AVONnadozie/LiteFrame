@@ -62,7 +62,6 @@ class Collection implements \Iterator, \ArrayAccess, \Countable
     /**
      *
      * @param type $key
-     * @return \Models\Project
      */
     public function get($key)
     {

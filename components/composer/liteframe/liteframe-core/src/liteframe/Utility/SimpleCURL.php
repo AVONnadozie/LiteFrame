@@ -3,6 +3,11 @@
 namespace LiteFrame\Utility;
 
 use Exception;
+use function curl_init;
+use function curl_setopt;
+use function curl_exec;
+use function curl_getinfo;
+use function curl_close;
 
 class SimpleCURL
 {

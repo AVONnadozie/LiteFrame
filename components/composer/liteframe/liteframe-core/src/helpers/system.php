@@ -1,8 +1,8 @@
 <?php
 
 use LiteFrame\Exception\Exceptions\HttpException;
+use LiteFrame\Http\Middlewares\ValidateCSRFToken;
 use LiteFrame\Http\Request;
-use LiteFrame\Http\Request\Session;
 use LiteFrame\Http\Response;
 use LiteFrame\Http\Routing\Router;
 use LiteFrame\View\View;
@@ -17,7 +17,7 @@ use LiteFrame\View\View;
  */
 define('ENV_PATH', 'components/env.php');
 
-function appEnv($key, $default = null)
+function appEnv($key = null, $default = null)
 {
     if (!isset($GLOBALS['env'])) {
         $path = basePath(ENV_PATH);
@@ -28,7 +28,11 @@ function appEnv($key, $default = null)
         }
     }
 
-    return isset($GLOBALS['env'][$key]) ? $GLOBALS['env'][$key] : $default;
+    if ($key) {
+        return isset($GLOBALS['env'][$key]) ? $GLOBALS['env'][$key] : $default;
+    } else {
+        return $GLOBALS['env'];
+    }
 }
 
 /**
@@ -513,7 +517,7 @@ function isCLI()
 
 function appIsLocal()
 {
-    return appEnv('APP_ENV', 'production') === 'local';
+    return appEnv('APP_ENV', 'local') === 'local';
 }
 
 function appIsOnDebugMode()
@@ -533,11 +537,19 @@ function e($string)
 
 function csrf_field()
 {
-    $key = \Middlewares\ValidateCSRFToken::$tokenKey;
+    $key = ValidateCSRFToken::$tokenKey;
     return "<input name='{$key}' value='" . csrf_token() . "' hidden>";
 }
 
 function csrf_token()
 {
-    return \Middlewares\ValidateCSRFToken::getSessionToken();
+    return ValidateCSRFToken::getSessionToken();
+}
+
+function getHttpResponseMessage($code) {
+    return Response::getInstance()->getHttpResponseMessage($code);
+}
+
+function redirect($new_location, $code = 302) {
+    return response()->redirect($new_location, $code);
 }

@@ -22,7 +22,7 @@ class Server extends Command
 
     public function run()
     {
-        $port = $this->getArgument('port', '500');
+        $port = $this->getArgument('port', appEnv('SERVE_PORT', '5000'));
         $command  = "php -S 127.0.0.1:$port";
         $this->output("Development server started at ". Output::green("http://127.0.0.1:$port"));
         $process = $this->exec($command, null, true);

@@ -42,7 +42,7 @@ class Args
     protected $map = '';
     protected $command = '';
     protected $file = '';
-    public static $booleanMap = array(
+    protected static $booleanMap = array(
         'y' => true,
         'n' => false,
         'yes' => true,
@@ -129,8 +129,8 @@ class Args
         }
         if (is_string($value)) {
             $value = strtolower($value);
-            if (isset(static::$booleanMap[$value])) {
-                return static::$booleanMap[$value];
+            if (static::booleanValue($value)) {
+                return static::booleanValue($value);
             }
         }
         return $default;
@@ -179,4 +179,12 @@ class Args
     {
         return $this->command;
     }
+
+    public static function booleanValue($value) {
+        $key = strtolower($value);
+        if (isset(static::$booleanMap[$key])) {
+            return static::$booleanMap[$key];
+        }
+    }
+
 }

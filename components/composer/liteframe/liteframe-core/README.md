@@ -7,9 +7,6 @@
 
 Core files for LiteFrame project.
 
-## Requirements
-PHP 5.5 and above
-
 ## Installation
 `composer require liteframe/liteframe-core`
 

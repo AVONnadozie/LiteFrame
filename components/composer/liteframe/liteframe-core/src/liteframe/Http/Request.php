@@ -88,11 +88,11 @@ class Request extends SymfonyRequest
     {
         if (empty($this->appURL)) {
             $hostname = $this->getHostname();
-            $protocol = $this->getProtocol();
-            if (empty($hostname) || empty($protocol)) {
+            if (empty($hostname)) {
                 $this->appURL = config('app.url');
             } else {
-                $this->appURL = $protocol . '://' . $hostname . '/' . $this->getBaseDir();
+                $protocol = $this->getProtocol();
+                $this->appURL = ($protocol ?: 'http') . '://' . $hostname . '/' . $this->getBaseDir();
             }
         }
 
@@ -157,7 +157,13 @@ class Request extends SymfonyRequest
      */
     public function hasFile($name)
     {
-        return $this->files->has($name);
+        //See if it makes sense to use dot notation
+        if (isset($_FILES[$name])) {
+            $file = $_FILES[$name];
+            return isset($file['tmp_name']) && file_exists($file['tmp_name']) && is_uploaded_file($file['tmp_name']);
+        }
+        return false;
+//        return $this->files->has($name);
     }
 
     /**

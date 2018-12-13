@@ -63,7 +63,7 @@ class UploadedFile
         }
         
         if ($_FILES[$this->name]['error'] != UPLOAD_ERR_OK) {
-            $message = $this->getUploadErrorMessage();
+            $message = $this->getUploadErrorMessage($_FILES[$this->name]['error']);
             throw new Exception("File upload failed: $message");
         }
         //Check mime type, file size, etc.

@@ -39,7 +39,7 @@ class Server
     
     public static function getProtocol()
     {
-        return  static::get('REQUEST_SCHEME', 'http');
+        return static::get('REQUEST_SCHEME');
     }
 
     public static function getHttpHost()
@@ -49,7 +49,7 @@ class Server
 
     public static function getMethod()
     {
-        return static::get('REQUEST_METHOD', 'GET');
+        return static::get('REQUEST_METHOD');
     }
 
     public static function getPreviousURL()
@@ -61,6 +61,6 @@ class Server
     {
         $value = static::get('HTTPS', 'off');
         //Translate
-        return Args::$booleanMap[$value];
+        return Args::booleanValue($value);
     }
 }

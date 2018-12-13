@@ -30,6 +30,10 @@ class Paginator extends Collection
 
     public function getLinks($links_count = 3, $list_class = 'pagination')
     {
+        if ($this->total <= $this->limit) {
+            return '';
+        }
+
         $last = ceil($this->total / $this->limit);
 
         $start = (($this->page - $links_count) > 0) ? $this->page - $links_count : 1;

@@ -6,22 +6,14 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname(dirname($vendorDir));
 
 return array(
-    'phpDocumentor\\Reflection\\' => array($vendorDir . '/phpdocumentor/reflection-common/src', $vendorDir . '/phpdocumentor/reflection-docblock/src', $vendorDir . '/phpdocumentor/type-resolver/src'),
-    'Whoops\\' => array($vendorDir . '/filp/whoops/src/Whoops'),
-    'Webmozart\\Assert\\' => array($vendorDir . '/webmozart/assert/src'),
-    'Symfony\\Polyfill\\Php72\\' => array($vendorDir . '/symfony/polyfill-php72'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
-    'Symfony\\Component\\VarDumper\\' => array($vendorDir . '/symfony/var-dumper'),
     'Symfony\\Component\\HttpFoundation\\' => array($vendorDir . '/symfony/http-foundation'),
-    'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
     'Models\\' => array($baseDir . '/app/Models'),
     'Middlewares\\' => array($baseDir . '/app/Middlewares'),
     'LiteOnion\\' => array($vendorDir . '/avonnadozie/liteonion/src'),
     'LiteFrame\\' => array($vendorDir . '/liteframe/liteframe-core/src/liteframe'),
     'GO\\' => array($vendorDir . '/peppeocchi/php-cron-scheduler/src/GO'),
-    'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
     'Doctrine\\Common\\Inflector\\' => array($vendorDir . '/doctrine/inflector/lib/Doctrine/Common/Inflector'),
-    'DeepCopy\\' => array($vendorDir . '/myclabs/deep-copy/src/DeepCopy'),
     'Cron\\' => array($vendorDir . '/mtdowling/cron-expression/src/Cron'),
     'Controllers\\' => array($baseDir . '/app/Controllers'),
     'Commands\\' => array($baseDir . '/app/Commands'),

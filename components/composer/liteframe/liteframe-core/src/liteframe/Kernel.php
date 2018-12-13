@@ -249,7 +249,7 @@ final class Kernel
             } else {
                 $this->registerDefaultErrorHandlers($isDebug);
             }
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             $this->registerDefaultErrorHandlers($isDebug);
         }
     }

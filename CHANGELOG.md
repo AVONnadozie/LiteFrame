@@ -7,7 +7,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-- Modularity/ Support for packages
 - Use one namespace App\\ for application controllers, models, middlewares and commands 
 - Full Documentation
 

@@ -161,15 +161,8 @@ Router::all($route, $target);
 ```
 
 ##### Parameters
-`$method` | string
-
-This is a pipe-delimited string of the accepted HTTP requests methods. 
-
-Example: `GET|POST|PATCH|PUT|DELETE`
-
-`$route` | string
-
-This is the route pattern to match against. This can be a plain string, one of the predefined regex filters or a custom regex. Custom regexes must start with @.
+- `$method` - This is a pipe-delimited string of the accepted HTTP requests methods. Example: `GET|POST|PATCH|PUT|DELETE`
+- `$route`  - This is the route pattern to match against. This can be a plain string, one of the predefined regex filters or a custom regex. Custom regexes must start with @.
 
 Examples:
 
@@ -178,8 +171,7 @@ Examples:
 | /contact/ | /contact/ | nil |
 | /users/[i:id]/ | /users/12/ | $id = 12 |
 
-`$target` | mixed
-This can be either a function callback or a Controller@action string.
+`$target` - This can be either a function callback or a Controller@action string.
 
 Example using a function callback:
 ```php

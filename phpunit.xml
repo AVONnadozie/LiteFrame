@@ -18,8 +18,6 @@
             <directory suffix=".php">./app/Middlewares</directory>
             <directory suffix=".php">./app/Models</directory>
             <directory suffix=".php">./components/helpers</directory>
-            <directory suffix=".php">./core/LiteFrame</directory>
-            <directory suffix=".php">./core/helpers</directory>
         </whitelist>
     </filter>
     <!--    <php>

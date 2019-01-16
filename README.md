@@ -13,12 +13,13 @@ LiteFrame is a lightweight PHP framework designed to earn the claps.
 ## Target Features
 - [x] Fast and lightweight
 - [x] Easy setup (no shell commands required)
-- [x] Zero Config Database Mapper; automatically builds your database schema on the fly
+- [x] RedBeanPHP - A Zero Config Database Mapper that automatically builds your database schema on the fly
 - [x] Easy Routing
 - [x] Middleware Support
 - [x] Job Scheduling Support
 - [x] Unit Testing Support
 - [x] Improved Security
+- [ ] Templating
 - [ ] Improved filtering and Validation functionality
 - [ ] Modular
 
@@ -33,8 +34,8 @@ composer create-project avonnadozie/liteframe
 
 
 ## Documentation
+* Resides in the [docs folder](./docs)
 * [Online documentation](https://avonnadozie.github.io/LiteFrame/) (Recommended)
-* [Download as pdf](#) (Not currently available)
 
 ## Feedback
 For bugs, improvements or guide, simply create an [issue](https://github.com/AVONnadozie/LiteFrame/issues). Thanks 👍

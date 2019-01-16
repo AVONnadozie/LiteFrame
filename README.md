@@ -34,8 +34,8 @@ composer create-project avonnadozie/liteframe
 
 
 ## Documentation
-* Resides in the [docs folder](./docs)
-* [Online documentation](https://avonnadozie.github.io/LiteFrame/) (Recommended)
+* In [docs folder](./docs)
+* [Online documentation](https://avonnadozie.github.io/LiteFrame/)
 
 ## Feedback
 For bugs, improvements or guide, simply create an [issue](https://github.com/AVONnadozie/LiteFrame/issues). Thanks 👍

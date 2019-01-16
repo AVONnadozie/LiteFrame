@@ -1,7 +1,7 @@
 ## Getting Started
 >Quotes like this one are comments for developers.
 
-### Installation:
+### Installation
 Download the latest release [here](https://github.com/AVONnadozie/LiteFrame/releases) and unzip. That's all!
 
 Still need it the Composer way?
@@ -29,7 +29,7 @@ php cli serve --port=5000
 This will start the local server at address 127.0.0.1:5000
 
 ## Architecture Concept
-### Request Lifecycle:
+### Request Lifecycle
 This part of the document aims to give you an overall view on how the framework works to help you understand the framework better. If you find some terms strange, it's okay, you will understand them and get familiar as you read on.
 
 Like most PHP applications, all requests to the framework is directed to the index.php file. The index.php file does not contain much. Rather, it is a starting point for loading the rest of the framework.
@@ -40,7 +40,7 @@ The Kernel instance gets the `LiteFrame\Http\Request` and `LiteFrame\Http\Routin
 
 All Middleware attached to the target (if any) are then executed before executing the target, and the Kernel finally terminates the framework.
 
-### Directory Structure:
+### Directory Structure
 Important directories and files
 ```
 app
@@ -76,7 +76,7 @@ index.php //Entry point for HTTP requests
 
 ## The Basics
 ### Routing
-#### Basics:
+#### Basics
 All routes are defined in your route files, which are located in the app/Routes directory. 
 These files are automatically loaded by the framework. 
 The app/Routes/web.php file defines routes that are for your web interface. 
@@ -99,7 +99,7 @@ Router::get('foo', 'AppController@helloworld');
 This will be explained further down
 
 
-#### Available Router Methods:
+#### Available Router Methods
 The router allows you to register routes that respond to the common HTTP verb:
 ```php
 <?php
@@ -133,7 +133,7 @@ Router::anyOf('POST|PUT|GET', $route, $target);
 Router::all($route, $target);
 ```
 
-#### Mapping:
+#### Mapping
 To map your routes, use any of the methods.
 ```php
 <?php
@@ -162,11 +162,13 @@ Router::all($route, $target);
 
 ##### Parameters
 `$method` | string
+
 This is a pipe-delimited string of the accepted HTTP requests methods. 
 
-Example: GET|POST|PATCH|PUT|DELETE
+Example: `GET|POST|PATCH|PUT|DELETE`
 
 `$route` | string
+
 This is the route pattern to match against. This can be a plain string, one of the predefined regex filters or a custom regex. Custom regexes must start with @.
 
 Examples:
@@ -241,7 +243,7 @@ Router::getInstance()->addMatchTypes(array('cId' => '[a-zA-Z]{2}[0-9](?:_[0-9]++
 
 Once your routes are all mapped you can start matching requests and continue processing the request.
 
-#### Named Routes:
+#### Named Routes
 If you want to use reversed routing, Named routes allow you to conveniently specify a name parameter so you can later generate URL's using this route. 
 You may specify a name for a route by chaining the `setName` method onto the router:
 ```php
@@ -269,10 +271,10 @@ To reverse a route, use the `route($routeName, $params);` helper with optional p
 
 `$params` | array - Optional parameters to build the URL with
 
-#### Redirect Route:
+#### Redirect Route
 With Redirect Route you can redirect a route permanently to another route or a url.
 
-##### Redirecting to a route:
+##### Redirecting to a route
 ```php
 <?php
 
@@ -280,7 +282,7 @@ Router::redirect($route, 'another-route-name');
 ```
 This route will redirect to the route named `another-route-name`
 
-##### Redirecting to a url:
+##### Redirecting to a url
 ```php
 <?php
 
@@ -289,7 +291,7 @@ Router::redirect($route, 'https://example.com');
 This route will redirect to the URL http://example.com
 
 
-#### View Route:
+#### View Route
 This allows you to return a view as response directly without the need for closures or controllers.
 ```php
 <?php
@@ -362,7 +364,7 @@ Router::get('/post/[:id]', function (Request $request) {
 ```
 
 ### Middleware
-#### The Basics:
+#### The Basics
 Middleware provide a convenient mechanism for filtering HTTP requests 
 entering your application and responses sent by the application.
 
@@ -415,7 +417,7 @@ return [
 ];
 ```
 
-### Named/Route Middleware:
+### Named/Route Middleware
 You may also specify middleware to run only for specific routes. 
 To do this, you have to register your middleware with a name
 ```php
@@ -457,7 +459,7 @@ Controllers can group related request handling logic into a single class.
 Controllers are stored in the `app/Controllers` directory and extends 
 the `Controllers/Controller` class.
 
-#### Routing to a controller action/method:
+#### Routing to a controller action/method
 ```php
 <?php
 
@@ -493,27 +495,27 @@ This will apply the `sample` middleware to all controller functions in
 this class except the `index` function.
 
 ### Response
-#### Basics:
+#### Basics
 > Explain the LiteFrame\Http\Response object.
 
 #### Views
 > Explain how to create views.
 
 ### Commands
-#### Basics:
+#### Basics
 >Explain the basics in creating commands.
 
 #### Scheduling
 >Explain scheduling.
 
 ### Errors & Logging
-#### Environment Variables:
+#### Environment Variables
 >Explain how to configure app environment variables.
 
-#### Error Pages:
+#### Error Pages
 >Explain how to create error pages to override the default error page on production.
 
-#### Helpers:
+#### Helpers
 >Explain how to add helper functions.
 
 ## Database
@@ -623,7 +625,7 @@ Besides using the `find()` functions, you can also use **raw** SQL queries:
 $posts = DB::getAll('SELECT * FROM posts WHERE comments < ? ', [ 50 ] );
 ```
 
-###Relationships
+### Relationships
 RedBeanPHP also makes it easy to manage relations. For instance, if we like to add some photos to our holiday post we do this:
 ```php
 <?php
@@ -663,7 +665,9 @@ To get the first element of the photo list, we simply used PHP's native `reset()
 
 ### Model Events
 > Explain model events
+
 ### setProperty* and getProperty* functions
+
 > Explain the setProperty* and getProperty* functions
 ### Alright, freeze!
 As you have seen, the structure of the database dynamically changes during development. This is a very nice feature, but you don't want that to happen on your production server! So, when you set your application to production, we freeze the database.

@@ -26,7 +26,7 @@ Run the `cli serve` command to start the local server and optionally specify a p
 ```bash
 php cli serve --port=5000
 ```
-This will start the local server at address 127.0.0.1:5000
+This will start the local server at address *127.0.0.1:5000*
 
 ## Architecture Concept
 ### Request Lifecycle
@@ -77,10 +77,11 @@ index.php //Entry point for HTTP requests
 ## The Basics
 ### Routing
 #### Basics
-All routes are defined in your route files, which are located in the app/Routes directory. 
+All routes are defined in your route files, which are located in the *app/Routes* directory. 
 These files are automatically loaded by the framework. 
-The app/Routes/web.php file defines routes that are for your web interface. 
-The routes in app/Routes/api.php are stateless and are suited for API calls, while app/Routes/cli.php are for commands.
+The *app/Routes/web.php* file defines routes that are for your web interface. 
+The routes in *app/Routes/api.php* are stateless and are suited for API calls, 
+while *app/Routes/cli.php* are for commands.
 
 The simpler method for web and api routes accepts just a URI and a Closure
 ```php
@@ -100,7 +101,7 @@ This will be explained further down
 
 
 #### Available Router Methods
-The router allows you to register routes that respond to the common HTTP verb:
+The router allows you to register routes that respond to the common HTTP verbs:
 ```php
 <?php
 
@@ -329,11 +330,11 @@ Router::group(['prefix' => 'sample-prefix', 'middlewares' => ['sampleMiddleware'
 This example defines two groups and two routes.
 
 The first route which inherits the first group will have it's name as `index`, 
-middleware as `sampleMiddleware`, URI as `/sample-prefix`
+middleware as `sampleMiddleware`, URI as */sample-prefix*
 
 The second route which inherits properties of the two groups will therefore have 
 it's name as `nested.index`, controller's namespace as `Nested\MyController`, 
-middleware as sampleMiddleware, and URI as `/sample-prefix/nested`
+middleware as sampleMiddleware, and URI as */sample-prefix/nested*
 
 ### Requests
 Each http request is represented by a `LiteFrame\Http\Request` object.
@@ -360,7 +361,7 @@ Router::get('/post/[:id]', function (Request $request) {
 Middleware provide a convenient mechanism for filtering HTTP requests 
 entering your application and responses sent by the application.
 
-All of these middleware are located in the app/Middlewares directory 
+All of these middleware are located in the *app/Middlewares* directory 
 and should extend `Middlewares/Middleware` class in the same directory.
 ```php
 <?php
@@ -386,7 +387,7 @@ class MySampleMiddleware extends Middleware
 }
 ```
 For the framework to run your middleware, you have to register it in the 
-components/config/middleware.php file. Simply add your middleware class to 
+*components/config/middleware.php* file. Simply add your middleware class to 
 the `before_core` or `after_core` key of the array.
 ```php
 <?php
@@ -448,7 +449,7 @@ Router::get('user/profile', 'AppController@showProfile')
 Instead of defining all of your request handling logic as Closures in route files, 
 you may wish to organize this behavior using Controller classes. 
 Controllers can group related request handling logic into a single class. 
-Controllers are stored in the `app/Controllers` directory and extends 
+Controllers are stored in the *app/Controllers* directory and extends 
 the `Controllers/Controller` class.
 
 #### Routing to a controller action/method
@@ -488,10 +489,144 @@ this class except the `index` function.
 
 ### Response
 #### Basics
-> Explain the LiteFrame\Http\Response object.
+All routes and controllers should return a response to be sent back to the user's browser.
+
+They are several different ways to return responses. 
+The most basic response is returning a string from a route or controller. 
+The application will automatically convert the string into a `LiteFrame\Http\Response` object 
+which translates to a full HTTP response.
+```php
+<?php
+
+Router::get('/', function () {
+    return 'Hello World';
+});
+```
+
+You may also return arrays. 
+The application will automatically convert the array into a JSON response.
+```php
+<?php
+
+Router::get('/', function () {
+    return [1, 2, 3];
+});
+```
+
+Alternatively, you can choose to return the response object directly.
+```php
+<?php
+
+Router::get('/', function () {
+    return Response::getInstance()
+            ->setContent('Hello World')
+            ->setStatusCode(200);
+});
+```
+
 
 #### Views
-> Explain how to create views.
+Views are static files which the application returns as response.
+At runtime, the application replaces variables in these files with actual values, 
+and transforms the content into an HTML file sent to the client.
+
+Traditionally, view files are located in *app/Views*, but this can be changed in the views configuration file.
+LiteFrame supports having multiple view locations.
+
+Example View 1 (layouts/head.php)
+```html
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Bootstrap -->
+<link rel="stylesheet" type="text/css" href="<?= asset('css/materialize.min.css') ?>">
+```
+
+Example View 2 (layouts/page.php)
+```html
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <?= includeView('layouts.head') ?>
+        <title><?= $name?></title>
+    </head>
+    <body>
+        <h1>Hello World</h1>
+    </body>
+</html>
+```
+`includeView()` includes a view in another.
+
+To return/use a view, use the `view()` function, specifying the name of the view you wish to return.
+The name of the view is basically the filename relative to the views folder without the extension.
+It's recommended to replace the directory separator in the filenames with dots.
+
+For example, a file with filename *app/Views/example/base.php* will have the name `example.base` and a file with filename
+app/Views/base.php will have it's name as just `base`
+
+Example
+```php
+<?php
+
+return view('layouts.page');
+```
+
+Error pages are located in *app/Views/errors*
+Define error page for error codes else it uses default
+expected variable `$bag`, `$errorBag`
+
+Example
+```php
+<?php
+
+```
+
+##### Templates
+Templates are views with improved syntax and features. 
+They provide benefits such as easy output escaping, view inheritance and sections.
+
+LiteFrame supports templating using [BladeOne](https://github.com/EFTEC/BladeOne), 
+a standalone version of the Blade Template Engine.
+
+Blade files should end with the `.blade.php` extension in order to be compiled.
+
+You can checkout BladeOne docs [here](https://github.com/EFTEC/BladeOne) to find out the list of directives available for you.
+
+Example View 1 (layouts/base.blade.php)
+```blade
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Bootstrap -->
+        <link rel="stylesheet" type="text/css" href="<?= asset('css/materialize.min.css') ?>">
+        <title>{{$name}}</title>
+    </head>
+    <body>
+        @yield('body')
+    </body>
+</html>
+```
+
+Example View 2 (layouts/page.blade.php)
+```html
+@extends('layouts.base')
+@section('body')
+    <h1>Hello World</h1>
+@endsection
+```
+
+To return this view as response in your controller
+```php
+<?php
+
+return view('layouts.page', $dataIfAny);
+```
+
+Note: Templates are used the same way as other views, if you have a blade file e.g `base.blade.php`, 
+and you have another view with the same name although with a different extension
+e.g `base.php`, 
+the blade version `base.blade.php` will override the other view `base.php`
 
 ### Commands
 #### Basics
@@ -521,7 +656,7 @@ If you're already familiar with RedBeanPHP, this should be a piece of cake for y
 If you're not familiar with RedBeanPHP, we're sorry, it's still the same piece of cake for you.
 Summary, you do not need to know how to use RedBeanPHP to understand how to use LiteFrame Database.
 
-Remember to update components/config/database.php with details of your database connection.
+Remember to update *components/config/database.php* with details of your database connection.
 
 #### Requirements
 - PDO, plus the driver you wish to use for your database
@@ -659,8 +794,8 @@ To get the first element of the photo list, we simply used PHP's native `reset()
 > Explain model events
 
 ### setProperty* and getProperty* functions
-
 > Explain the setProperty* and getProperty* functions
+
 ### Alright, freeze!
 As you have seen, the structure of the database dynamically changes during development. This is a very nice feature, but you don't want that to happen on your production server! So, when you set your application to production, we freeze the database.
 
@@ -681,7 +816,7 @@ For more details please explore the documentation on [RedBeanPHP website](https:
 
 ### Composer
 In as much as we "really" avoided the need for commands, we could not help supporting composer. 
-Composer files are auto-detected by the framework if available but we changed the vendor directory to components/composer for security reasons.
+Composer files are auto-detected by the framework if available but we changed the vendor directory to *components/composer* for security reasons.
 
 ## Security
 ### URI Security

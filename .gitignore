@@ -3,5 +3,6 @@ components/composer/**/.git
 components/env.php
 php-cs-fixer.phar
 .php_cs.cache
-/.idea/
+.idea/
+storage/
 composer.lock

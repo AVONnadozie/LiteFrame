@@ -496,7 +496,7 @@ The most basic response is returning a string from a route or controller.
 The application will automatically convert the string into a `LiteFrame\Http\Response` object 
 which translates to a full HTTP response.
 ```php
-<?php
+<?php                                                          
 
 Router::get('/', function () {
     return 'Hello World';
@@ -524,6 +524,22 @@ Router::get('/', function () {
 });
 ```
 
+The `LiteFrame\Http\Response` object provides other useful functions such as:
+- `appendContent($content, $code = 200)` appends content to response
+- `download($path, $name = null)` forces browser to download file
+- `file($path)` opens a file in browser
+- `header($key, $value)` sets HTTP header for the response
+- `isJson()` returns true if the response will be sent as JSON
+- `json($content)` sets a JSON content
+- `prependContent($content, $code)` prepends content to the response
+- `redirect($url, $code = 302)` sends a 302 redirect to a url
+- `redirectToRoute($name, $code = 302)` sends a 302 redirect to the route with the given name
+- `setStatusCode($code)` sets HTTP status code for the reponse
+- `setContent($content, $code = 200)` sets response content
+- `toHtml()` - converts response to HTML
+- `toJson()` converts response to JSON
+- `toPlain()` converts response to Plain text
+- `view($name, $data = [])` sends a view as response
 
 #### Views
 Views are static files which the application returns as response.
@@ -531,7 +547,6 @@ At runtime, the application replaces variables in these files with actual values
 and transforms the content into an HTML file sent to the client.
 
 Traditionally, view files are located in *app/Views*, but this can be changed in the views configuration file.
-LiteFrame supports having multiple view locations.
 
 Example View 1 (layouts/head.php)
 ```html
@@ -556,7 +571,7 @@ Example View 2 (layouts/page.php)
 ```
 `includeView()` includes a view in another.
 
-To return/use a view, use the `view()` function, specifying the name of the view you wish to return.
+To return a view as response, use the `view()` function, specifying the name of the view you wish to return.
 The name of the view is basically the filename relative to the views folder without the extension.
 It's recommended to replace the directory separator in the filenames with dots.
 
@@ -569,16 +584,7 @@ Example
 
 return view('layouts.page');
 ```
-
-Error pages are located in *app/Views/errors*
-Define error page for error codes else it uses default
-expected variable `$bag`, `$errorBag`
-
-Example
-```php
-<?php
-
-```
+Note: LiteFrame supports having multiple view locations.
 
 ##### Templates
 Templates are views with improved syntax and features. 
@@ -588,8 +594,6 @@ LiteFrame supports templating using [BladeOne](https://github.com/EFTEC/BladeOne
 a standalone version of the Blade Template Engine.
 
 Blade files should end with the `.blade.php` extension in order to be compiled.
-
-You can checkout BladeOne docs [here](https://github.com/EFTEC/BladeOne) to find out the list of directives available for you.
 
 Example View 1 (layouts/base.blade.php)
 ```blade
@@ -627,6 +631,8 @@ Note: Templates are used the same way as other views, if you have a blade file e
 and you have another view with the same name although with a different extension
 e.g `base.php`, 
 the blade version `base.blade.php` will override the other view `base.php`
+
+You can read more about blade templating [here](blade.md)
 
 ### Commands
 #### Basics
@@ -752,50 +758,6 @@ Besides using the `find()` functions, you can also use **raw** SQL queries:
 $posts = DB::getAll('SELECT * FROM posts WHERE comments < ? ', [ 50 ] );
 ```
 
-### Relationships
-RedBeanPHP also makes it easy to manage relations. For instance, if we like to add some photos to our holiday post we do this:
-```php
-<?php
-
-$post->ownPhotoList[] = $photo1;
-$post->ownPhotoList[] = $photo2;
-$post->save();
-```
-Here, `$photo1` and `$photo2` are also beans (but of type 'photo'). 
-After storing the post, these photos will be associated with the blog post. 
-To associate a bean you simply add it to a list. The name of the list must match the name of the related bean type.
-
-So photo beans go in:
-`$post->ownPhotoList`
-
-comments go in: 
-`$post->ownCommentList` 
-
-and notes go in: 
-`$post->ownNoteList` 
-
-See? It's that simple!
-
-To retrieve associated beans, just access the corresponding list:
-```php
-<?php
-
-$post = SampleModel::load($id );
-$firstPhoto = reset( $post->ownPhotoList );
-```
-
-In the example above, we load the blog post and then access the list. 
-The moment we access the `ownPhotoList` property, the relation will be loaded automatically, 
-this is often called lazy loading, because RedBeanPHP only loads the beans when you really need them.
-
-To get the first element of the photo list, we simply used PHP's native `reset()` function
-
-### Model Events
-> Explain model events
-
-### setProperty* and getProperty* functions
-> Explain the setProperty* and getProperty* functions
-
 ### Alright, freeze!
 As you have seen, the structure of the database dynamically changes during development. This is a very nice feature, but you don't want that to happen on your production server! So, when you set your application to production, we freeze the database.
 
@@ -805,7 +767,7 @@ After freezing the database, your database structure will no longer be changed, 
 NoSQL-like flexibility during development and a reliable schema on your production server!
 
 This was just a quick tour, showcasing some basic usage of Liteframe Database with RedBeanPHP.
-For more details please explore the documentation on [RedBeanPHP website](https://redbeanphp.com/crud)
+For more details please explore the [documentation](database.md) on database.
 
 ## Working with Libraries
 ### Autoloading Files

@@ -1,8 +1,8 @@
 <?php
 
-use LiteFrame\Http\Request;
-
 namespace Controllers;
+
+use LiteFrame\Http\Request;
 
 class SampleController extends Controller
 {

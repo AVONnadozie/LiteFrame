@@ -14,7 +14,7 @@ body {
 }
 
 #hero-area {
-    min-height: 1000px;
+    min-height: 100vh;
     background-image: url(../img/backgrounds/ge.png);
     background-size: cover;
     background-attachment: scroll;

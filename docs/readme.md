@@ -63,10 +63,12 @@ components
   |____ .htaccess //Prevents direct access to files in this folder and subfolders
 docs //(Optional) Documentation
 storage 
-  |____ logs //Error logs
   |____ private //Private application data
   |____ public //Public application data
   |       |____ .htaccess //Allows direct access to files in this folder and subfolders
+  |____ system
+  |       |____ logs //Error logs
+  |       |____ Views //Compiled views files
   |____ .htaccess //Prevents direct access to files in this folder and subfolders
 tests //Test files
 .htaccess //Important .htaccess file

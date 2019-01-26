@@ -16,7 +16,7 @@ you might find this documentation pretty boring and hence advised to skip.
 #### In parent view *(layout page)*
 |Tag|Note|
 |---|---|
-|`@section('sidebar')`|Start a new section with name as `sidebar`|
+|`@section('sidebar')`|Start a new section with the name as `sidebar`|
 |`@show`|Indicates where the content of section will be displayed|
 |`@yield('title')`|Shows here the content of the section named `title`|
 
@@ -24,8 +24,8 @@ you might find this documentation pretty boring and hence advised to skip.
 |Tag|Note|
 |---|---|
 |`@extends('layouts.page')`|Instructs the application to inherit a parent view with name `layouts.page` |
-|`@section('title', 'My Title')`|Sets 'My Title' as content of the section `title`|
-|`@section('sidebar')`|Starts a block of code as content of a section named `sidebar`|
+|`@section('title', 'My Title')`|Sets 'My Title' as the content of the section `title`|
+|`@section('sidebar')`|Starts a block of code as the content of a section named `sidebar`|
 |`@endsection`|End a block of code|
 
 
@@ -145,7 +145,7 @@ Template
 @forelse($array as $alias) 
     //List item here
 @empty 
-    //Default, goes here. Something to display if the array is empty
+    //Default goes here. Something to display if the array is empty
 @endforelse
 
 ```
@@ -157,7 +157,7 @@ Its the same as foreach but jumps to the `@empty` tag if the array is null or em
 |`$alias`|A variable that holds the item in the current loop.|$country|
 
 
-Example: Given that $users is an array of objects.
+Example: Given that `$users` is an array of objects.
 ```blade
 @forelse($users as $user)
     <li>{{ $user->name }}</li>
@@ -183,7 +183,7 @@ Loops until the condition is not meet.
 |`$condition`|The cycle loops until the condition is false.|$counter<10|  
 
 
-Example: ($users is an array of objects)
+Example: Given `$users` is an array of objects
 ```html
 @set($whilecounter=0)
 @while($whilecounter<3)
@@ -198,36 +198,52 @@ I'm looping forever.
 I'm looping forever.
 ```
 
-#### @splitforeach($nElem,$textbetween,$textend="")  inside @foreach
-This functions show a text inside a `@foreach` cycle every "n" of elements.  This function could be used when you want to add columns to a list of elements.   
-NOTE: The `$textbetween` is not displayed if its the last element of the last.  With the last element, it shows the variable `$textend`
+#### Split Foreach
+Template
+```blade 
+@foreach
+  @splitforeach($n, $textbetween, $textend="")  
+@endforeach
+```
+This functions show a text inside a `@foreach` cycle every "n" of elements.  
+This function could be used when you want to add columns to a list of elements.  
+ 
+NOTE: The `$textbetween` is not displayed if its the last element of the last.  
+With the last element, it shows the variable `$textend`
 
 |Tag|Note|Example|
 |---|---|---|
-|$nElem|Number of elements|2, for every 2 element the text is displayed|  
-|$textbetween|Text to show|`</tr><tr>`| 
-|$textend|Text to show|`</tr>`| 
+|`$nElem`|Number of elements|2|  
+|`$textbetween`|Text to show|`</tr><tr>`| 
+|`$textend`|Text to show|`</tr>`| 
 
-Example: ($users is an array of objects)
+Example: Given `$users` is an array of objects
 ```html
 <table border="1">
 <tr>
-@foreach($drinks7 as $drink)
-    <td>{{$drink}}</td>
-    @splitforeach(2,'</tr><tr>','</tr>')
+    @foreach($drinks7 as $drink)
+        <td>{{$drink}}</td>
+        @splitforeach(2,'</tr><tr>','</tr>')
     @endforeach
 </table>
 ```
 Returns a table with 2 columns.
 
-#### @continue / @break
-Continue jump to the next iteration of a cycle.  `@break` jump out of a cycle.
+#### Continue and Break
+Template
+```blade
+@continue
+
+@break
+```
+Continue jump to the next iteration of a cycle.  
+`@break` jump out of a cycle.
 
 |Tag|Note|Example|
 |---|---|---|
 
-Example: ($users is an array of objects)
-```html
+Example: Given that `$users` is an array of objects
+```blade
 @foreach($users as $user)
     @if($user->type == 1) // ignores the first user John Smith
     @continue
@@ -240,13 +256,13 @@ Example: ($users is an array of objects)
 @endforeach
 ```
 Returns:
-```html
+```
 2 - Anna Smith
 ```
-### switch / case
+### Switch case
 
-_Example:(the indentation is not required)_
-```html
+Example:
+```blade
 @switch($countrySelected)
     @case(1)
         first country selected<br>
@@ -268,13 +284,13 @@ _Example:(the indentation is not required)_
 ### Sub Views
 |Tag|Note|
 |---|---|
-|@include('folder.template')|Include a template|
-|@include('folder.template',['some' => 'data'])|Include a template with new variables|
-|@each('view.name', $array, 'variable')|Includes a template for each element of the array|
+|`@include('folder.template')`|Include a template|
+|`@include('folder.template',['some' => 'data'])`|Include a template with new variables|
+|`@each('view.name', $array, 'variable')`|Includes a template for each element of the array|
 Note: Templates called folder.template is equals to folder/template
 
 ## @include
-It includes a template
+Includes a template
 
 You could include a template as follow:
 ```html
@@ -286,55 +302,54 @@ You could include a template as follow:
 </div>
 ```
 
-You could also pass parameters to the template
-```html
+You can also pass parameters to the template
+```blade
 @include('view.name', ['some' => 'data'])
 ```
 ### @includeif
 
-Additionally, if the template doesn't exist then it will fail. You could avoid it by using includeif
+Additionally, if the template does not exist then it will fail. 
+You could avoid it by using includeif
 ```html
 @includeIf('view.name', ['some' => 'data'])
 ```
 ### @includefast
 
-`@Includefast` is similar to `@include`. However, it doesn't allow parameters because it merges the template in a big file (instead of relying on different files), so it must be fast at runtime by using more space on the hard disk versus less call to read a file.
+`@Includefast` is similar to `@include`. 
+However, it does not allow parameters because it merges the template in a big file (instead of relying on different files), 
+so it must be fast at runtime by using more space on the hard disk versus less call to read a file.
 
 
 ```html
 @includefast('view.name')
 ```
 
->This template runs at compile time, so it doesn't work with runtime features such as @if() @includefast() @endif()
+>This template runs at compile time, so it does not work with runtime features such as `@if()` `@includefast()` `@endif()`
 
 ## Comments
 |Tag|Note|
 |---|---|
-|{{-- text --}}|Include a comment|
+|`{{-- text --}}`|Include a comment|
 
 ### Stacks
 |Tag|Note|
 |---|---|
-|@push('elem')|Add the next block to the push stack|
-|@endpush|End the push block|
-|@stack('elem')|Show the stack|
+|`@push('elem')`|Add the next block to the push stack|
+|`@endpush`|End the push block|
+|`@stack('elem')`|Show the stack|
 
-## @set (new for 1.5)
-```
+## @set
+```blade
 @set($variable=[value])
 ```
 `@set($variable)` is equals to `@set($variable=$variable+1)`
 - `$variable` defines the variable to add. If not value is defined and it adds +1 to a variable.
 - value (option) define the value to use.
 
-### Service Inject
-|Tag|Note|
-|---|---|
-|@inject('metrics', 'App\Services\MetricsService')|Used for insert a Laravel Service|NOT SUPPORTED|
-
 ## Asset Management
 
-The next libraries are designed to work with assets (CSS, JavaScript, images and so on). While it's possible to show an asset without a special library but it's a challenge if you want to work with relative path using an MVC route.
+The next libraries are designed to work with assets (CSS, JavaScript, images and so on). 
+While it's possible to show an asset without a special library but it's a challenge if you want to work with a relative path using an MVC route.
 
 For example, let's say the next example:
 http://localhost/img/resource.jpg
@@ -376,36 +391,12 @@ is converted to (it depends on the current url)
 <img src='../../img/resource.jpg' />
 ```
 
-It is even possible to add an alias to resources. It is useful for switching from local to CDN.
-
-```php
-$blade->addAssetDict('js/jquery.min.js','https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js');
-```
-so then
-```html
-@asset('js/jquery.min.js')
-```
-
-returns
-```html
-https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
-```
-
-:file_folder: Example: [BladeOne/examples/relative1/relative2/callrelative.php](https://github.com/EFTEC/BladeOne/blob/master/examples/examplerelative.php)
-
-
 ### @asset
 It returns an absolute path of the resource. 
 
 ```html
 @asset('js/jquery.js')
 ```
-Note: it requires to set the base address as 
-```php
-$obj=new BladeOne();
-$obj->setBaseUrl("https://www.example.com/urlbase/"); // with or without trail slash
-```
-> Security: Don't use the variables $SERVER['HTTP_HOST'] or $SERVER['SERVER_NAME'] unless the url is protected or the address is sanitized.
 
 ### @resource
 
@@ -413,36 +404,3 @@ It's similar to `@asset`. However, it uses a relative path.
 ```
 @resource('js/jquery.js')
 ```
-
-
-Note: it requires to set the base address as 
-```php
-$obj=new BladeOne();
-$obj->setBaseUrl("https://www.example.com/urlbase/"); // with or without trail slash
-```
-
-### setBaseUrl($url)
-It sets the base url.
-
-```php
-$obj=new BladeOne();
-$obj->setBaseUrl("https://www.example.com/urlbase/"); // with or without trail slash
-```
-
-
-### getBaseUrl()
-It gets the current base url.
-
-```php
-$obj=new BladeOne();
-$url=$obj->getBaseUrl(); 
-```
-
-### addAssetDict($name,$url)
-It adds an alias to an asset. It is used for `@asset` and `@relative`. If the name exists then `$url` is used.
-
-```php
-$obj=new BladeOne();
-$url=$obj->addAssetDict('css/style.css','http://....'); 
-```
-

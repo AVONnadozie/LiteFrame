@@ -598,7 +598,7 @@ a standalone version of the Blade Template Engine.
 Blade files should end with the `.blade.php` extension in order to be compiled.
 
 Example View 1 (layouts/base.blade.php)
-```blade
+```html
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -704,61 +704,6 @@ $id = $post->save();
 Now, a table called post and a column called title, big enough to hold your text will be created for you in the database.
 The `save()` function will also return the primary key ID of the record, which we capture in the variable $id.
 The table and columns will be created automatically if they do not already exist.
-
-### Model vs OODBean
-An OODBean or bean is an object mapping of a record in your database.
-Models internally wraps a bean, and provides more functions that makes it easier to manipulate bean objects.
-You can call `Model->getBean()` to get the underlying bean
-
-##### Code Difference
-
-Using Model (The Liteframe Way)
-```php
-<?php
-
-$post = SampleModel::dispense();
-$post->title = 'My holiday';
-$id = $post->save();
-```
-
-Using RedBeanPHP's R (The RedBeanPHP Way)
-```php
-<?php
-
-$post = R::dispense('posts');
-$post->title = 'My holiday';
-R::store($post);
-```
-
-Both examples above creates a new bean, sets it's title to 'My holiday' and saves it to the database.
-Whichever method you prefer to use is fine.
-
-### DB vs R
-`R` is the standard class by ReadBeanPHP for manipulating beans
-`DB` is an `R` with more functions
-
-### Finding Records
-Finding stuff in the database is easy:
-```php
-<?php
-
-$post = SampleModel::withId(3);
-```
-This will get the post with the id of 3
-```php
-<?php
-
-$posts = SampleModel::find('title LIKE ?', [ 'holiday' ] );
-```
-This will search for all posts having the word 'holiday' in the title and will return an collection containing all the relevant beans as a result. As you see, we don't use a fancy query builder, just good old SQL.
-We like to keep things simple.
-
-Besides using the `find()` functions, you can also use **raw** SQL queries:
-```php
-<?php
-
-$posts = DB::getAll('SELECT * FROM posts WHERE comments < ? ', [ 50 ] );
-```
 
 ### Alright, freeze!
 As you have seen, the structure of the database dynamically changes during development. This is a very nice feature, but you don't want that to happen on your production server! So, when you set your application to production, we freeze the database.

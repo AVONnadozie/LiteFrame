@@ -9,6 +9,7 @@
  */
 
 $autoload_files = __DIR__ . '/components/bootstrap/autoload.php';
+/** @noinspection PhpIncludeInspection */
 require_once $autoload_files;
 
 /*

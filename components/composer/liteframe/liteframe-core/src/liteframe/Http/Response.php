@@ -43,7 +43,7 @@ class Response
      * Set a view as response.
      *
      * @param string $path path to view file
-     * @param string $data view data
+     * @param array $data view data
      *
      * @return $this
      */
@@ -55,8 +55,8 @@ class Response
     /**
      * Set response content.
      *
-     * @param type $content
-     * @param type $code
+     * @param string $content
+     * @param int $code
      *
      * @return $this
      */
@@ -74,8 +74,8 @@ class Response
     /**
      * Append content to response.
      *
-     * @param type $content
-     * @param type $code
+     * @param string $content
+     * @param int $code
      *
      * @return $this
      */
@@ -101,8 +101,8 @@ class Response
     /**
      * Prepend content to response.
      *
-     * @param type $content
-     * @param type $code
+     * @param string $content
+     * @param int $code
      *
      * @return $this
      */
@@ -128,8 +128,8 @@ class Response
     /**
      * Add value to header. headers with the same key will be replaced.
      *
-     * @param type $key
-     * @param type $value
+     * @param string $key
+     * @param mixed $value
      *
      * @return $this
      */
@@ -150,7 +150,7 @@ class Response
     /**
      * Set a json content as response.
      *
-     * @param type $content
+     * @param mixed $content
      *
      * @return $this
      */
@@ -165,7 +165,9 @@ class Response
 
     /**
      * Return file as response
-     * @param type $path
+     * @param string $path
+     * @return FileResponse
+     * @throws \Exception
      */
     public function file($path)
     {
@@ -174,7 +176,10 @@ class Response
 
     /**
      * Force download of file
-     * @param type $path
+     * @param string $path
+     * @param null $name
+     * @return FileResponse
+     * @throws \Exception
      */
     public function download($path, $name = null)
     {
@@ -223,10 +228,11 @@ class Response
     /**
      * Redirect to route.
      *
-     * @param type $name
-     * @param type $code
+     * @param string $name
+     * @param int $code
      *
-     * @return type
+     * @return Response
+     * @throws \Exception
      */
     public function redirectToRoute($name, $code = 302)
     {
@@ -236,10 +242,10 @@ class Response
     /**
      * Redirect to url.
      *
-     * @param type $url
-     * @param type $code
+     * @param string $url
+     * @param int $code
      *
-     * @return type
+     * @return Response
      */
     public function redirect($url, $code = 302)
     {
@@ -256,7 +262,7 @@ class Response
     /**
      * Outputs the content of this response object. All headers will be sent in the order they were added.
      *
-     * @return type
+     * @return string
      */
     public function output()
     {

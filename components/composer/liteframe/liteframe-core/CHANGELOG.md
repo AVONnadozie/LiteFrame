@@ -7,17 +7,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Pre-release
-
+- FlySystem Support
 - Validators
 - SwiftMailer Support
 
 ### Future release
 
 - Use of vendor App\\ in namespace for application controllers, models, middlewares and commands 
-- Modularity
+- Modularity (through composer)
 - Dependency injection
 - Multi ORM support
 
+
+## [0.1.6] - 2018-12-12
+
+### Fixed
+
+- Important fixes
 
 ## [0.1.5] - 2018-12-12
 ### Added
@@ -75,9 +81,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Initial release
 
-[Unreleased]: https://github.com/liteframe/liteframe-core/compare/v0.1.5...HEAD
+[Unreleased]: https://github.com/liteframe/liteframe-core/compare/v0.1.6...HEAD
 [0.1.1]: https://github.com/liteframe/liteframe-core/compare/v0.1.0...v0.1.1
 [0.1.2]: https://github.com/liteframe/liteframe-core/compare/v0.1.1...v0.1.2
 [0.1.3]: https://github.com/liteframe/liteframe-core/compare/v0.1.2...v0.1.3
 [0.1.4]: https://github.com/liteframe/liteframe-core/compare/v0.1.3...v0.1.4
 [0.1.5]: https://github.com/liteframe/liteframe-core/compare/v0.1.4...v0.1.5
+[0.1.6]: https://github.com/liteframe/liteframe-core/compare/v0.1.5...v0.1.6

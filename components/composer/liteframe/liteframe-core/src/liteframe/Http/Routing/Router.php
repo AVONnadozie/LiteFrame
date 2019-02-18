@@ -37,7 +37,7 @@ class Router
         '**' => '.++',
         '' => '[^/\.]++',
     );
-    
+
     public static $namespace = "Controllers";
 
     /**
@@ -48,7 +48,7 @@ class Router
         'prefix' => [],
         'namespace' => [],
         'name' => [],
-        'middlewares' => []
+        'middleware' => []
     ];
 
     const TARGET_REGEX = '/^\S+@\w+$/';
@@ -56,9 +56,9 @@ class Router
     /**
      * Create router in one call from config.
      *
-     * @param array  $routes
-     * @param string $basePath
-     * @param array  $matchTypes
+     * @param array $routes
+     * @param array $matchTypes
+     * @throws Exception
      */
     private function __construct($routes = array(), $matchTypes = array())
     {
@@ -70,6 +70,7 @@ class Router
      * Return singleton class instance.
      *
      * @return Router
+     * @throws Exception
      */
     public static function getInstance()
     {
@@ -128,19 +129,18 @@ class Router
      * Map a route to a target.
      *
      * @param string $method One of 5 HTTP Methods, or a pipe-separated list of multiple HTTP Methods (GET|POST|PATCH|PUT|DELETE)
-     * @param string $route  The route regex, custom regex must start with an @. You can use multiple pre-set regex filters, like [i:id]
-     * @param mixed  $target The target where this route should point to. Can be anything
-     * @param string $name   Optional name of this route. Supply if you want to reverse route this url in your application
-     *
-     * @throws Exception
-     *
+     * @param string $route The route regex, custom regex must start with an @. You can use multiple pre-set regex filters, like [i:id]
+     * @param mixed $target The target where this route should point to. Can be anything
+     * @param string $name Optional name of this route. Supply if you want to reverse route this url in your application
+     * @param array $middlewares
      * @return Route Route object
+     * @throws Exception
      */
     protected function map($method, $route, $target, $name = null, $middlewares = null)
     {
         $routeObj = new Route($route, $target);
         $routeObj->setName($name);
-        $routeObj->setMiddlewares($middlewares);
+        $routeObj->setMiddleware($middlewares);
         $routeObj->setHttpMethod($method);
 
         $this->routes[] = $routeObj;
@@ -148,6 +148,11 @@ class Router
         return $routeObj;
     }
 
+    /**
+     * Registers a route with a name
+     * @param Route $routeObj
+     * @throws Exception
+     */
     public function registerNamedRoute(Route $routeObj)
     {
         $name = $routeObj->getName();
@@ -163,7 +168,7 @@ class Router
     /**
      * Reversed routing.
      *
-     * Generate the URL for a named route. Replace regexes with supplied parameters
+     * Generate the URL for a named route. Replace regexps with supplied parameters
      *
      * @param string $routeName The name of the route
      * @param array @params Associative array of parameters to replace placeholders with
@@ -199,8 +204,8 @@ class Router
                     // Part is found, replace for param value
                     $url = str_replace($block, $params[$param], $url);
                 } elseif ($optional && $index !== 0) {
-                    // Only strip preceeding slash if it's not at the base
-                    $url = str_replace($pre.$block, '', $url);
+                    // Only strip preceding slash if it's not at the base
+                    $url = str_replace($pre . $block, '', $url);
                 } else {
                     // Strip match block
                     $url = str_replace($block, '', $url);
@@ -214,10 +219,9 @@ class Router
     /**
      * Match a given Request Url against stored routes.
      *
-     * @param string $requestUrl
-     * @param string $requestMethod
-     *
+     * @param Request $request
      * @return Route|bool Array with route information on success, false on failure (no match)
+     * @throws Exception
      */
     public function matchRequest(Request $request)
     {
@@ -227,6 +231,7 @@ class Router
         if (empty($this->routes)) {
             $routeFile = basePath('app/Routes/web.php');
             if (file_exists($routeFile)) {
+                /** @noinspection PhpIncludeInspection */
                 require_once $routeFile;
             } else {
                 throw new Exception("Route definition file $routeFile does not exist");
@@ -234,7 +239,6 @@ class Router
         }
 
         $params = array();
-        $match = false;
         foreach ($this->routes as $handler) {
             $methods = $handler->getHttpMethod();
             $route = $handler->getRouteURI();
@@ -251,7 +255,7 @@ class Router
                 $match = true;
             } elseif (isset($route[0]) && $route[0] === '@') {
                 // @ regex delimiter
-                $pattern = '`'.substr($route, 1).'`u';
+                $pattern = '`' . substr($route, 1) . '`u';
                 $match = preg_match($pattern, $requestUrl, $params) === 1;
             } elseif (($position = strpos($route, '[')) === false) {
                 // No params in url, do string comparison
@@ -286,6 +290,8 @@ class Router
 
     /**
      * Compile the regex for a given route (EXPENSIVE).
+     * @param $route
+     * @return string
      */
     private function compileRoute($route)
     {
@@ -306,14 +312,14 @@ class Router
 
                 //Older versions of PCRE require the 'P' in (?P<named>)
                 $pattern = '(?:'
-                        .($pre !== '' ? $pre : null)
-                        .'('
-                        .($param !== '' ? "?P<$param>" : null)
-                        .$type
-                        .')'
-                        .$optional
-                        .')'
-                        .$optional;
+                    . ($pre !== '' ? $pre : null)
+                    . '('
+                    . ($param !== '' ? "?P<$param>" : null)
+                    . $type
+                    . ')'
+                    . $optional
+                    . ')'
+                    . $optional;
 
                 $route = str_replace($block, $pattern, $route);
             }
@@ -325,128 +331,131 @@ class Router
     /**
      * Route all GET request for a given route to a controller or closure.
      *
-     * @param string       $route      Request route
-     * @param mixed        $target     Target controller method or closure
-     * @param string       $name       (Optional) name of route
+     * @param string $route Request route
+     * @param mixed $target Target controller method or closure
+     * @param string $name (Optional) name of route
      * @param string|array $middleware (Optional) Middleware
      *
      * @return Route
+     * @throws Exception
      */
     public static function get($route, $target, $name = null, $middleware = null)
     {
         return static::getInstance()
-                        ->map('GET', $route, $target, $name, $middleware);
+            ->map('GET', $route, $target, $name, $middleware);
     }
 
     /**
      * Route all POST request for a given route to a controller or closure.
      *
-     * @param string       $route      Request route
-     * @param mixed        $target     Target controller method or closure
-     * @param string       $name       (Optional) name of route
+     * @param string $route Request route
+     * @param mixed $target Target controller method or closure
+     * @param string $name (Optional) name of route
      * @param string|array $middleware (Optional) Middleware
      *
      * @return Route
+     * @throws Exception
      */
     public static function post($route, $target, $name = null, $middleware = null)
     {
         return static::getInstance()
-                        ->map('POST', $route, $target, $name, $middleware);
+            ->map('POST', $route, $target, $name, $middleware);
     }
-    
+
     /**
      * Route all PATCH request for a given route to a controller or closure.
      *
-     * @param string       $route      Request route
-     * @param mixed        $target     Target controller method or closure
-     * @param string       $name       (Optional) name of route
+     * @param string $route Request route
+     * @param mixed $target Target controller method or closure
+     * @param string $name (Optional) name of route
      * @param string|array $middleware (Optional) Middleware
      *
      * @return Route
+     * @throws Exception
      */
     public static function patch($route, $target, $name = null, $middleware = null)
     {
         return static::getInstance()
-                        ->map('PATCH', $route, $target, $name, $middleware);
+            ->map('PATCH', $route, $target, $name, $middleware);
     }
-    
+
     /**
      * Route all DELETE request for a given route to a controller or closure.
      *
-     * @param string       $route      Request route
-     * @param mixed        $target     Target controller method or closure
-     * @param string       $name       (Optional) name of route
+     * @param string $route Request route
+     * @param mixed $target Target controller method or closure
+     * @param string $name (Optional) name of route
      * @param string|array $middleware (Optional) Middleware
      *
      * @return Route
+     * @throws Exception
      */
     public static function delete($route, $target, $name = null, $middleware = null)
     {
         return static::getInstance()
-                        ->map('DELETE', $route, $target, $name, $middleware);
+            ->map('DELETE', $route, $target, $name, $middleware);
     }
-    
+
     /**
      * Route all PUT request for a given route to a controller or closure.
      *
-     * @param string       $route      Request route
-     * @param mixed        $target     Target controller method or closure
-     * @param string       $name       (Optional) name of route
+     * @param string $route Request route
+     * @param mixed $target Target controller method or closure
+     * @param string $name (Optional) name of route
      * @param string|array $middleware (Optional) Middleware
      *
      * @return Route
+     * @throws Exception
      */
     public static function put($route, $target, $name = null, $middleware = null)
     {
         return static::getInstance()
-                        ->map('PUT', $route, $target, $name, $middleware);
+            ->map('PUT', $route, $target, $name, $middleware);
     }
 
     /**
      * Route all request verbs/methods for a given route to a controller or closure.
      *
-     * @param string       $route      Request route
-     * @param mixed        $target     Target controller method or closure
-     * @param string       $name       (Optional) name of route
+     * @param string $route Request route
+     * @param mixed $target Target controller method or closure
+     * @param string $name (Optional) name of route
      * @param string|array $middleware (Optional) Middleware
      *
      * @return Route
+     * @throws Exception
      */
     public static function all($route, $target, $name = null, $middleware = null)
     {
         return static::getInstance()
-                        ->map('GET|POST|DELETE|PUT|PATCH', $route, $target, $name, $middleware);
+            ->map('GET|POST|DELETE|PUT|PATCH', $route, $target, $name, $middleware);
     }
 
     /**
      * Route all request verbs/methods matching the given methods for
      * the given route to a controller or closure.
      *
-     * @param string       $methods    Request methods e.g GET|POST|DELETE
-     * @param string       $route      Request route
-     * @param mixed        $target     Target controller method or closure
-     * @param string       $name       (Optional) name of route
+     * @param string $methods Request methods e.g GET|POST|DELETE
+     * @param string $route Request route
+     * @param mixed $target Target controller method or closure
+     * @param string $name (Optional) name of route
      * @param string|array $middleware (Optional) Middleware
      *
      * @return Route
+     * @throws Exception
      */
     public static function anyOf($methods, $route, $target, $name = null, $middleware = null)
     {
         return static::getInstance()
-                        ->map($methods, $route, $target, $name, $middleware);
+            ->map($methods, $route, $target, $name, $middleware);
     }
-    
+
     /**
      * Route all request verbs/methods matching the given methods for
      * the given route to a controller or closure.
      *
-     * @param string       $methods    Request methods e.g GET|POST|DELETE
-     * @param string       $route      Request route
-     * @param mixed        $target     Target controller method or closure
-     * @param string       $name       (Optional) name of route
-     * @param string|array $middleware (Optional) Middleware
-     *
-     * @return Route
+     * @param array $routes
+     * @return Router
+     * @throws Exception
      */
     public static function matchAll(array $routes)
     {
@@ -454,18 +463,21 @@ class Router
             list($methods, $route, $target, $name, $middleware) = $mapping;
             static::getInstance()->map($methods, $route, $target, $name, $middleware);
         }
+
+        return static::getInstance();
     }
 
     /**
      * Return a view for this route.
      *
-     * @param string       $route      Request route
-     * @param mixed        $view       View template
-     * @param mixed        $data       View data
-     * @param string       $name       (Optional) name of route
+     * @param string $route Request route
+     * @param mixed $view View template
+     * @param mixed $data View data
+     * @param string $name (Optional) name of route
      * @param string|array $middleware (Optional) Middleware
      *
      * @return Route
+     * @throws Exception
      */
     public static function view($route, $view, $data = [], $name = null, $middleware = null)
     {
@@ -479,12 +491,13 @@ class Router
     /**
      * Permanently redirect route to another route or URL.
      *
-     * @param string       $route      Request route
-     * @param mixed        $to         Route or URL to redirect to
-     * @param string       $name       (Optional) name of route
+     * @param string $route Request route
+     * @param mixed $to Route or URL to redirect to
+     * @param string $name (Optional) name of route
      * @param string|array $middleware (Optional) Middleware
      *
      * @return Route
+     * @throws Exception
      */
     public static function redirect($route, $to, $name = null, $middleware = null)
     {
@@ -499,21 +512,28 @@ class Router
         return static::all($route, $target, $name, $middleware);
     }
 
-    public static function group(array $options, Closure $closure)
+    /**
+     * For creating a group of routes that have attributes in common
+     * @param array $attributes specifies the common attributes. The attributes can any of prefix, namespace, name, middleware
+     * @param Closure $closure
+     */
+    public static function group(array $attributes, Closure $closure)
     {
         $hash = uniqid('prop_');
         //Add options
-        if (isset($options['prefix'])) {
-            static::$groupsProps['prefix'][$hash] = $options['prefix'];
+        if (isset($attributes['prefix'])) {
+            static::$groupsProps['prefix'][$hash] = $attributes['prefix'];
         }
-        if (isset($options['namespace'])) {
-            static::$groupsProps['namespace'][$hash] = $options['namespace'];
+        if (isset($attributes['namespace'])) {
+            static::$groupsProps['namespace'][$hash] = $attributes['namespace'];
         }
-        if (isset($options['name'])) {
-            static::$groupsProps['name'][$hash] = $options['name'];
+        if (isset($attributes['name'])) {
+            static::$groupsProps['name'][$hash] = $attributes['name'];
         }
-        if (isset($options['middlewares'])) {
-            static::$groupsProps['middlewares'][$hash] = (array) $options['middlewares'];
+        if (isset($attributes['middlewares']) || isset($attributes['middleware'])) {
+            static::$groupsProps['middleware'][$hash] = isset($attributes['middleware']) ?
+                (array)$attributes['middleware'] :
+                (array)$attributes['middlewares'];
         }
         //Run closure
         $closure();
@@ -521,6 +541,6 @@ class Router
         unset(static::$groupsProps['prefix'][$hash]);
         unset(static::$groupsProps['namespace'][$hash]);
         unset(static::$groupsProps['name'][$hash]);
-        unset(static::$groupsProps['middlewares'][$hash]);
+        unset(static::$groupsProps['middleware'][$hash]);
     }
 }

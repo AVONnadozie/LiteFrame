@@ -14,11 +14,6 @@ use function nPath;
 use function response;
 use function storagePath;
 
-/**
- * Description of Logger.
- *
- * @author Victor Anuebunwa
- */
 class Logger
 {
 
@@ -44,8 +39,8 @@ class Logger
     {
         if (empty($outputMedium)) {
             $outputMedium = $exception instanceof HttpException ?
-                    Logger::MEDIUM_STDOUT :
-                    Logger::MEDIUM_STDOUT_FILE;
+                Logger::MEDIUM_STDOUT :
+                Logger::MEDIUM_STDOUT_FILE;
         }
         $this->outputMedium = $outputMedium;
         $this->exception = $exception;
@@ -88,7 +83,7 @@ class Logger
     /**
      * Get content as exception.
      *
-     * @return type
+     * @return Exception|HttpException
      */
     public function getException()
     {
@@ -132,6 +127,7 @@ class Logger
      * and return the content of logger.
      *
      * @return string content of logger
+     * @throws Exception
      */
     public function log()
     {
@@ -143,22 +139,25 @@ class Logger
             if ($this->outputMedium !== static::MEDIUM_STDOUT) {
                 $this->writeToLogFile($this->getContentForFile());
             }
-            
+
             if ($this->outputMedium !== static::MEDIUM_FILE) {
                 return $this->getResponse();
             }
         }
     }
 
+    /**
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\LiteFrame\Http\Response|\Symfony\Component\HttpFoundation\Response
+     * @throws Exception
+     */
     private function getResponse()
     {
         $exception = $this->getException();
         $bag = new ErrorBag($exception);
+        //Remove trace if not in debug mode
         if (!appIsOnDebugMode()) {
             $bag->setTrace('');
         }
-        //Clean buffer
-        ob_get_clean();
 
         $request = Request::getInstance();
         if ($request->wantsJson()) {
@@ -167,9 +166,27 @@ class Logger
                 'trace' => $exception->getTrace()
             ];
         } else {
-            $content = View::getErrorPage($bag);
+            $content = $this->getErrorPage($bag);
         }
         return response($content, $bag->getCode());
+    }
+
+    /**
+     * Return error page content for the given ErrorBag
+     * @param ErrorBag $errorBag
+     * @return string
+     * @throws Exception
+     */
+    private function getErrorPage(ErrorBag $errorBag)
+    {
+        $code = $errorBag->getCode();
+        $data = ['bag' => $errorBag, 'errorBag' => $errorBag];
+        //Fetch user error page for the error code
+        try {
+            return View::fetch("errors/$code", $data);
+        } catch (Exception $e) {
+            return View::fetch("errors/default", $data);
+        }
     }
 
     private function getContentForFile()
@@ -183,7 +200,7 @@ class Logger
                 $line = $this->exception->getLine();
                 $code = $this->exception->getCode();
                 $content = "Exception: (code $code) [$date] at $file line $line" . PHP_EOL
-                        . $content;
+                    . $content;
 
                 $content .= 'Stack trace:' . PHP_EOL;
                 $content .= $this->exception->getTraceAsString() . PHP_EOL;
@@ -209,7 +226,7 @@ class Logger
                 break;
         }
 
-        $dir = storagePath('', 'logs');
+        $dir = logsStoragePath();
         if (!file_exists($dir)) {
             mkdir($dir, 0775);
 

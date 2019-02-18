@@ -17,10 +17,16 @@ class Route
     private $httpMethod = 'GET';
     private $routeURI = '/';
     private $target;
-    private $middlewares = array();
+    private $middleware = array();
     private $parameters;
     private $lock = false;
 
+    /**
+     * Route constructor.
+     * @param $routeURL
+     * @param $target
+     * @throws Exception
+     */
     public function __construct($routeURL, $target)
     {
         $this->setRouteURI($routeURL);
@@ -47,6 +53,10 @@ class Route
         return $this->target;
     }
 
+    /**
+     * Gets the matched controller class
+     * @return string|null
+     */
     public function getTargetController()
     {
         $target = $this->getTarget();
@@ -58,6 +68,10 @@ class Route
         return isset($parts[0]) ? $parts[0] : null;
     }
 
+    /**
+     * Gets the matched controller method
+     * @return string|null
+     */
     public function getTargetMethod()
     {
         $target = $this->getTarget();
@@ -68,17 +82,26 @@ class Route
         $parts = explode('@', $target);
         return isset($parts[1]) ? $parts[1] : null;
     }
-    
-    public function getMiddlewares()
+
+    public function getMiddleware()
     {
-        return $this->middlewares;
+        return $this->middleware;
     }
 
+    /**
+     * Get route parameters
+     * @return mixed
+     */
     public function getParameters()
     {
         return $this->parameters;
     }
 
+    /**
+     * Sets URI for this route
+     * @param $routeURI
+     * @return $this
+     */
     public function setRouteURI($routeURI)
     {
         //Add group prefix if any
@@ -96,6 +119,12 @@ class Route
         return $this;
     }
 
+    /**
+     * Sets the target controller or closure for this route
+     * @param $target
+     * @return $this
+     * @throws Exception
+     */
     public function setTarget($target)
     {
         //Add to route group if any
@@ -113,6 +142,12 @@ class Route
         return $this;
     }
 
+    /**
+     * Sets parameters for this route
+     * @param $parameters
+     * @return $this
+     * @throws Exception
+     */
     public function setParameters($parameters)
     {
         if ($this->lock) {
@@ -124,6 +159,12 @@ class Route
         return $this;
     }
 
+    /**
+     * Sets the name of this route and registers it in the Router
+     * @param $name
+     * @return $this
+     * @throws Exception
+     */
     public function setName($name)
     {
         if ($this->lock) {
@@ -144,6 +185,12 @@ class Route
         return $this;
     }
 
+    /**
+     * Sets the HTTP method for this route
+     * @param $method
+     * @return $this
+     * @throws Exception
+     */
     public function setHttpMethod($method)
     {
         if ($this->lock) {
@@ -155,39 +202,45 @@ class Route
         return $this;
     }
 
-    public function setMiddlewares($middleware)
+    /**
+     * Sets middleware for this route
+     * @param $middleware
+     * @return $this
+     * @throws Exception
+     */
+    public function setMiddleware($middleware)
     {
         if ($this->lock) {
             throw new Exception('Route cannot be modified');
         }
 
-        $curMiddlewares = [];
+        $curMiddleware = [];
         if (is_array($middleware)) {
-            $curMiddlewares = $middleware;
+            $curMiddleware = $middleware;
         } else {
             $args = func_get_args();
             foreach ($args as $arg) {
                 if (is_string($arg)) {
-                    $curMiddlewares[] = $arg;
+                    $curMiddleware[] = $arg;
                 }
             }
         }
 
-        //Add group middlewares if any
-        $this->middlewares = (new Collection(Router::$groupsProps['middlewares']))
+        //Add group middleware if any
+        $this->middleware = (new Collection(Router::$groupsProps['middleware']))
                         ->flatten()->toArray();
-        foreach ($curMiddlewares as $value) {
-            if (in_array($value, $this->middlewares)) {
+        foreach ($curMiddleware as $value) {
+            if (in_array($value, $this->middleware)) {
                 continue;
             }
-            $this->middlewares[] = $value;
+            $this->middleware[] = $value;
         }
 
         return $this;
     }
 
     /**
-     * Disallow further modification to this object.
+     * Disallows further modification to this object.
      */
     public function lock()
     {

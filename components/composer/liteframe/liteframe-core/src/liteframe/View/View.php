@@ -2,73 +2,145 @@
 
 namespace LiteFrame\View;
 
+use eftec\bladeone\BladeOne;
 use Exception;
-use LiteFrame\Exception\ErrorBag;
 
 class View
 {
+    private $paths = [];
+    private static $auth = ['user' => null, 'role' => null];
+    private $blade;
 
     /**
-     * Fetch content of a view
-     * @param string $view View file
-     * @param array $data Data to be passed to view
-     * @return string
+     * View constructor.
+     * @param array|string $paths Path(s) to find view files
      */
-    public static function fetch($view, $data = [])
+    function __construct($paths = [])
     {
-        $file = static::getFilePath($view);
-
-        return static::getContent($file, $data);
+        $this->setPaths($paths);
     }
 
     /**
-     * Get full path to view file
-     * @param string $view View file
-     * @return string|null
+     * Set view paths
+     * @param array $paths Path(s) to find view files
+     * @return View
      */
-    public static function getFilePath($view)
+    public function setPaths($paths)
     {
-        $paths = config('view.path');
+        $paths = (array)$paths;
+        //Append framework's view path
+        $paths[] = realpath(__DIR__ . '/../../views');
+
+        $this->paths = $paths;
+        return $this;
+    }
+
+    /**
+     * Get view paths
+     * @return array
+     */
+    public function getPaths()
+    {
+        return $this->paths;
+    }
+
+    /**
+     * Fetch content of a view
+     * @param string $name The view file name relative to the view path(s). Dot (.) or (/) can be use as directory separator
+     * @param array $data Data to be passed to view
+     * @param array $paths Paths to find view files
+     * @return string
+     */
+    public static function fetch($name, $data = [], $paths = [])
+    {
         if (empty($paths)) {
-            $paths = [appPath('Views')];
+            $paths = config('view.path');
+            if (empty($paths)) {
+                $paths = [appPath('Views')];
+            }
         }
 
-        $filename = trim($view, '/') . '.php';
+        $view = new static($paths);
+
+        //Check if it's blade
+        $bladeFile = $view->getFilePath($name, '.blade.php');
+        if ($bladeFile) {
+            return $view->readBladeFile($name, $data);
+        } else {
+            //else, read file old school way
+            $file = $view->getFilePath($name);
+            return $view->getContent($file, $data);
+        }
+    }
+
+    /**
+     * Read the content of a blade template file
+     * @param $name
+     * @param array $data
+     * @return string
+     * @throws Exception
+     */
+    private function readBladeFile($name, $data = [])
+    {
+        return $this->getBladeInstance()
+            ->run(pathToDot($name), $data);
+    }
+
+    public function getBladeInstance()
+    {
+        if (!$this->blade) {
+            $cache = storagePath('system/views');
+            if (appIsOnDebugMode()) {
+                $mode = BladeOne::MODE_DEBUG;
+            } else if (appIsLocal()) {
+                $mode = BladeOne::MODE_SLOW;
+            } else {
+                $mode = BladeOne::MODE_AUTO;
+            }
+
+            $this->blade = new BladeOne($this->paths, $cache, $mode);
+            if (static::$auth['user']) {
+                $this->blade->login(static::$auth['user'], static::$auth['role']);
+            }
+
+            if(!isCLI()){
+                $this->blade->setBaseUrl(asset());
+            }
+        }
+
+        return $this->blade;
+    }
+
+    /**
+     * Sets a user for the view, this is only available when using blade
+     * @param $user
+     * @param null $role
+     */
+//    public static function loginUser($user, $role = null)
+//    {
+//        static::$auth['user'] = $user;
+//        static::$auth['role'] = $role;
+//    }
+
+
+    /**
+     * Get full path to view file
+     * @param string $name View file name
+     * @param string $extension
+     * @return string|null
+     */
+    public function getFilePath($name, $extension = '.php')
+    {
+        $filename = trim(dotToPath($name), '/') . $extension;
         $file = null;
-        foreach ($paths as $dir) {
-            $file = nPath($dir, $filename);
-            if (file_exists($file)) {
+        foreach ($this->paths as $dir) {
+            $realName = nPath($dir, $filename);
+            if (file_exists($realName)) {
+                $file = $realName;
                 break;
             }
         }
         return $file;
-    }
-
-    /**
-     * Return error page content for the given ErrorBag
-     * @param ErrorBag $errorBag
-     * @return string
-     */
-    public static function getErrorPage(ErrorBag $errorBag)
-    {
-        $code = $errorBag->getCode();
-        //Fetch user error page for the error code
-        $file = static::getFilePath("errors/$code");
-
-        //If page does not exist, fetch default error page
-        if (!file_exists($file)) {
-            $file = static::getFilePath("errors/default");
-
-            //We are left with no choose but to use our default error pages
-            if (!file_exists($file)) {
-                $file = _corePath("html/errors/$code.php");
-                if (!file_exists($file)) {
-                    $file = _corePath('html/errors/default.php');
-                }
-            }
-        }
-
-        return static::getContent($file, ['bag' => $errorBag, 'errorBag' => $errorBag]);
     }
 
     /**
@@ -78,24 +150,21 @@ class View
      * @return string|false
      * @throws Exception
      */
-    private static function getContent($file, $data = [])
+    private function getContent($file, $data = [])
     {
         $path = fixPath($file);
-        $content = false;
         if (file_exists($path)) {
-            //Set data
-            foreach ($data as $key => $value) {
-                $$key = $value;
-            }
-
             ob_start();
+            //Extract variables
+            extract($data);
+
+            /** @noinspection PhpIncludeInspection */
             require $path;
-            $content = ob_get_clean();
+
+            return ob_get_clean();
         } else {
             throw new Exception("View $path not found");
         }
-
-        return $content;
     }
 
     /**
@@ -103,8 +172,8 @@ class View
      * @param string $view View file
      * @return boolean
      */
-    public static function exists($view)
+    public function exists($view)
     {
-        return file_exists(static::getFilePath($view));
+        return file_exists($this->getFilePath($view));
     }
 }

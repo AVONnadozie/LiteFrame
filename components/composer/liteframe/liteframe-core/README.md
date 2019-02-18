@@ -5,10 +5,12 @@
 [![License](https://poser.pugx.org/liteframe/liteframe-core/license)](https://packagist.org/packages/liteframe/liteframe-core)
 
 
-Core files for LiteFrame project.
+Core files for the [LiteFrame](https://github.com/AVONnadozie/LiteFrame) project.
 
 ## Installation
-`composer require liteframe/liteframe-core`
+```bash
+composer require liteframe/liteframe-core
+```
 
 
 ## How to Contribute
@@ -16,13 +18,3 @@ Core files for LiteFrame project.
 * Make your bug fix or feature addition.
 * Add tests for it. This is important so we don't break it in a future version unintentionally.
 * Send a pull request.
-
-
-## Coding Guidelines
-Use [php-cs-fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) to (re)format your sourcecode for compliance with this project's coding guidelines:
-
-```bash
-$ wget http://get.sensiolabs.org/php-cs-fixer.phar
-
-$ php php-cs-fixer.phar fix <dir>
-```

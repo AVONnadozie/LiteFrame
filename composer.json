@@ -5,7 +5,7 @@
     "keywords": [
         "framework",
         "liteframe",
-        "lightweight", 
+        "lightweight",
         "microframework",
         "RedBeanPHP"
     ],
@@ -21,12 +21,12 @@
     ],
     "require": {
         "php": ">=7.1",
-        "liteframe/liteframe-core": "^0.1.6"
+        "liteframe/liteframe-core": "^0.2.0"
     },
     "require-dev": {
         "phpunit/phpunit": ">=4.0",
         "symfony/var-dumper": "^4.1",
-        "filp/whoops": "^2.3" 
+        "filp/whoops": "^2.3"
     },
     "autoload": {
         "classmap": [

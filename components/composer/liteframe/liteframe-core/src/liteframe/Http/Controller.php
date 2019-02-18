@@ -45,7 +45,7 @@ class Controller
         return $this->middlewares;
     }
     
-    protected function validate($request, $rules)
+    protected function validate(Request $request, $rules)
     {
     }
 }

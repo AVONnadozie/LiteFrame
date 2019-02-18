@@ -48,7 +48,11 @@ class FileResponse extends Response
                 $known_mime_types[$ext] :
                 "application/force-download";
     }
-    
+
+    /**
+     * @param null $name
+     * @return $this
+     */
     public function forceDownload($name = null)
     {
         if (empty($name)) {
@@ -58,6 +62,8 @@ class FileResponse extends Response
         $this->header("Content-Disposition: attachment; filename='$name'");
         $this->header("Content-Transfer-Encoding: binary");
         $this->header('Accept-Ranges: bytes');
+
+        return $this;
     }
 
     public function getContent()
@@ -122,7 +128,8 @@ class FileResponse extends Response
      * Outputs the content of this response object.
      * All headers will be sent in the order they were added.
      *
-     * @return type
+     * @return mixed
+     * @throws Exception
      */
     public function output()
     {

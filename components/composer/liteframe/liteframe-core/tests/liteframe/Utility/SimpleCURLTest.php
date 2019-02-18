@@ -6,6 +6,14 @@ use LiteFrame\Utility\SimpleCURL;
 class SimpleCURLTest extends TestCase
 {
 
+    public function setUp()
+    {
+        if(!$this->isOnline()){
+            $this->markTestSkipped();
+        }
+        parent::setUp();
+    }
+
     /**
      * test the Validator email rule
      */
@@ -41,5 +49,14 @@ class SimpleCURLTest extends TestCase
         $this->assertTrue(strpos($newurl, 'a=' . urlencode('?46')) !== false);
         $this->assertTrue(strpos($newurl, 'b=4') !== false);
         $this->assertTrue(strpos($newurl, 'c=1') !== false);
+    }
+
+    public function isOnline(){
+        $connected = @fsockopen('example.com',80);
+        if($connected){
+            fclose($connected);
+            return true;
+        }
+        return false;
     }
 }

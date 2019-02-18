@@ -266,17 +266,17 @@
     },
     {
         "name": "symfony/http-foundation",
-        "version": "v4.2.2",
-        "version_normalized": "4.2.2.0",
+        "version": "v4.2.3",
+        "version_normalized": "4.2.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/http-foundation.git",
-            "reference": "a633d422a09242064ba24e44a6e1494c5126de86"
+            "reference": "8d2318b73e0a1bc75baa699d00ebe2ae8b595a39"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/http-foundation/zipball/a633d422a09242064ba24e44a6e1494c5126de86",
-            "reference": "a633d422a09242064ba24e44a6e1494c5126de86",
+            "url": "https://api.github.com/repos/symfony/http-foundation/zipball/8d2318b73e0a1bc75baa699d00ebe2ae8b595a39",
+            "reference": "8d2318b73e0a1bc75baa699d00ebe2ae8b595a39",
             "shasum": ""
         },
         "require": {
@@ -287,7 +287,7 @@
             "predis/predis": "~1.0",
             "symfony/expression-language": "~3.4|~4.0"
         },
-        "time": "2019-01-05T16:37:49+00:00",
+        "time": "2019-01-29T09:49:29+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {

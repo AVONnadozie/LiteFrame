@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Use one namespace App\\ for application controllers, models, middlewares and commands 
 - Full Documentation
 
+## [0.4.0] - 2010-02-18
+### Added
+
+- Blade templating support
+
 ## [0.3.0] - 2018-09-14
 ### Added
 
@@ -73,9 +78,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.1.0] - 2018-01-29
 - Initial release
 
-[Unreleased]: https://github.com/avonnadozie/LiteFrame/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/avonnadozie/LiteFrame/compare/v0.4.0...HEAD
 [0.1.1]: https://github.com/avonnadozie/LiteFrame/compare/v0.1.0...v0.1.1
 [0.1.2]: https://github.com/avonnadozie/LiteFrame/compare/v0.1.1...v0.1.2
 [0.1.3]: https://github.com/avonnadozie/LiteFrame/compare/v0.1.2...v0.1.3
 [0.2.0]: https://github.com/avonnadozie/LiteFrame/compare/v0.1.3...v0.2.0
 [0.3.0]: https://github.com/avonnadozie/LiteFrame/compare/v0.2.0...v0.3.0
+[0.4.0]: https://github.com/avonnadozie/LiteFrame/compare/v0.3.0...v0.4.0

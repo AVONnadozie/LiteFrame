@@ -253,8 +253,8 @@ function url($path = '/')
     $host = rtrim($request->getAppURL(), '/');
     if (empty($path) || $path === '/') {
         return $host;
-    } else {
-        return fixUrl($host . '/' . trim($path, '/'));
+    } else{
+        return fixUrl(appEnv('CDN_ROOT') . '/' . trim($path, '/'));
     }
 }
 

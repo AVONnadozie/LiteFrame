@@ -1,8 +1,8 @@
-nbproject/
-components/composer/
-components/env.php
-php-cs-fixer.phar
-.php_cs.cache
-.idea/
-storage/
-composer.lock
+/nbproject/
+/components/composer/
+/components/env.php
+/php-cs-fixer.phar
+/.php_cs.cache
+/.idea/
+/storage/
+/composer.lock

@@ -54,7 +54,7 @@ app
 assets //(Optional) public assets such as css, images and JavaScript files
 components
   |____ bootstrap //App bootstrap files
-  |____ composer //(Optional) Composer files
+  |____ composer //Composer files
   |____ config //Config files
   |____ helpers //Helper files
   |____ libraries //3rd party libraries
@@ -717,12 +717,6 @@ This was just a quick tour, showcasing some basic usage of Liteframe Database wi
 For more details please explore the [documentation](database.md) on database.
 
 ## Working with Libraries
-### Autoloading Files
->Explain how to autoload custom files.
-
-### 3rd-Party Libraries
-> Explain how to autoload 3rd party libraries.
-
 ### Composer
 In as much as we "really" avoided the need for commands, we could not help supporting composer. 
 Composer files are auto-detected by the framework if available but we changed the vendor directory to *components/composer* for security reasons.
@@ -738,7 +732,7 @@ Composer files are auto-detected by the framework if available but we changed th
 >Explain `Validator`
 
 ### Filtering Output
->Explain output filtering using `e()`
+>Explain output filtering using `e()` and in Blade templating
 
 ## Testing
 > Explain how to run tests

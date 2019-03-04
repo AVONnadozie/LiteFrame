@@ -31,7 +31,7 @@ in non heartbreaking ways.
 - [x] Job Scheduling Support
 - [x] Support for Blade Templating using [BladeOne](https://github.com/EFTEC/BladeOne)
 - [ ] FlySystem Support (for files)
-- [ ] Data Validation
+- [ ] Request and Data Validation
 - [ ] Modularity
 - [x] Unit Testing Support
 

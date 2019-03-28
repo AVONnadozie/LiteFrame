@@ -10,11 +10,11 @@ Still need it the Composer way?
 composer create-project avonnadozie/liteframe
 ```
 
-Ensure the storage folder is writable, preferably 777.
+Ensure the application can write to the storage folder, preferably 755.
 
 On UNIX systems, you can do this with the command
 ```bash
-chmod 0777 -R storage
+chmod 0755 -R storage
 ```
 
 ### Running LiteFrame

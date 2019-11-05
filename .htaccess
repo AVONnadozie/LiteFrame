@@ -8,7 +8,7 @@
     ## Redirect www to  non www
     # RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
     # RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
-    
+
     ## Redirect unsecure to secure
     # RewriteCond %{HTTPS} off
     # RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,QSA,R=permanent]
@@ -20,7 +20,7 @@
 
     # For existing folders, rewrite only access to cli file, app, components, core and tests folders
     RewriteCond %{REQUEST_FILENAME} -d
-    RewriteRule !^(app|components|core|tests)($|/) - [L]
+    RewriteRule !^(app|components|tests)($|/) - [L]
     RewriteRule ^cli index.php [L]
 
     ## Rewrite the rest to index.php

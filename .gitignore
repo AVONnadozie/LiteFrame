@@ -4,5 +4,4 @@
 /php-cs-fixer.phar
 /.php_cs.cache
 /.idea/
-/storage/
 /composer.lock

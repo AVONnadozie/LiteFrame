@@ -10,7 +10,7 @@ of programming or knowledge of everything in some 100 page docs.
 Although they have their benefits, it's a lot for a beginner, someone who is new to frameworks or someone simply behind schedule.
 
 A typical setup process on a standard framework looks like this
- - Install composer (If it does not exists)
+ - Install composer (If it does not exist)
  - Run composer install
  - Generate app key
  - Configure env
